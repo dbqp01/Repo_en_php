@@ -4,6 +4,8 @@ import { getRelativeLocaleUrl } from 'astro:i18n';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
+import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
 import '../styles/global.css';
 
 interface Props {
@@ -149,5 +151,7 @@ const esURL = new URL(`/es${pathWithoutLocale === '/' ? '' : pathWithoutLocale}`
       // Re-run after View Transition navigation
       document.addEventListener('astro:after-swap', initScrollAnimations);
     </script>
+    <Analytics />
+    <SpeedInsights />
   </body>
 </html>
