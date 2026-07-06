@@ -1,17 +1,25 @@
-import { defineConfig, passthroughImageService } from 'astro/config';
+import { defineConfig } from 'astro/config';
 import node from '@astrojs/node';
 import vercel from '@astrojs/vercel';
 import tailwindcss from '@tailwindcss/vite';
+import sitemap from '@astrojs/sitemap';
 
 const isVercel = process.env.VERCEL === '1' || !!process.env.VERCEL;
 
 export default defineConfig({
+  site: 'https://usgarhotels.com',
   output: 'static',
   adapter: isVercel ? vercel() : node({ mode: 'standalone' }),
+  integrations: [sitemap()],
   image: {
-    // Using passthrough locally (Sharp blocked by Windows policy)
-    // Vercel will optimize images automatically in production
-    service: passthroughImageService(),
+    service: {
+      entrypoint: 'astro/assets/services/sharp',
+      config: {
+        limitInputPixels: false,
+        webp: { effort: 6, quality: 80 },
+        jpeg: { mozjpeg: true, quality: 80 },
+      },
+    },
   },
   vite: {
     plugins: [tailwindcss()]

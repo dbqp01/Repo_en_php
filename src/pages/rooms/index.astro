@@ -28,12 +28,12 @@ const filterLabels: Record<string, { en: string; es: string }> = {
         >{t("rooms.sectionLabel")}</span
       >
       <h1
-        class="font-display text-4xl md:text-6xl mt-2 mb-6 leading-tight text-[#1C1917] dark:text-[#FAFAF9]"
+        class="font-display text-4xl md:text-6xl mt-2 mb-6 leading-tight text-text-primary-light dark:text-text-primary-dark"
       >
         {t("rooms.title")}
       </h1>
       <p
-        class="text-lg md:text-xl text-[#57534E] dark:text-[#A8A29E] max-w-2xl mx-auto font-body font-light leading-relaxed"
+        class="text-lg md:text-xl text-text-secondary-light dark:text-text-secondary-dark max-w-2xl mx-auto font-body font-light leading-relaxed"
       >
         {t("rooms.description")}
       </p>
@@ -44,13 +44,13 @@ const filterLabels: Record<string, { en: string; es: string }> = {
   <section class="pb-24 px-4 max-w-7xl mx-auto">
     <!-- Filter Buttons -->
     <div
-      class="mb-12 flex justify-center bg-white dark:bg-[#1C1917] border border-black/5 dark:border-white/5 p-4 rounded-full shadow-sm max-w-lg mx-auto overflow-x-auto scrollbar-hide"
+      class="mb-12 flex justify-center bg-surface-card-light dark:bg-surface-card-dark border border-black/5 dark:border-white/5 p-4 rounded-full shadow-sm max-w-lg mx-auto overflow-x-auto scrollbar-hide"
     >
       <div class="flex gap-2">
         {
           capacities.map((cap) => (
             <button
-              class="px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer whitespace-nowrap select-none bg-stone-50 dark:bg-stone-900/40 border border-stone-200 dark:border-stone-800 text-stone-600 dark:text-stone-400 hover:border-primary/50 dark:hover:border-primary/50 hover:text-primary hover:scale-[1.02]"
+              class="px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer whitespace-nowrap select-none bg-stone-50 dark:bg-stone-900/40 border border-stone-200 dark:border-stone-800 text-text-secondary-light dark:text-text-secondary-dark hover:border-primary/50 dark:hover:border-primary/50 hover:text-primary hover:scale-[1.02]"
               data-capacity-filter={cap}
             >
               {filterLabels[cap][lang]}
@@ -77,13 +77,13 @@ const filterLabels: Record<string, { en: string; es: string }> = {
     <!-- Empty State -->
     <div
       id="rooms-empty-state"
-      class="hidden text-center py-20 bg-white dark:bg-[#1C1917] border border-black/5 dark:border-white/5 p-8 rounded-3xl mt-6"
+      class="hidden text-center py-20 bg-surface-card-light dark:bg-surface-card-dark border border-black/5 dark:border-white/5 p-8 rounded-3xl mt-6"
     >
       <span class="text-5xl block mb-4">🏨</span>
-      <h3 class="font-display text-2xl mb-2 text-[#1C1917] dark:text-[#FAFAF9]">
+      <h3 class="font-display text-2xl mb-2 text-text-primary-light dark:text-text-primary-dark">
         {lang === "es" ? "No se encontraron habitaciones" : "No rooms found"}
       </h3>
-      <p class="text-[#57534E] dark:text-[#A8A29E] font-body max-w-sm mx-auto">
+      <p class="text-text-secondary-light dark:text-text-secondary-dark font-body max-w-sm mx-auto">
         {
           lang === "es"
             ? "Prueba cambiando los filtros de huéspedes."

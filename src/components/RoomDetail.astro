@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import Layout from "../layouts/Layout.astro";
 import type { Room } from "../data/rooms";
 import { useTranslations } from "../i18n/utils";
+import { translateBeds } from "../utils/helpers";
 import SVGIcons from "./icons/SVGIcons.astro";
 
 interface Props {
@@ -39,12 +40,8 @@ if (room.photoCount === 0) {
 
 const images = roomImages.map((img) => img.default);
 
-// Translate bedding info dynamically
-const translatedBeds = room.beds
-  .replace("single beds", lang === "es" ? "camas individuales" : "single beds")
-  .replace("single bed", lang === "es" ? "cama individual" : "single bed")
-  .replace("king bed", lang === "es" ? "cama king" : "king bed")
-  .replace("king +", lang === "es" ? "king +" : "king +");
+// Translate bedding info using shared utility
+const translatedBeds = translateBeds(room.beds, lang);
 
 // Map of amenities to SVG icons and translated labels
 const amenitiesMap: Record<
@@ -256,54 +253,58 @@ const roomSchema = {
         </div>
       </div>
 
-      <!-- 4th Image -->
-      <div
-        class="col-span-1 row-span-1 relative cursor-pointer overflow-hidden group gallery-thumbnail-btn"
-        data-index="3"
-      >
-        <Image
-          src={images[3]}
-          alt={`${room.name[lang]} - 4`}
-          width={600}
-          height={400}
-          format="webp"
-          quality={80}
-          loading="lazy"
-          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-        />
+      <!-- 4th Image (conditional) -->
+      {images.length > 3 && (
         <div
-          class="absolute inset-0 bg-black/10 group-hover:bg-black/35 transition-colors duration-300"
+          class="col-span-1 row-span-1 relative cursor-pointer overflow-hidden group gallery-thumbnail-btn"
+          data-index="3"
         >
+          <Image
+            src={images[3]}
+            alt={`${room.name[lang]} - 4`}
+            width={600}
+            height={400}
+            format="webp"
+            quality={80}
+            loading="lazy"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <div
+            class="absolute inset-0 bg-black/10 group-hover:bg-black/35 transition-colors duration-300"
+          >
+          </div>
         </div>
-      </div>
+      )}
 
-      <!-- 5th Image with "+X more" overlay -->
-      <div
-        class="col-span-1 row-span-1 relative cursor-pointer overflow-hidden group gallery-thumbnail-btn"
-        data-index="4"
-      >
-        <Image
-          src={images[4]}
-          alt={`${room.name[lang]} - 5`}
-          width={600}
-          height={400}
-          format="webp"
-          quality={80}
-          loading="lazy"
-          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-        />
+      <!-- 5th Image with "+X more" overlay (conditional) -->
+      {images.length > 4 && (
         <div
-          class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center"
+          class="col-span-1 row-span-1 relative cursor-pointer overflow-hidden group gallery-thumbnail-btn"
+          data-index="4"
         >
-          {
-            images.length > 5 && (
-              <span class="text-white text-base md:text-xl font-semibold backdrop-blur-md bg-black/45 px-4 py-2.5 rounded-xl border border-white/10 group-hover:scale-105 transition-transform duration-300 shadow-md">
-                +{images.length - 5} {lang === "es" ? "fotos" : "photos"}
-              </span>
-            )
-          }
+          <Image
+            src={images[4]}
+            alt={`${room.name[lang]} - 5`}
+            width={600}
+            height={400}
+            format="webp"
+            quality={80}
+            loading="lazy"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <div
+            class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center"
+          >
+            {
+              images.length > 5 && (
+                <span class="text-white text-base md:text-xl font-semibold backdrop-blur-md bg-black/45 px-4 py-2.5 rounded-xl border border-white/10 group-hover:scale-105 transition-transform duration-300 shadow-md">
+                  +{images.length - 5} {lang === "es" ? "fotos" : "photos"}
+                </span>
+              )
+            }
+          </div>
         </div>
-      </div>
+      )}
     </div>
 
     <!-- Room Main Layout Details -->
@@ -590,6 +591,7 @@ const roomSchema = {
     class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md hidden flex-col items-center justify-center select-none"
     role="dialog"
     aria-modal="true"
+    aria-label={lang === 'es' ? 'Galería de fotos' : 'Photo gallery'}
   >
     <!-- Top toolbar -->
     <div
@@ -688,8 +690,15 @@ const roomSchema = {
 </Layout>
 
 <script>
+  let abortController = new AbortController();
+
   // Initialize component interactive elements
   function initRoomDetail() {
+    // Abort previous listeners to avoid duplicates
+    abortController.abort();
+    abortController = new AbortController();
+    const signal = abortController.signal;
+
     // ==========================================
     // LIGHTBOX INTERACTION
     // ==========================================
@@ -746,45 +755,24 @@ const roomSchema = {
 
     // Attach click listeners to thumbnails
     thumbnails.forEach((thumb) => {
-      // Replace with clean listener
-      const newThumb = thumb.cloneNode(true) as HTMLElement;
-      thumb.parentNode?.replaceChild(newThumb, thumb);
-      newThumb.addEventListener("click", () => {
-        const indexStr = newThumb.getAttribute("data-index");
+      thumb.addEventListener("click", () => {
+        const indexStr = thumb.getAttribute("data-index");
         if (indexStr) openLightbox(parseInt(indexStr, 10));
-      });
+      }, { signal });
     });
 
-    // Reset listener attachments
-    closeBtn?.replaceWith(closeBtn.cloneNode(true));
-    const newCloseBtn = document.getElementById("lightbox-close-btn");
-    newCloseBtn?.addEventListener("click", closeLightbox);
-
-    nextBtn?.replaceWith(nextBtn.cloneNode(true));
-    const newNextBtn = document.getElementById("lightbox-next-btn");
-    newNextBtn?.addEventListener("click", nextSlide);
-
-    prevBtn?.replaceWith(prevBtn.cloneNode(true));
-    const newPrevBtn = document.getElementById("lightbox-prev-btn");
-    newPrevBtn?.addEventListener("click", prevSlide);
+    closeBtn?.addEventListener("click", closeLightbox, { signal });
+    nextBtn?.addEventListener("click", nextSlide, { signal });
+    prevBtn?.addEventListener("click", prevSlide, { signal });
 
     // Keyboard controls
-    const keyHandler = (e: KeyboardEvent) => {
+    document.addEventListener("keydown", (e: KeyboardEvent) => {
       if (!lightbox || lightbox.classList.contains("hidden")) return;
 
       if (e.key === "Escape") closeLightbox();
       else if (e.key === "ArrowRight") nextSlide();
       else if (e.key === "ArrowLeft") prevSlide();
-    };
-
-    if ((window as any)._roomDetailKeyHandler) {
-      document.removeEventListener(
-        "keydown",
-        (window as any)._roomDetailKeyHandler,
-      );
-    }
-    (window as any)._roomDetailKeyHandler = keyHandler;
-    document.addEventListener("keydown", keyHandler);
+    }, { signal });
 
     // ==========================================
     // LAZY VIDEO PLAYER INTERACTION
@@ -792,8 +780,7 @@ const roomSchema = {
     const video = document.getElementById(
       "room-tour-video",
     ) as HTMLVideoElement | null;
-    if (!video || video.dataset.listenerAttached === "true") return;
-    video.dataset.listenerAttached = "true";
+    if (!video) return;
 
     const overlay = document.getElementById("video-overlay");
     const controls = document.getElementById("video-controls");
@@ -859,26 +846,14 @@ const roomSchema = {
       }
     }
 
-    // Attach listeners directly without cloning to avoid stale element references
-    overlay?.addEventListener("click", playVideo);
-    playBtn?.addEventListener("click", togglePlay);
-    audioBtn?.addEventListener("click", toggleAudio);
-    video.addEventListener("click", togglePlay);
-
-    // Save cleanup references to window to avoid double register on View Transitions
-    (window as any)._roomDetailCleanup = () => {
-      document.removeEventListener("keydown", keyHandler);
-    };
+    overlay?.addEventListener("click", playVideo, { signal });
+    playBtn?.addEventListener("click", togglePlay, { signal });
+    audioBtn?.addEventListener("click", toggleAudio, { signal });
+    video.addEventListener("click", togglePlay, { signal });
   }
 
   // Initial load
   initRoomDetail();
   // View transitions lifecycle
-  document.addEventListener("astro:after-swap", () => {
-    // Call cleanup from previous page if exists
-    if (typeof (window as any)._roomDetailCleanup === "function") {
-      (window as any)._roomDetailCleanup();
-    }
-    initRoomDetail();
-  });
+  document.addEventListener("astro:after-swap", initRoomDetail);
 </script>

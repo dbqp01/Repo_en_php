@@ -13,10 +13,10 @@ const t = useTranslations(lang);
   <section class="relative pt-32 pb-16 px-4 bg-gradient-to-b from-primary/10 via-transparent to-transparent overflow-hidden">
     <div class="max-w-4xl mx-auto text-center relative z-10">
       <span class="text-sm font-semibold text-primary uppercase tracking-widest">{t('nav.contact')}</span>
-      <h1 class="font-display text-4xl md:text-6xl mt-2 mb-6 leading-tight text-[#1C1917] dark:text-[#FAFAF9]">
+      <h1 class="font-display text-4xl md:text-6xl mt-2 mb-6 leading-tight text-text-primary-light dark:text-text-primary-dark">
         {t('contact.title')}
       </h1>
-      <p class="text-lg md:text-xl text-[#57534E] dark:text-[#A8A29E] max-w-2xl mx-auto font-body font-light leading-relaxed">
+      <p class="text-lg md:text-xl text-text-secondary-light dark:text-text-secondary-dark max-w-2xl mx-auto font-body font-light leading-relaxed">
         {t('contact.subtitle')}
       </p>
     </div>
@@ -27,7 +27,7 @@ const t = useTranslations(lang);
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-start">
       
       <!-- Left Column: Support Form (5 cols) -->
-      <div class="lg:col-span-5 bg-white dark:bg-[#1C1917] p-6 md:p-8 rounded-3xl border border-black/5 dark:border-white/5 shadow-sm space-y-6">
+      <div class="lg:col-span-5 bg-surface-card-light dark:bg-surface-card-dark p-6 md:p-8 rounded-3xl border border-black/5 dark:border-white/5 shadow-sm space-y-6">
         <h2 class="font-display text-2xl text-primary font-bold border-b border-black/5 dark:border-white/5 pb-3">
           {t('contact.getInTouch')}
         </h2>
@@ -35,7 +35,7 @@ const t = useTranslations(lang);
         <form id="contact-form" class="space-y-4">
           <!-- Name -->
           <div>
-            <label for="contact-name" class="block text-xs font-semibold uppercase tracking-wider text-[#57534E] dark:text-[#A8A29E] mb-2">
+            <label for="contact-name" class="block text-xs font-semibold uppercase tracking-wider text-text-secondary-light dark:text-text-secondary-dark mb-2">
               {t('contact.formName')} *
             </label>
             <input
@@ -44,13 +44,13 @@ const t = useTranslations(lang);
               name="name"
               required
               placeholder="e.g. John Doe"
-              class="w-full px-4 py-3 rounded-xl bg-stone-50 dark:bg-[#0C0A09] border border-black/10 dark:border-white/10 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-stone-400"
+              class="w-full px-4 py-3 rounded-xl bg-stone-50 dark:bg-surface-dark border border-black/10 dark:border-white/10 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-stone-400"
             />
           </div>
 
           <!-- Email -->
           <div>
-            <label for="contact-email" class="block text-xs font-semibold uppercase tracking-wider text-[#57534E] dark:text-[#A8A29E] mb-2">
+            <label for="contact-email" class="block text-xs font-semibold uppercase tracking-wider text-text-secondary-light dark:text-text-secondary-dark mb-2">
               {t('contact.formEmail')} *
             </label>
             <input
@@ -59,13 +59,13 @@ const t = useTranslations(lang);
               name="email"
               required
               placeholder="e.g. john@example.com"
-              class="w-full px-4 py-3 rounded-xl bg-stone-50 dark:bg-[#0C0A09] border border-black/10 dark:border-white/10 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-stone-400"
+              class="w-full px-4 py-3 rounded-xl bg-stone-50 dark:bg-surface-dark border border-black/10 dark:border-white/10 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-stone-400"
             />
           </div>
 
           <!-- Message -->
           <div>
-            <label for="contact-message" class="block text-xs font-semibold uppercase tracking-wider text-[#57534E] dark:text-[#A8A29E] mb-2">
+            <label for="contact-message" class="block text-xs font-semibold uppercase tracking-wider text-text-secondary-light dark:text-text-secondary-dark mb-2">
               {t('contact.formMessage')} *
             </label>
             <textarea
@@ -74,7 +74,7 @@ const t = useTranslations(lang);
               required
               rows="4"
               placeholder={lang === 'es' ? 'Escribe tu mensaje aquí...' : 'Write your message here...'}
-              class="w-full px-4 py-3 rounded-xl bg-stone-50 dark:bg-[#0C0A09] border border-black/10 dark:border-white/10 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-stone-400 resize-none"
+              class="w-full px-4 py-3 rounded-xl bg-stone-50 dark:bg-surface-dark border border-black/10 dark:border-white/10 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-stone-400 resize-none"
             ></textarea>
           </div>
 
@@ -106,7 +106,7 @@ const t = useTranslations(lang);
       <div class="lg:col-span-7 space-y-8">
         
         <!-- Channels Section -->
-        <div class="bg-white dark:bg-[#1C1917] p-6 md:p-8 rounded-3xl border border-black/5 dark:border-white/5 shadow-sm space-y-6">
+        <div class="bg-surface-card-light dark:bg-surface-card-dark p-6 md:p-8 rounded-3xl border border-black/5 dark:border-white/5 shadow-sm space-y-6">
           <h2 class="font-display text-2xl text-primary font-bold border-b border-black/5 dark:border-white/5 pb-3">
             {t('contact.directChannels')}
           </h2>
@@ -125,8 +125,8 @@ const t = useTranslations(lang);
                 </svg>
               </div>
               <div>
-                <h4 class="font-semibold text-xs text-[#1C1917] dark:text-[#FAFAF9]">{t('contact.whatsappText')}</h4>
-                <p class="text-[11px] text-[#A8A29E] mt-0.5">+51 984 000 000</p>
+                <h4 class="font-semibold text-xs text-text-primary-light dark:text-text-primary-dark">{t('contact.whatsappText')}</h4>
+                <p class="text-[11px] text-text-secondary-dark mt-0.5">+51 984 000 000</p>
               </div>
             </a>
 
@@ -141,8 +141,8 @@ const t = useTranslations(lang);
                 </svg>
               </div>
               <div>
-                <h4 class="font-semibold text-xs text-[#1C1917] dark:text-[#FAFAF9]">{t('contact.emailText')}</h4>
-                <p class="text-[11px] text-[#A8A29E] mt-0.5">info@usgarhotels.com</p>
+                <h4 class="font-semibold text-xs text-text-primary-light dark:text-text-primary-dark">{t('contact.emailText')}</h4>
+                <p class="text-[11px] text-text-secondary-dark mt-0.5">info@usgarhotels.com</p>
               </div>
             </a>
 
@@ -157,14 +157,14 @@ const t = useTranslations(lang);
                 </svg>
               </div>
               <div>
-                <h4 class="font-semibold text-xs text-[#1C1917] dark:text-[#FAFAF9]">{t('contact.callText')}</h4>
-                <p class="text-[11px] text-[#A8A29E] mt-0.5">{t('contact.internationalCall')} +51 984 000 000</p>
+                <h4 class="font-semibold text-xs text-text-primary-light dark:text-text-primary-dark">{t('contact.callText')}</h4>
+                <p class="text-[11px] text-text-secondary-dark mt-0.5">{t('contact.internationalCall')} +51 984 000 000</p>
               </div>
             </a>
 
             <!-- OTAs & Portals -->
             <div class="flex items-center gap-3 p-4 rounded-2xl bg-stone-50 dark:bg-stone-900/40 border border-black/5 dark:border-white/5">
-              <span class="text-[#A8A29E] flex-shrink-0">
+              <span class="text-text-secondary-dark flex-shrink-0">
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                 </svg>
@@ -193,11 +193,11 @@ const t = useTranslations(lang);
         </div>
 
         <!-- Travel Guide & Airport Pickup Info -->
-        <div class="bg-white dark:bg-[#1C1917] p-6 md:p-8 rounded-3xl border border-black/5 dark:border-white/5 shadow-sm space-y-6">
+        <div class="bg-surface-card-light dark:bg-surface-card-dark p-6 md:p-8 rounded-3xl border border-black/5 dark:border-white/5 shadow-sm space-y-6">
           <h2 class="font-display text-2xl text-primary font-bold border-b border-black/5 dark:border-white/5 pb-3">
             {t('contact.directionsTitle')}
           </h2>
-          <p class="text-sm text-[#57534E] dark:text-[#A8A29E] leading-relaxed">
+          <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark leading-relaxed">
             {t('contact.directionsDesc')}
           </p>
 
@@ -242,7 +242,14 @@ const t = useTranslations(lang);
 </Layout>
 
 <script>
+  let abortController = new AbortController();
+
   function initContactForm() {
+    // Abort previous listeners to avoid duplicates
+    abortController.abort();
+    abortController = new AbortController();
+    const signal = abortController.signal;
+
     const form = document.getElementById('contact-form') as HTMLFormElement;
     const btnSubmit = document.getElementById('btn-contact-submit') as HTMLButtonElement;
     const spinner = document.getElementById('contact-spinner');
@@ -268,7 +275,7 @@ const t = useTranslations(lang);
       btnSubmit.disabled = false;
       successBanner.classList.remove('hidden');
       form.reset();
-    });
+    }, { signal });
   }
 
   // Init on load

@@ -1,67 +1,9 @@
 ---
 import { useTranslations } from '../i18n/utils';
+import { reviews } from '../data/reviews';
 
 const lang = (Astro.currentLocale || 'en') as 'en' | 'es';
 const t = useTranslations(lang);
-
-// Mock reviews based on real TripAdvisor-style reviews
-const reviews = [
-  {
-    id: 1,
-    name: 'Sarah M.',
-    country: '🇺🇸',
-    rating: 5,
-    text: {
-      en: 'Absolutely magical! The murals and Andean decor made us feel immersed in local culture. Breakfast was incredible and the staff went above and beyond.',
-      es: '¡Absolutamente mágico! Los murales y la decoración andina nos hicieron sentir sumergidos en la cultura local. El desayuno fue increíble y el personal fue excepcional.'
-    },
-    date: { en: 'March 2025', es: 'Marzo 2025' },
-  },
-  {
-    id: 2,
-    name: 'Thomas K.',
-    country: '🇩🇪',
-    rating: 5,
-    text: {
-      en: 'Perfect location near San Pedro Market. The rooms are warm and cozy — essential for cold Cusco nights. Will definitely return!',
-      es: 'Ubicación perfecta cerca del Mercado de San Pedro. Las habitaciones son cálidas y acogedoras, algo esencial para las frías noches de Cusco. ¡Definitivamente volveré!'
-    },
-    date: { en: 'February 2025', es: 'Febrero 2025' },
-  },
-  {
-    id: 3,
-    name: 'Ana L.',
-    country: '🇧🇷',
-    rating: 5,
-    text: {
-      en: 'The airport transfer service was a lifesaver. Hotel is charming, clean, and the staff speaks English fluently. Great value for money.',
-      es: 'El servicio de traslado al aeropuerto fue un salvavidas. El hotel es encantador, limpio y el personal habla inglés con fluidez. Gran relación calidad-precio.'
-    },
-    date: { en: 'January 2025', es: 'Enero 2025' },
-  },
-  {
-    id: 4,
-    name: 'James P.',
-    country: '🇬🇧',
-    rating: 4,
-    text: {
-      en: 'Lovely boutique hotel with character. The spa massage after a long day of hiking was exactly what we needed. Highly recommended!',
-      es: 'Hermoso hotel boutique con carácter. El masaje de spa después de un largo día de caminata fue exactamente lo que necesitábamos. ¡Altamente recomendado!'
-    },
-    date: { en: 'December 2024', es: 'Diciembre 2024' },
-  },
-  {
-    id: 5,
-    name: 'Yuki T.',
-    country: '🇯🇵',
-    rating: 5,
-    text: {
-      en: 'Beautiful hotel with authentic Cusco charm. They helped us arrange our Machu Picchu tour and it was seamless. The breakfast is fresh and delicious.',
-      es: 'Hermoso hotel con encanto auténtico de Cusco. Nos ayudaron a organizar nuestro tour a Machu Picchu y todo fue perfecto. El desayuno es fresco y delicioso.'
-    },
-    date: { en: 'November 2024', es: 'Noviembre 2024' },
-  },
-];
 ---
 
 <section class="py-20 px-4 bg-gradient-to-b from-transparent via-primary/5 to-transparent">
@@ -83,7 +25,7 @@ const reviews = [
       <!-- Left Arrow -->
       <button
         id="reviews-prev"
-        class="absolute -left-4 md:-left-12 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/80 dark:bg-[#1C1917]/80 backdrop-blur-sm border border-black/5 dark:border-white/5 flex items-center justify-center text-[#1C1917] dark:text-[#FAFAF9] hover:text-primary dark:hover:text-primary hover:scale-105 shadow-md transition-all duration-300 opacity-0 group-hover/carousel:opacity-100 focus:opacity-100 disabled:opacity-30 disabled:cursor-not-allowed pointer-events-auto"
+        class="absolute -left-4 md:-left-12 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/80 dark:bg-surface-card-dark/80 backdrop-blur-sm border border-black/5 dark:border-white/5 flex items-center justify-center text-text-primary-light dark:text-text-primary-dark hover:text-primary dark:hover:text-primary hover:scale-105 shadow-md transition-all duration-300 opacity-0 group-hover/carousel:opacity-100 focus:opacity-100 disabled:opacity-30 disabled:cursor-not-allowed pointer-events-auto"
         aria-label="Previous reviews"
       >
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -94,7 +36,7 @@ const reviews = [
       <!-- Right Arrow -->
       <button
         id="reviews-next"
-        class="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/80 dark:bg-[#1C1917]/80 backdrop-blur-sm border border-black/5 dark:border-white/5 flex items-center justify-center text-[#1C1917] dark:text-[#FAFAF9] hover:text-primary dark:hover:text-primary hover:scale-105 shadow-md transition-all duration-300 opacity-0 group-hover/carousel:opacity-100 focus:opacity-100 disabled:opacity-30 disabled:cursor-not-allowed pointer-events-auto"
+        class="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/80 dark:bg-surface-card-dark/80 backdrop-blur-sm border border-black/5 dark:border-white/5 flex items-center justify-center text-text-primary-light dark:text-text-primary-dark hover:text-primary dark:hover:text-primary hover:scale-105 shadow-md transition-all duration-300 opacity-0 group-hover/carousel:opacity-100 focus:opacity-100 disabled:opacity-30 disabled:cursor-not-allowed pointer-events-auto"
         aria-label="Next reviews"
       >
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -109,7 +51,7 @@ const reviews = [
             class="flex-shrink-0 w-80 sm:w-[420px] snap-center animate-on-scroll stagger-child"
             style={`transition-delay: ${i * 0.1}s`}
           >
-            <div class="h-full p-6 rounded-2xl bg-white dark:bg-[#1C1917] border border-black/5 dark:border-white/5 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between">
+            <div class="h-full p-6 rounded-2xl bg-surface-card-light dark:bg-surface-card-dark border border-black/5 dark:border-white/5 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between">
               <div>
                 <!-- Stars -->
                 <div class="flex gap-0.5 mb-4">
@@ -121,7 +63,7 @@ const reviews = [
                 </div>
 
                 <!-- Quote -->
-                <blockquote class="text-sm md:text-base leading-relaxed text-[#57534E] dark:text-[#A8A29E] mb-6 italic">
+                <blockquote class="text-sm md:text-base leading-relaxed text-text-secondary-light dark:text-text-secondary-dark mb-6 italic">
                   "{review.text[lang]}"
                 </blockquote>
               </div>
@@ -130,8 +72,8 @@ const reviews = [
               <div class="flex items-center gap-3 pt-4 border-t border-black/5 dark:border-white/5">
                 <span class="text-2xl" role="img" aria-label="country flag">{review.country}</span>
                 <div>
-                  <p class="font-semibold text-sm text-[#1C1917] dark:text-[#FAFAF9]">{review.name}</p>
-                  <p class="text-xs text-[#A8A29E]">{review.date[lang]}</p>
+                  <p class="font-semibold text-sm text-text-primary-light dark:text-text-primary-dark">{review.name}</p>
+                  <p class="text-xs text-text-secondary-light dark:text-text-secondary-dark">{review.date[lang]}</p>
                 </div>
               </div>
             </div>
@@ -164,7 +106,14 @@ const reviews = [
 </style>
 
 <script>
+  let abortController = new AbortController();
+
   function initReviewsCarousel() {
+    // Abort previous listeners to avoid duplicates
+    abortController.abort();
+    abortController = new AbortController();
+    const signal = abortController.signal;
+
     const track = document.getElementById('reviews-track');
     const dots = document.querySelectorAll('[data-review-dot]');
     const prevBtn = document.getElementById('reviews-prev') as HTMLButtonElement;
@@ -219,7 +168,7 @@ const reviews = [
         });
         isScrolling = true;
       }
-    }, { passive: true });
+    }, { passive: true, signal });
 
     // Click on dots
     dots.forEach((dot, index) => {
@@ -231,7 +180,7 @@ const reviews = [
             behavior: 'smooth'
           });
         }
-      });
+      }, { signal });
     });
 
     // Arrow navigation clicks
@@ -244,7 +193,7 @@ const reviews = [
             behavior: 'smooth'
           });
         }
-      });
+      }, { signal });
 
       nextBtn.addEventListener('click', () => {
         const firstCard = cards[0] as HTMLElement;
@@ -254,7 +203,7 @@ const reviews = [
             behavior: 'smooth'
           });
         }
-      });
+      }, { signal });
     }
 
     // Run initial state setup

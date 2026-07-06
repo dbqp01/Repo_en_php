@@ -1,5 +1,6 @@
 ---
 import { ClientRouter } from 'astro:transitions';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
@@ -11,6 +12,7 @@ interface Props {
   lang?: string;
   ogImage?: string;
   schema?: Record<string, any> | Record<string, any>[];
+  preloadImage?: string;
 }
 
 const {
@@ -18,14 +20,21 @@ const {
   description = 'USGAR Hotels — Boutique hotel in San Pedro, Cusco. Your gateway to Machu Picchu and the Sacred Valley.',
   lang = 'en',
   ogImage = '/og-image.jpg',
-  schema
+  schema,
+  preloadImage
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://usgarhotels.com');
+const siteBase = Astro.site ?? new URL('https://usgarhotels.com');
+const canonicalURL = new URL(Astro.url.pathname, siteBase);
+
+// Build correct hreflang alternate URLs
+const pathWithoutLocale = Astro.url.pathname.replace(/^\/es\//, '/').replace(/^\/es$/, '/');
+const enURL = new URL(pathWithoutLocale, siteBase);
+const esURL = new URL(`/es${pathWithoutLocale === '/' ? '' : pathWithoutLocale}`, siteBase);
 ---
 
 <!doctype html>
-<html lang={lang} class="dark">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -40,20 +49,38 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://usgarhot
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonicalURL.href} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content={lang === 'es' ? 'es_PE' : 'en_US'} />
+    <meta property="og:site_name" content="USGAR Hotels" />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
 
     <!-- Hreflang -->
-    <link rel="alternate" hreflang="en" href={canonicalURL.href} />
-    <link rel="alternate" hreflang="es" href={canonicalURL.href} />
+    <link rel="alternate" hreflang="en" href={enURL.href} />
+    <link rel="alternate" hreflang="es" href={esURL.href} />
+    <link rel="alternate" hreflang="x-default" href={enURL.href} />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
+    <!-- LCP Image Preload -->
+    {preloadImage && (
+      <link rel="preload" href={preloadImage} as="image" type="image/webp" />
+    )}
+
     <!-- Google Fonts Preconnect (performance) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" />
+    </noscript>
 
     <!-- Schema.org JSON-LD -->
     {schema && (
@@ -63,10 +90,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://usgarhot
     <!-- View Transitions -->
     <ClientRouter />
   </head>
-  <body class="bg-[#FAFAF9] dark:bg-[#0C0A09] text-[#1C1917] dark:text-[#FAFAF9] transition-colors duration-300 min-h-screen flex flex-col">
+  <body class="bg-surface-light dark:bg-surface-dark text-text-primary-light dark:text-text-primary-dark transition-colors duration-300 min-h-screen flex flex-col">
+    <!-- Skip to content (accessibility) -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-primary focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-semibold">
+      {lang === 'es' ? 'Ir al contenido principal' : 'Skip to main content'}
+    </a>
+
     <Navbar />
 
-    <main class="flex-1">
+    <main id="main-content" class="flex-1">
       <slot />
     </main>
 
@@ -103,11 +135,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://usgarhot
           entries.forEach(entry => {
             if (entry.isIntersecting) {
               entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
             }
           });
         }, { threshold: 0.1 });
 
-        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+        document.querySelectorAll('.animate-on-scroll:not(.visible)').forEach(el => observer.observe(el));
       }
 
       // Run on initial load

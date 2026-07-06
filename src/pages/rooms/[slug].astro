@@ -10,8 +10,7 @@ export function getStaticPaths() {
 }
 
 const { room } = Astro.props;
-const lang = 'en';
+const lang = (Astro.currentLocale || 'en') as 'en' | 'es';
 ---
 
 <RoomDetail room={room} lang={lang} />
-

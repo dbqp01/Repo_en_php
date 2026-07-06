@@ -56,10 +56,10 @@ const attractionsSchema = {
   <section class="relative pt-32 pb-20 px-4 bg-gradient-to-b from-primary/10 via-transparent to-transparent overflow-hidden">
     <div class="max-w-4xl mx-auto text-center relative z-10">
       <span class="text-sm font-semibold text-primary uppercase tracking-widest">{t('explore.sectionLabel')}</span>
-      <h1 class="font-display text-4xl md:text-6xl mt-2 mb-6 leading-tight text-[#1C1917] dark:text-[#FAFAF9]">
+      <h1 class="font-display text-4xl md:text-6xl mt-2 mb-6 leading-tight text-text-primary-light dark:text-text-primary-dark">
         {t('explore.title')}
       </h1>
-      <p class="text-lg md:text-xl text-[#57534E] dark:text-[#A8A29E] max-w-2xl mx-auto font-body font-light leading-relaxed">
+      <p class="text-lg md:text-xl text-text-secondary-light dark:text-text-secondary-dark max-w-2xl mx-auto font-body font-light leading-relaxed">
         {t('explore.description')}
       </p>
     </div>
@@ -69,13 +69,13 @@ const attractionsSchema = {
   <section class="pb-24 px-4 max-w-7xl mx-auto">
     
     <!-- Controls (Search + Filters) -->
-    <div class="mb-12 flex flex-col md:flex-row gap-6 items-center justify-between bg-white dark:bg-[#1C1917] border border-black/5 dark:border-white/5 p-6 rounded-3xl shadow-sm">
+    <div class="mb-12 flex flex-col md:flex-row gap-6 items-center justify-between bg-surface-card-light dark:bg-surface-card-dark border border-black/5 dark:border-white/5 p-6 rounded-3xl shadow-sm">
       
       <!-- Category Filters -->
       <div class="flex gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-hide snap-x snap-mandatory">
         {categories.map((cat) => (
           <button
-            class="flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium transition-all duration-300 cursor-pointer whitespace-nowrap snap-center select-none bg-stone-50 dark:bg-stone-900/40 border-stone-200 dark:border-stone-800 text-stone-600 dark:text-stone-400 hover:border-primary/50 dark:hover:border-primary/50 hover:text-primary hover:scale-[1.02]"
+            class="flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium transition-all duration-300 cursor-pointer whitespace-nowrap snap-center select-none bg-stone-50 dark:bg-stone-900/40 border-stone-200 dark:border-stone-800 text-text-secondary-light dark:text-text-secondary-dark hover:border-primary/50 dark:hover:border-primary/50 hover:text-primary hover:scale-[1.02]"
             data-category-filter={cat}
           >
             <span>{categoryIcons[cat]}</span>
@@ -105,7 +105,7 @@ const attractionsSchema = {
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" id="attractions-grid">
       {attractions.map((attraction, i) => (
         <div
-          class="p-6 rounded-2xl bg-white dark:bg-[#1C1917] border border-black/5 dark:border-white/5 shadow-sm hover:shadow-lg transition-all duration-500 hover:-translate-y-1 group flex flex-col justify-between"
+          class="p-6 rounded-2xl bg-surface-card-light dark:bg-surface-card-dark border border-black/5 dark:border-white/5 shadow-sm hover:shadow-lg transition-all duration-500 hover:-translate-y-1 group flex flex-col justify-between"
           data-category={attraction.category}
           data-name-en={attraction.name.en.toLowerCase()}
           data-name-es={attraction.name.es.toLowerCase()}
@@ -126,16 +126,16 @@ const attractionsSchema = {
             </div>
 
             <!-- Title & Desc -->
-            <h3 class="font-display text-xl mb-3 text-[#1C1917] dark:text-[#FAFAF9] group-hover:text-primary transition-colors duration-300">
+            <h3 class="font-display text-xl mb-3 text-text-primary-light dark:text-text-primary-dark group-hover:text-primary transition-colors duration-300">
               {attraction.name[lang]}
             </h3>
-            <p class="text-sm md:text-base text-[#57534E] dark:text-[#A8A29E] font-body leading-relaxed mb-6">
+            <p class="text-sm md:text-base text-text-secondary-light dark:text-text-secondary-dark font-body leading-relaxed mb-6">
               {attraction.description[lang]}
             </p>
           </div>
 
           <!-- Bottom Time Row -->
-          <div class="pt-4 border-t border-black/5 dark:border-white/5 flex items-center justify-between text-xs text-[#A8A29E] font-body">
+          <div class="pt-4 border-t border-black/5 dark:border-white/5 flex items-center justify-between text-xs text-text-secondary-dark font-body">
             <span class="flex items-center gap-1 font-medium">
               ⏱️ {attraction.travelTime}
             </span>
@@ -156,12 +156,12 @@ const attractionsSchema = {
     </div>
 
     <!-- Empty State -->
-    <div id="explore-empty-state" class="hidden text-center py-20 bg-white dark:bg-[#1C1917] border border-black/5 dark:border-white/5 p-8 rounded-3xl mt-6">
+    <div id="explore-empty-state" class="hidden text-center py-20 bg-surface-card-light dark:bg-surface-card-dark border border-black/5 dark:border-white/5 p-8 rounded-3xl mt-6">
       <span class="text-5xl block mb-4">🔍</span>
-      <h3 class="font-display text-2xl mb-2 text-[#1C1917] dark:text-[#FAFAF9]">
+      <h3 class="font-display text-2xl mb-2 text-text-primary-light dark:text-text-primary-dark">
         {lang === 'es' ? 'No se encontraron atracciones' : 'No attractions found'}
       </h3>
-      <p class="text-[#57534E] dark:text-[#A8A29E] font-body max-w-sm mx-auto">
+      <p class="text-text-secondary-light dark:text-text-secondary-dark font-body max-w-sm mx-auto">
         {lang === 'es' ? 'Prueba cambiando los filtros o la palabra de búsqueda.' : 'Try adjusting your filters or search keywords.'}
       </p>
     </div>
@@ -169,7 +169,14 @@ const attractionsSchema = {
 </Layout>
 
 <script>
+  let abortController = new AbortController();
+
   function initExploreFilters() {
+    // Abort previous listeners to avoid duplicates
+    abortController.abort();
+    abortController = new AbortController();
+    const signal = abortController.signal;
+
     const searchInput = document.getElementById('explore-search') as HTMLInputElement;
     const filterButtons = document.querySelectorAll('[data-category-filter]');
     const grid = document.getElementById('attractions-grid');
@@ -244,7 +251,7 @@ const attractionsSchema = {
         });
 
         applyFilter();
-      });
+      }, { signal });
     });
 
     // Search input typing
@@ -252,7 +259,7 @@ const attractionsSchema = {
       searchInput.addEventListener('input', (e) => {
         searchQuery = (e.target as HTMLInputElement).value.toLowerCase().trim();
         applyFilter();
-      });
+      }, { signal });
     }
   }
 

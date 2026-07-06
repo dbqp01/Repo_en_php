@@ -23,11 +23,11 @@ const t = useTranslations(lang);
     <div class="space-y-4" id="faq-accordion">
       {faqs.map((faq, i) => (
         <details
-          class="group rounded-2xl bg-white dark:bg-[#1C1917] border border-black/5 dark:border-white/5 shadow-sm hover:shadow-md transition-all duration-300 animate-on-scroll"
+          class="group rounded-2xl bg-surface-card-light dark:bg-surface-card-dark border border-black/5 dark:border-white/5 shadow-sm hover:shadow-md transition-all duration-300 animate-on-scroll"
           style={`transition-delay: ${i * 0.08}s`}
           data-faq-id={faq.id}
         >
-          <summary class="flex items-center justify-between p-6 cursor-pointer font-display text-lg md:text-xl font-semibold list-none select-none [&::-webkit-details-marker]:hidden text-[#1C1917] dark:text-[#FAFAF9] hover:text-primary dark:hover:text-primary transition-colors">
+          <summary class="flex items-center justify-between p-6 cursor-pointer font-display text-lg md:text-xl font-semibold list-none select-none [&::-webkit-details-marker]:hidden text-text-primary-light dark:text-text-primary-dark hover:text-primary dark:hover:text-primary transition-colors">
             <span>{faq.question[lang]}</span>
             <!-- Animated Icon (Plus/Minus transition) -->
             <span class="relative flex-shrink-0 ml-4 w-6 h-6 flex items-center justify-center rounded-full bg-primary/10 group-hover:bg-primary/20 text-primary transition-colors duration-300">
@@ -42,7 +42,7 @@ const t = useTranslations(lang);
               </svg>
             </span>
           </summary>
-          <div class="px-6 pb-6 pt-1 text-sm md:text-base leading-relaxed text-[#57534E] dark:text-[#A8A29E] font-body border-t border-black/5 dark:border-white/5 transition-all duration-500">
+          <div class="px-6 pb-6 pt-1 text-sm md:text-base leading-relaxed text-text-secondary-light dark:text-text-secondary-dark font-body border-t border-black/5 dark:border-white/5 transition-all duration-500">
             {faq.answer[lang]}
           </div>
         </details>

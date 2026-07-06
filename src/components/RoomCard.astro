@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import type { Room } from "../data/rooms";
 import { useTranslations } from "../i18n/utils";
+import { translateBeds } from "../utils/helpers";
 
 interface Props {
   room: Room;
@@ -28,12 +29,8 @@ const firstImage = firstImageEntry
   ? (await firstImageEntry[1]()).default
   : null;
 
-// Translate bedding info dynamically
-const translatedBeds = room.beds
-  .replace("single beds", lang === "es" ? "camas individuales" : "single beds")
-  .replace("single bed", lang === "es" ? "cama individual" : "single bed")
-  .replace("king bed", lang === "es" ? "cama king" : "king bed")
-  .replace("king +", lang === "es" ? "king +" : "king +");
+// Translate bedding info using shared utility
+const translatedBeds = translateBeds(room.beds, lang);
 ---
 
 <a

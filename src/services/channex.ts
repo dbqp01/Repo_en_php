@@ -1,4 +1,5 @@
 import { rooms, type Room } from '../data/rooms';
+import { daysBetween } from '../utils/helpers';
 
 const CHANNEX_API_KEY = import.meta.env.CHANNEX_API_KEY;
 const IS_MOCK = !CHANNEX_API_KEY;
@@ -38,13 +39,8 @@ if (!globalBookings.bookings) {
 
 const bookingsStore: Map<string, Booking> = globalBookings.bookings;
 
-export function daysBetween(date1: string, date2: string): number {
-  const d1 = new Date(date1);
-  const d2 = new Date(date2);
-  const diffTime = Math.abs(d2.getTime() - d1.getTime());
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  return isNaN(diffDays) ? 1 : diffDays;
-}
+// Re-export from shared utils for backward compatibility
+export { daysBetween };
 
 /**
  * Returns available rooms with pricing for the specified dates
