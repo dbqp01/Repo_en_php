@@ -181,7 +181,13 @@ const roomSchema = {
           {lang === "es" ? "huéspedes" : "guests"}
         </span>
         <span>•</span>
-        <span class="flex items-center gap-1.5">🛏️ {translatedBeds}</span>
+        <span class="flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-text-primary-light dark:text-text-primary-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 4v16M2 20h20M22 20V12a4 4 0 0 0-4-4H4" />
+            <path d="M6 12h4a2 2 0 0 0 2-2V8H6v4Z" />
+          </svg>
+          {translatedBeds}
+        </span>
       </div>
     </div>
 
