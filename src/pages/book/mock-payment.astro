@@ -14,6 +14,8 @@ const guestName = url.searchParams.get('guestName') || '';
 const guestEmail = url.searchParams.get('guestEmail') || '';
 const checkIn = url.searchParams.get('checkIn') || '';
 const checkOut = url.searchParams.get('checkOut') || '';
+
+const publicApiUrl = import.meta.env.PUBLIC_API_URL || 'https://cms.usgarhotels.com/api';
 ---
 
 <Layout title={`${lang === 'es' ? 'Simulador de Pago — Mercado Pago' : 'Payment Simulator — Mercado Pago'} — USGAR Hotels`} lang={lang}>
@@ -133,7 +135,7 @@ const checkOut = url.searchParams.get('checkOut') || '';
   </main>
 </Layout>
 
-<script define:vars={{ bookingId, amount, lang }}>
+<script define:vars={{ bookingId, amount, lang, publicApiUrl }}>
   function initMockPayment() {
     const btnApprove = document.getElementById('btn-approve');
     const btnDecline = document.getElementById('btn-decline');
@@ -148,8 +150,9 @@ const checkOut = url.searchParams.get('checkOut') || '';
       if (btnDecline) (btnDecline).disabled = true;
 
       try {
+        const API_BASE_URL = publicApiUrl.replace(/\/$/, '');
         // Trigger Mercado Pago Webhook post request on background to confirm reservation
-        const response = await fetch(`/api/webhook-mercado-pago?bookingId=${bookingId}`, {
+        const response = await fetch(`${API_BASE_URL}/webhook-mercado-pago?bookingId=${bookingId}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

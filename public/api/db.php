@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // PHP Database and Utility Helper
 
 header("Access-Control-Allow-Origin: *");
@@ -42,6 +42,59 @@ function getEnvValue($key, $default = null) {
 }
 
 /**
+ * Establishes a PDO MySQL connection if credentials are set, otherwise returns null (triggers JSON fallback).
+ * Automatically handles migrations/auto-creation of the bookings table.
+ */
+function getDbConnection() {
+    static $pdo = null;
+    if ($pdo !== null) return $pdo;
+
+    $host = getEnvValue('DB_HOST');
+    $user = getEnvValue('DB_USER');
+    $pass = getEnvValue('DB_PASS');
+    $name = getEnvValue('DB_NAME');
+
+    if (empty($host) || empty($user) || empty($name)) {
+        return null; // Silent fallback to JSON
+    }
+
+    try {
+        $dsn = "mysql:host={$host};dbname={$name};charset=utf8mb4";
+        $pdo = new PDO($dsn, $user, $pass, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false
+        ]);
+        
+        // Auto-create standard bookings table if not exists (Zero-Config setup)
+        $pdo->exec("CREATE TABLE IF NOT EXISTS bookings (
+            id VARCHAR(100) PRIMARY KEY,
+            status VARCHAR(50) NOT NULL DEFAULT 'pending_payment',
+            confirmationCode VARCHAR(50) NOT NULL,
+            totalPrice DECIMAL(10,2) NOT NULL,
+            nights INT NOT NULL,
+            createdAt VARCHAR(100) NOT NULL,
+            roomId VARCHAR(100) NOT NULL,
+            checkIn DATE NOT NULL,
+            checkOut DATE NOT NULL,
+            guests INT NOT NULL,
+            guestName VARCHAR(255) NOT NULL,
+            guestEmail VARCHAR(255) NOT NULL,
+            guestPhone VARCHAR(50) NOT NULL,
+            airportPickup TINYINT(1) NOT NULL DEFAULT 0,
+            flightTime VARCHAR(50) DEFAULT '',
+            mercadoPagoPreferenceId VARCHAR(255) DEFAULT '',
+            mercadoPagoPaymentId VARCHAR(255) DEFAULT ''
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+        return $pdo;
+    } catch (PDOException $e) {
+        error_log("[Database Connection Error] Fallback to JSON. Details: " . $e->getMessage());
+        return null;
+    }
+}
+
+/**
  * Returns the path to the persistent bookings.json database
  */
 function getDbPath() {
@@ -57,46 +110,162 @@ function getDbPath() {
 }
 
 /**
- * Retrieves all bookings from the JSON file
+ * Retrieves all bookings from either MySQL or the JSON file
  */
 function getBookings() {
-    $path = getDbPath();
-    if (!file_exists($path)) {
-        file_put_contents($path, json_encode([]));
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $stmt = $pdo->query("SELECT * FROM bookings ORDER BY createdAt DESC");
+            $rows = $stmt->fetchAll();
+            return array_map(function($row) {
+                $row['guests'] = (int)$row['guests'];
+                $row['nights'] = (int)$row['nights'];
+                $row['totalPrice'] = (float)$row['totalPrice'];
+                $row['airportPickup'] = (bool)$row['airportPickup'];
+                return $row;
+            }, $rows);
+        } catch (PDOException $e) {
+            error_log("[Database SELECT Error] " . $e->getMessage());
+            return [];
+        }
+    } else {
+        $path = getDbPath();
+        if (!file_exists($path)) {
+            file_put_contents($path, json_encode([]));
+        }
+        $content = file_get_contents($path);
+        return json_decode($content, true) ?: [];
     }
-    $content = file_get_contents($path);
-    return json_decode($content, true) ?: [];
 }
 
 /**
- * Saves or updates a booking in the JSON file
+ * Saves or updates a booking in either MySQL or the JSON file
  */
 function saveBooking($booking) {
-    $path = getDbPath();
-    $bookings = getBookings();
-    $bookings[$booking['id']] = $booking;
-    file_put_contents($path, json_encode($bookings, JSON_PRETTY_PRINT));
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $id = $booking['id'];
+            $status = isset($booking['status']) ? $booking['status'] : 'pending_payment';
+            $confirmationCode = $booking['confirmationCode'];
+            $totalPrice = $booking['totalPrice'];
+            $nights = $booking['nights'];
+            $createdAt = $booking['createdAt'];
+            $roomId = $booking['roomId'];
+            $checkIn = $booking['checkIn'];
+            $checkOut = $booking['checkOut'];
+            $guests = $booking['guests'];
+            $guestName = $booking['guestName'];
+            $guestEmail = $booking['guestEmail'];
+            $guestPhone = $booking['guestPhone'];
+            $airportPickup = isset($booking['airportPickup']) ? ($booking['airportPickup'] ? 1 : 0) : 0;
+            $flightTime = isset($booking['flightTime']) ? $booking['flightTime'] : '';
+            $mercadoPagoPreferenceId = isset($booking['mercadoPagoPreferenceId']) ? $booking['mercadoPagoPreferenceId'] : '';
+            $mercadoPagoPaymentId = isset($booking['mercadoPagoPaymentId']) ? $booking['mercadoPagoPaymentId'] : '';
+
+            $stmt = $pdo->prepare("INSERT INTO bookings (
+                id, status, confirmationCode, totalPrice, nights, createdAt, roomId, checkIn, checkOut, guests, guestName, guestEmail, guestPhone, airportPickup, flightTime, mercadoPagoPreferenceId, mercadoPagoPaymentId
+            ) VALUES (
+                :id, :status, :confirmationCode, :totalPrice, :nights, :createdAt, :roomId, :checkIn, :checkOut, :guests, :guestName, :guestEmail, :guestPhone, :airportPickup, :flightTime, :mercadoPagoPreferenceId, :mercadoPagoPaymentId
+            ) ON DUPLICATE KEY UPDATE 
+                status = VALUES(status),
+                confirmationCode = VALUES(confirmationCode),
+                totalPrice = VALUES(totalPrice),
+                nights = VALUES(nights),
+                roomId = VALUES(roomId),
+                checkIn = VALUES(checkIn),
+                checkOut = VALUES(checkOut),
+                guests = VALUES(guests),
+                guestName = VALUES(guestName),
+                guestEmail = VALUES(guestEmail),
+                guestPhone = VALUES(guestPhone),
+                airportPickup = VALUES(airportPickup),
+                flightTime = VALUES(flightTime),
+                mercadoPagoPreferenceId = VALUES(mercadoPagoPreferenceId),
+                mercadoPagoPaymentId = VALUES(mercadoPagoPaymentId)");
+            
+            $stmt->execute([
+                ':id' => $id,
+                ':status' => $status,
+                ':confirmationCode' => $confirmationCode,
+                ':totalPrice' => $totalPrice,
+                ':nights' => $nights,
+                ':createdAt' => $createdAt,
+                ':roomId' => $roomId,
+                ':checkIn' => $checkIn,
+                ':checkOut' => $checkOut,
+                ':guests' => $guests,
+                ':guestName' => $guestName,
+                ':guestEmail' => $guestEmail,
+                ':guestPhone' => $guestPhone,
+                ':airportPickup' => $airportPickup,
+                ':flightTime' => $flightTime,
+                ':mercadoPagoPreferenceId' => $mercadoPagoPreferenceId,
+                ':mercadoPagoPaymentId' => $mercadoPagoPaymentId
+            ]);
+        } catch (PDOException $e) {
+            error_log("[Database INSERT/UPDATE Error] " . $e->getMessage());
+        }
+    } else {
+        $path = getDbPath();
+        $bookings = getBookings();
+        $bookings[$booking['id']] = $booking;
+        file_put_contents($path, json_encode($bookings, JSON_PRETTY_PRINT));
+    }
 }
 
 /**
- * Retrieves a specific booking by ID
+ * Retrieves a specific booking by ID from either MySQL or the JSON file
  */
 function getBooking($id) {
-    $bookings = getBookings();
-    return isset($bookings[$id]) ? $bookings[$id] : null;
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $stmt = $pdo->prepare("SELECT * FROM bookings WHERE id = :id");
+            $stmt->execute([':id' => $id]);
+            $row = $stmt->fetch();
+            if ($row) {
+                $row['guests'] = (int)$row['guests'];
+                $row['nights'] = (int)$row['nights'];
+                $row['totalPrice'] = (float)$row['totalPrice'];
+                $row['airportPickup'] = (bool)$row['airportPickup'];
+                return $row;
+            }
+            return null;
+        } catch (PDOException $e) {
+            error_log("[Database SELECT ID Error] " . $e->getMessage());
+            return null;
+        }
+    } else {
+        $bookings = getBookings();
+        return isset($bookings[$id]) ? $bookings[$id] : null;
+    }
 }
 
 /**
- * Confirms a booking status
+ * Confirms a booking status in either MySQL or the JSON file
  */
 function confirmBooking($id) {
-    $booking = getBooking($id);
-    if ($booking) {
-        $booking['status'] = 'confirmed';
-        saveBooking($booking);
-        return true;
+    $pdo = getDbConnection();
+    if ($pdo) {
+        try {
+            $stmt = $pdo->prepare("UPDATE bookings SET status = 'confirmed' WHERE id = :id");
+            $stmt->execute([':id' => $id]);
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log("[Database UPDATE Confirm Error] " . $e->getMessage());
+            return false;
+        }
+    } else {
+        $booking = getBooking($id);
+        if ($booking) {
+            $booking['status'] = 'confirmed';
+            saveBooking($booking);
+            return true;
+        }
+        return false;
     }
-    return false;
 }
 
 /**

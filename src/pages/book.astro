@@ -485,6 +485,9 @@ const getTranslatedBeds = (bedsStr: string) => translateBeds(bedsStr, lang);
 <script>
   import { translateBeds, daysBetween } from '../utils/helpers';
 
+  // Base API endpoint for subdomain support (CORS-enabled Hostinger backend)
+  const API_BASE_URL = (import.meta.env.PUBLIC_API_URL || 'https://cms.usgarhotels.com/api').replace(/\/$/, '');
+
   // Use rooms data serialized from server (avoids hardcoding duplicates)
   const ROOMS_DATA = (window as any).__ROOMS_DATA || [];
   let abortController = new AbortController();
@@ -730,7 +733,7 @@ const getTranslatedBeds = (bedsStr: string) => translateBeds(bedsStr, lang);
         const flightTime = flightTimeInput?.value || '';
 
         // Step 1: Create local booking in pending state
-        const bookingRes = await fetch('/api/channex/booking', {
+        const bookingRes = await fetch(`${API_BASE_URL}/channex/booking`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -755,7 +758,7 @@ const getTranslatedBeds = (bedsStr: string) => translateBeds(bedsStr, lang);
         const bookingId = booking.id;
 
         // Step 2: Create Mercado Pago Preference
-        const prefRes = await fetch('/api/create-preference', {
+        const prefRes = await fetch(`${API_BASE_URL}/create-preference`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
