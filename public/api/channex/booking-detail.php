@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // booking-detail.php - Retrieves booking details and status
 
 require_once __DIR__ . '/../db.php';

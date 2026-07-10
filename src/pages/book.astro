@@ -485,8 +485,8 @@ const getTranslatedBeds = (bedsStr: string) => translateBeds(bedsStr, lang);
 <script>
   import { translateBeds, daysBetween } from '../utils/helpers';
 
-  // Base API endpoint for subdomain support (CORS-enabled Hostinger backend)
-  const API_BASE_URL = (import.meta.env.PUBLIC_API_URL || 'https://cms.usgarhotels.com/api').replace(/\/$/, '');
+  // Base API endpoint for subdomain support (falls back to same-origin /api for local dev proxy or single domain deployment)
+  const API_BASE_URL = (import.meta.env.PUBLIC_API_URL || window.location.origin + '/api').replace(/\/$/, '');
 
   // Use rooms data serialized from server (avoids hardcoding duplicates)
   const ROOMS_DATA = (window as any).__ROOMS_DATA || [];

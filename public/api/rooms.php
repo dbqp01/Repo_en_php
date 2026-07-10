@@ -1,5 +1,5 @@
-﻿<?php
-// rooms.php - Replicates room pricing and metadata
+<?php
+// rooms.php - Room pricing and metadata (shared data + endpoint)
 
 $rooms = [
   'doble-superior' => [
@@ -33,3 +33,9 @@ $rooms = [
     'pricePerNight' => 55
   ]
 ];
+
+// Serve as JSON endpoint only when this file is the entry point (not require'd by another script)
+if (realpath($_SERVER['SCRIPT_FILENAME']) === realpath(__FILE__)) {
+    require_once __DIR__ . '/db.php';
+    sendJson(array_values($rooms));
+}

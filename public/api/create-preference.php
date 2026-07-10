@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // create-preference.php - Handles Mercado Pago preference creation
 
 require_once __DIR__ . '/db.php';
@@ -87,12 +87,39 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, [
     "Content-Type: application/json"
 ]);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($mpBody));
+curl_setopt($ch, CURLOPT_TIMEOUT, 15);
 
 $response = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$curlError = curl_error($ch);
 curl_close($ch);
 
+// Handle cURL connection failure (SSL, network, timeout)
+if ($response === false || empty($response)) {
+    error_log("[Mercado Pago cURL Error] " . ($curlError ?: 'Empty response') . " — Falling back to mock payment");
+    $params = http_build_query([
+        'bookingId' => $bookingId,
+        'roomName' => $room['name']['en'],
+        'amount' => $totalPrice,
+        'checkIn' => $checkIn,
+        'checkOut' => $checkOut,
+        'guestName' => $guestName,
+        'guestEmail' => $guestEmail
+    ]);
+    
+    $initPoint = "/book/mock-payment?" . $params;
+    
+    sendJson([
+        'id' => 'MOCK-PREF-CURL-ERR-' . round(microtime(true) * 1000),
+        'init_point' => $initPoint,
+        'sandbox_init_point' => $initPoint,
+        '_mock' => true,
+        '_error' => 'cURL connection failed, using mock payment'
+    ]);
+}
+
 if ($httpCode >= 400) {
+    error_log("[Mercado Pago API Error] HTTP {$httpCode}: {$response}");
     // Fallback if API fails
     $params = http_build_query([
         'bookingId' => $bookingId,
@@ -114,6 +141,18 @@ if ($httpCode >= 400) {
     ]);
 }
 
+// Extract preference ID and save it to booking
+$resData = json_decode($response, true) ?: [];
+$preferenceId = isset($resData['id']) ? $resData['id'] : null;
+if ($preferenceId) {
+    $booking = getBooking($bookingId);
+    if ($booking) {
+        $booking['mercadoPagoPreferenceId'] = $preferenceId;
+        saveBooking($booking);
+    }
+}
+
 header('Content-Type: application/json');
 echo $response;
 exit();
+
