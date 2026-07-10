@@ -1,15 +1,10 @@
-import { defineConfig } from 'astro/config';
-import node from '@astrojs/node';
-import vercel from '@astrojs/vercel';
+﻿import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
-
-const isVercel = process.env.VERCEL === '1' || !!process.env.VERCEL;
 
 export default defineConfig({
   site: 'https://usgarhotels.com',
   output: 'static',
-  adapter: isVercel ? vercel() : node({ mode: 'standalone' }),
   integrations: [sitemap()],
   image: {
     service: {
@@ -32,4 +27,3 @@ export default defineConfig({
     }
   }
 });
-

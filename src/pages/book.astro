@@ -6,7 +6,7 @@ import { getAvailability } from '../services/channex';
 import { translateBeds, daysBetween } from '../utils/helpers';
 import { Image } from 'astro:assets';
 
-export const prerender = false;
+export const prerender = true;
 
 const lang = (Astro.currentLocale || 'en') as 'en' | 'es';
 const t = useTranslations(lang);
