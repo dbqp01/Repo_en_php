@@ -2,7 +2,6 @@
 import Layout from '../layouts/Layout.astro';
 import { rooms } from '../data/rooms';
 import { useTranslations } from '../i18n/utils';
-import { getAvailability } from '../services/channex';
 import { translateBeds, daysBetween } from '../utils/helpers';
 import { Image } from 'astro:assets';
 
@@ -47,8 +46,6 @@ const formatDateString = (d: Date) => {
 if (!checkIn) checkIn = formatDateString(tomorrow);
 if (!checkOut) checkOut = formatDateString(dayAfter);
 
-// Fetch availability for initial render
-const availableRooms = await getAvailability(checkIn, checkOut);
 const selectedRoom = rooms.find(r => r.slug === roomType) || rooms[0];
 const initialNights = daysBetween(checkIn, checkOut);
 const initialTotalPrice = selectedRoom.pricePerNight * initialNights;
@@ -750,8 +747,14 @@ const getTranslatedBeds = (bedsStr: string) => translateBeds(bedsStr, lang);
         });
 
         if (!bookingRes.ok) {
-          const errData = await bookingRes.json();
-          throw new Error(errData.error || 'Failed to create booking');
+          let errText = 'Failed to create booking';
+          try {
+            const errData = await bookingRes.json();
+            errText = errData.error || errText;
+          } catch(e) {
+            console.error('Non-JSON error response from backend on booking step.');
+          }
+          throw new Error(errText);
         }
 
         const booking = await bookingRes.json();
@@ -774,8 +777,14 @@ const getTranslatedBeds = (bedsStr: string) => translateBeds(bedsStr, lang);
         });
 
         if (!prefRes.ok) {
-          const errData = await prefRes.json();
-          throw new Error(errData.error || 'Failed to create payment preference');
+          let errText = 'Failed to initialize payment';
+          try {
+            const errData = await prefRes.json();
+            errText = errData.error || errText;
+          } catch(e) {
+            console.error('Non-JSON error response from backend on preference step.');
+          }
+          throw new Error(errText);
         }
 
         const preference = await prefRes.json();

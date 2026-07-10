@@ -57,7 +57,7 @@ const categories = [
       </p>
     </div>
 
-    <!-- Redesigned Grouped Services Grid -->
+    <!-- Grouped Services Grid (Restored) -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
       {categories.map((cat, i) => (
         <div 
@@ -66,7 +66,8 @@ const categories = [
         >
           <!-- Category Header -->
           <div class="mb-6 pb-4 border-b border-black/5 dark:border-white/5 text-center">
-            <h3 class="text-sm font-bold uppercase tracking-wider text-primary">
+            <!-- FIXED CONTRAST HERE: dark:text-primary-light -->
+            <h3 class="text-sm font-bold uppercase tracking-wider text-primary dark:text-primary-light">
               {cat.title[lang]}
             </h3>
             <p class="text-xs text-text-secondary-light dark:text-text-secondary-dark font-body leading-relaxed mt-2 max-w-[280px] mx-auto">
@@ -86,7 +87,8 @@ const categories = [
                 >
                   <!-- Premium Icon Box -->
                   <div class="w-10 h-10 rounded-xl bg-surface-card-light dark:bg-surface-card-dark border border-black/5 dark:border-white/5 flex items-center justify-center text-lg shadow-sm group-hover/item:border-tertiary/30 group-hover/item:text-tertiary transition-all duration-300 flex-shrink-0">
-                    <SVGIcons name={service.id as any} class="w-5 h-5 text-primary group-hover/item:text-tertiary group-hover/item:scale-110 transition-transform duration-300" />
+                    <!-- FIXED CONTRAST HERE: dark:text-primary-light -->
+                    <SVGIcons name={service.id as any} class="w-5 h-5 text-primary dark:text-primary-light group-hover/item:text-tertiary group-hover/item:scale-110 transition-transform duration-300" />
                   </div>
                   
                   <!-- Text -->

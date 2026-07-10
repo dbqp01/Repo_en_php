@@ -66,27 +66,7 @@ function getDbConnection() {
             PDO::ATTR_EMULATE_PREPARES => false
         ]);
         
-        // Auto-create standard bookings table if not exists (Zero-Config setup)
-        $pdo->exec("CREATE TABLE IF NOT EXISTS bookings (
-            id VARCHAR(100) PRIMARY KEY,
-            status VARCHAR(50) NOT NULL DEFAULT 'pending_payment',
-            confirmationCode VARCHAR(50) NOT NULL,
-            totalPrice DECIMAL(10,2) NOT NULL,
-            nights INT NOT NULL,
-            createdAt VARCHAR(100) NOT NULL,
-            roomId VARCHAR(100) NOT NULL,
-            checkIn DATE NOT NULL,
-            checkOut DATE NOT NULL,
-            guests INT NOT NULL,
-            guestName VARCHAR(255) NOT NULL,
-            guestEmail VARCHAR(255) NOT NULL,
-            guestPhone VARCHAR(50) NOT NULL,
-            airportPickup TINYINT(1) NOT NULL DEFAULT 0,
-            flightTime VARCHAR(50) DEFAULT '',
-            mercadoPagoPreferenceId VARCHAR(255) DEFAULT '',
-            mercadoPagoPaymentId VARCHAR(255) DEFAULT ''
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
-
+        // Conexión exitosa a la base de datos MySQL (QloApp)
         return $pdo;
     } catch (PDOException $e) {
         error_log("[Database Connection Error] Fallback to JSON. Details: " . $e->getMessage());

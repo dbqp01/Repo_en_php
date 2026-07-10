@@ -6,6 +6,7 @@ import ServiceGrid from "../components/ServiceGrid.astro";
 import FAQSection from "../components/FAQSection.astro";
 import MapSection from "../components/MapSection.astro";
 import ReviewMarquee from "../components/ReviewMarquee.astro";
+import AboutSection from "../components/AboutSection.astro";
 import { rooms } from "../data/rooms";
 import { attractions } from "../data/attractions";
 import { faqs } from "../data/faq";
@@ -284,6 +285,11 @@ const schemas = [hotelSchema, faqSchema];
        TRUST MARQUEE — Positive Reviews Ribbon
        ========================================== -->
   <ReviewMarquee lang={lang} />
+
+  <!-- ==========================================
+       ABOUT SECTION
+       ========================================== -->
+  <AboutSection />
 
   <!-- ==========================================
        ROOMS SECTION
