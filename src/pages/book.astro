@@ -67,7 +67,7 @@ const getTranslatedBeds = (bedsStr: string) => translateBeds(bedsStr, lang);
       <h1 class="font-display text-4xl md:text-5xl mt-2 mb-4">
         {lang === 'es' ? 'Completa tu Reserva' : 'Book Your Stay'}
       </h1>
-      <p class="text-[#57534E] dark:text-[#A8A29E] text-sm">
+      <p class="text-text-secondary-light dark:text-text-secondary-dark text-sm">
         {lang === 'es' 
           ? 'Por favor, introduce los datos del huésped principal y confirma las fechas para proceder al pago seguro.' 
           : 'Please enter the primary guest details and confirm your dates to proceed to secure checkout.'}
@@ -108,13 +108,13 @@ const getTranslatedBeds = (bedsStr: string) => translateBeds(bedsStr, lang);
                 name="checkin"
                 value={checkIn}
                 min={formatDateString(today)}
-                class="w-full px-4 py-3 rounded-xl bg-white dark:bg-[#0C0A09] border border-black/10 dark:border-white/10 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all cursor-pointer"
+                class="w-full px-4 py-3 rounded-xl bg-white dark:bg-surface-dark border border-black/10 dark:border-white/10 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all cursor-pointer"
               />
             </div>
 
             <!-- Check-out -->
             <div>
-              <label for="checkout" class="block text-xs font-semibold uppercase tracking-wider text-[#57534E] dark:text-[#A8A29E] mb-2">
+              <label for="checkout" class="block text-xs font-semibold uppercase tracking-wider text-text-secondary-light dark:text-text-secondary-dark mb-2">
                 {t('booking.checkout')}
               </label>
               <input
@@ -123,19 +123,19 @@ const getTranslatedBeds = (bedsStr: string) => translateBeds(bedsStr, lang);
                 name="checkout"
                 value={checkOut}
                 min={checkIn}
-                class="w-full px-4 py-3 rounded-xl bg-white dark:bg-[#0C0A09] border border-black/10 dark:border-white/10 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all cursor-pointer"
+                class="w-full px-4 py-3 rounded-xl bg-white dark:bg-surface-dark border border-black/10 dark:border-white/10 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all cursor-pointer"
               />
             </div>
 
             <!-- Guests -->
             <div>
-              <label for="guests" class="block text-xs font-semibold uppercase tracking-wider text-[#57534E] dark:text-[#A8A29E] mb-2">
+              <label for="guests" class="block text-xs font-semibold uppercase tracking-wider text-text-secondary-light dark:text-text-secondary-dark mb-2">
                 {t('booking.guests')}
               </label>
               <select
                 id="guests"
                 name="guests"
-                class="w-full px-4 py-3 rounded-xl bg-white dark:bg-[#0C0A09] border border-black/10 dark:border-white/10 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all appearance-none"
+                class="w-full px-4 py-3 rounded-xl bg-white dark:bg-surface-dark border border-black/10 dark:border-white/10 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all appearance-none"
               >
                 <option value="1" selected={guestsCount === 1}>1 {t('booking.guest')}</option>
                 <option value="2" selected={guestsCount === 2}>2 {t('booking.guests_plural')}</option>
@@ -158,7 +158,7 @@ const getTranslatedBeds = (bedsStr: string) => translateBeds(bedsStr, lang);
 
           <!-- Visual Room Selector Grid -->
           <div class="space-y-4">
-            <label class="block text-xs font-semibold uppercase tracking-wider text-[#57534E] dark:text-[#A8A29E] mt-4">
+            <label class="block text-xs font-semibold uppercase tracking-wider text-text-secondary-light dark:text-text-secondary-dark mt-4">
               {lang === 'es' ? 'Selecciona tu Habitación' : 'Select Your Room'} *
             </label>
             
@@ -186,7 +186,7 @@ const getTranslatedBeds = (bedsStr: string) => translateBeds(bedsStr, lang);
                         />
                       ) : (
                         <div class="w-full h-full flex items-center justify-center">
-                          <svg class="w-8 h-8 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                          <svg class="w-8 h-8 text-text-secondary-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
                           </svg>
                         </div>
@@ -203,12 +203,12 @@ const getTranslatedBeds = (bedsStr: string) => translateBeds(bedsStr, lang);
                           ${r.pricePerNight} <span class="text-xs text-text-secondary-light dark:text-text-secondary-dark font-normal">/{lang === 'es' ? 'noche' : 'night'}</span>
                         </span>
                       </div>
-                      <p class="text-xs text-[#57534E] dark:text-[#A8A29E] line-clamp-2 mt-1 leading-relaxed">
+                      <p class="text-xs text-text-secondary-light dark:text-text-secondary-dark line-clamp-2 mt-1 leading-relaxed">
                         {r.description[lang]}
                       </p>
-                      <div class="flex items-center justify-center sm:justify-start gap-3 mt-3 text-[10px] text-[#A8A29E] font-semibold uppercase tracking-wider">
+                      <div class="flex items-center justify-center sm:justify-start gap-3 mt-3 text-[10px] text-text-secondary-dark font-semibold uppercase tracking-wider">
                         <span class="flex items-center gap-1">
-                          <svg class="w-3.5 h-3.5 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <svg class="w-3.5 h-3.5 text-text-secondary-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                             <circle cx="9" cy="7" r="4" />
                             <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
@@ -218,7 +218,7 @@ const getTranslatedBeds = (bedsStr: string) => translateBeds(bedsStr, lang);
                         </span>
                         <span>•</span>
                         <span class="flex items-center gap-1">
-                          <svg class="w-3.5 h-3.5 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <svg class="w-3.5 h-3.5 text-text-secondary-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M2 4v16M2 20h20M22 20V12a4 4 0 0 0-4-4H4" />
                             <path d="M6 12h4a2 2 0 0 0 2-2V8H6v4Z" />
                           </svg>
@@ -438,8 +438,8 @@ const getTranslatedBeds = (bedsStr: string) => translateBeds(bedsStr, lang);
 
           <!-- Room Video Preview Box -->
           <div id="summary-video-container" class="p-4 rounded-xl border border-black/10 dark:border-white/10 space-y-2">
-            <h4 class="font-semibold text-xs text-[#57534E] dark:text-[#A8A29E] uppercase tracking-wider flex items-center gap-1.5">
-              <svg class="w-4 h-4 text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <h4 class="font-semibold text-xs text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wider flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-text-secondary-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
               </svg>
               {lang === 'es' ? 'Video Tour de la Habitación' : 'Room Video Tour'}
@@ -542,10 +542,6 @@ const getTranslatedBeds = (bedsStr: string) => translateBeds(bedsStr, lang);
       // Update summary fields
       if (summaryRoomName) summaryRoomName.textContent = room.name[lang];
       if (summaryRoomBedsText) summaryRoomBedsText.textContent = translateBeds(room.beds, lang);
-      if (summaryRoomVideo) {
-        summaryRoomVideo.src = `/videos/rooms/${room.slug}.mp4`;
-        summaryRoomVideo.load();
-      }
       if (summaryCheckin) summaryCheckin.textContent = checkInDate;
       if (summaryCheckout) summaryCheckout.textContent = checkOutDate;
       if (summaryNights) summaryNights.textContent = `${nights} ${lang === 'es' ? 'noches' : 'nights'}`;
@@ -559,6 +555,48 @@ const getTranslatedBeds = (bedsStr: string) => translateBeds(bedsStr, lang);
       if (summaryPricePerNight) summaryPricePerNight.textContent = room.pricePerNight.toString();
     }
 
+    // Visual Room Selection Logic
+    const roomSelector = document.getElementById('visual-room-selector');
+    const roomCards = roomSelector?.querySelectorAll('[data-room-slug]');
+
+    function selectRoomCard(slug: string) {
+      if (!slug || !roomSelect) return;
+
+      // Set the select element's value
+      roomSelect.value = slug;
+
+      // Update active class on card elements
+      roomCards?.forEach(c => {
+        const cardSlug = c.getAttribute('data-room-slug');
+        const btn = c.querySelector('button');
+        if (cardSlug === slug) {
+          c.classList.add('border-primary', 'bg-primary/5', 'shadow-md', 'shadow-primary/5', 'ring-1', 'ring-primary');
+          c.classList.remove('border-black/10', 'dark:border-white/10', 'bg-surface-light', 'dark:bg-surface-dark', 'hover:border-primary/50');
+          if (btn) btn.textContent = lang === 'es' ? 'Seleccionada' : 'Selected';
+          if (btn) {
+            btn.classList.add('bg-primary', 'text-white', 'shadow-sm');
+            btn.classList.remove('bg-stone-200', 'dark:bg-stone-800', 'text-stone-700', 'dark:text-stone-300');
+          }
+        } else {
+          c.classList.remove('border-primary', 'bg-primary/5', 'shadow-md', 'shadow-primary/5', 'ring-1', 'ring-primary');
+          c.classList.add('border-black/10', 'dark:border-white/10', 'bg-surface-light', 'dark:bg-surface-dark', 'hover:border-primary/50');
+          if (btn) btn.textContent = lang === 'es' ? 'Seleccionar' : 'Select';
+          if (btn) {
+            btn.classList.remove('bg-primary', 'text-white', 'shadow-sm');
+            btn.classList.add('bg-stone-200', 'dark:bg-stone-800', 'text-stone-700', 'dark:text-stone-300');
+          }
+        }
+      });
+
+      // Update summary preview video
+      if (summaryRoomVideo) {
+        summaryRoomVideo.src = `/videos/rooms/${slug}.mp4`;
+        summaryRoomVideo.load();
+      }
+
+      updatePricing();
+    }
+
     // Event listeners
     checkinInput?.addEventListener('change', () => {
       // Validate dates
@@ -570,7 +608,9 @@ const getTranslatedBeds = (bedsStr: string) => translateBeds(bedsStr, lang);
       updatePricing();
     }, { signal });
     checkoutInput?.addEventListener('change', updatePricing, { signal });
-    roomSelect?.addEventListener('change', updatePricing, { signal });
+    roomSelect?.addEventListener('change', () => {
+      selectRoomCard(roomSelect.value);
+    }, { signal });
     guestsSelect?.addEventListener('change', updatePricing, { signal });
 
     // Date pickers click to show calendar picker
@@ -581,40 +621,11 @@ const getTranslatedBeds = (bedsStr: string) => translateBeds(bedsStr, lang);
       try { checkoutInput.showPicker(); } catch (e) {}
     }, { signal });
 
-    // Visual Room Selection Logic
-    const roomSelector = document.getElementById('visual-room-selector');
-    const roomCards = roomSelector?.querySelectorAll('[data-room-slug]');
-    
+    // Attach card click listeners
     roomCards?.forEach(card => {
       card.addEventListener('click', () => {
         const slug = card.getAttribute('data-room-slug');
-        if (!slug || !roomSelect) return;
-
-        // Set the select element's value
-        roomSelect.value = slug;
-        roomSelect.dispatchEvent(new Event('change'));
-
-        // Update active class on card elements
-        roomCards.forEach(c => {
-          const btn = c.querySelector('button');
-          if (c === card) {
-            c.classList.add('border-primary', 'bg-primary/5', 'shadow-md', 'shadow-primary/5', 'ring-1', 'ring-primary');
-            c.classList.remove('border-black/10', 'dark:border-white/10', 'bg-[#FAFAF9]', 'dark:bg-[#0C0A09]', 'hover:border-primary/50');
-            if (btn) btn.textContent = lang === 'es' ? 'Seleccionada' : 'Selected';
-            if (btn) {
-              btn.classList.add('bg-primary', 'text-white', 'shadow-sm');
-              btn.classList.remove('bg-stone-200', 'dark:bg-stone-800', 'text-stone-700', 'dark:text-stone-300');
-            }
-          } else {
-            c.classList.remove('border-primary', 'bg-primary/5', 'shadow-md', 'shadow-primary/5', 'ring-1', 'ring-primary');
-            c.classList.add('border-black/10', 'dark:border-white/10', 'bg-[#FAFAF9]', 'dark:bg-[#0C0A09]', 'hover:border-primary/50');
-            if (btn) btn.textContent = lang === 'es' ? 'Seleccionar' : 'Select';
-            if (btn) {
-              btn.classList.remove('bg-primary', 'text-white', 'shadow-sm');
-              btn.classList.add('bg-stone-200', 'dark:bg-stone-800', 'text-stone-700', 'dark:text-stone-300');
-            }
-          }
-        });
+        if (slug) selectRoomCard(slug);
       }, { signal });
     });
 
@@ -656,8 +667,29 @@ const getTranslatedBeds = (bedsStr: string) => translateBeds(bedsStr, lang);
       }
     }, { signal });
 
-    // Initial pricing sync
-    updatePricing();
+    // Read query params from URL on load (Astro static page support)
+    const params = new URLSearchParams(window.location.search);
+    const checkinParam = params.get('checkin') || params.get('checkIn');
+    const checkoutParam = params.get('checkout') || params.get('checkOut');
+    const guestsParam = params.get('guests');
+    const roomTypeParam = params.get('roomType') || params.get('room_type');
+
+    if (checkinParam && checkinInput) {
+      checkinInput.value = checkinParam;
+    }
+    if (checkoutParam && checkoutInput) {
+      checkoutInput.value = checkoutParam;
+    }
+    if (guestsParam && guestsSelect) {
+      guestsSelect.value = guestsParam;
+    }
+    if (roomTypeParam) {
+      selectRoomCard(roomTypeParam);
+    } else if (roomSelect && roomSelect.value) {
+      selectRoomCard(roomSelect.value);
+    } else {
+      updatePricing();
+    }
 
     // Form Submission
     btnPay?.addEventListener('click', async (e) => {

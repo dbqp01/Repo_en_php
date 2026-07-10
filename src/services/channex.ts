@@ -39,9 +39,6 @@ if (!globalBookings.bookings) {
 
 const bookingsStore: Map<string, Booking> = globalBookings.bookings;
 
-// Re-export from shared utils for backward compatibility
-export { daysBetween };
-
 /**
  * Returns available rooms with pricing for the specified dates
  */

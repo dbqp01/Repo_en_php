@@ -36,7 +36,7 @@ const translatedBeds = translateBeds(room.beds, lang);
 <a
   href={getRelativeLocaleUrl(lang, `rooms/${room.slug}`)}
   class:list={[
-    "group block rounded-2xl overflow-hidden bg-white dark:bg-[#1C1917] shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1 animate-on-scroll stagger-child",
+    "group block rounded-2xl overflow-hidden bg-surface-card-light dark:bg-surface-card-dark shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1 animate-on-scroll stagger-child",
   ]}
   style={`transition-delay: ${index * 0.1}s`}
   data-astro-prefetch
@@ -126,12 +126,12 @@ const translatedBeds = translateBeds(room.beds, lang);
     >
       {room.name[lang]}
     </h3>
-    <p class="text-sm text-[#57534E] dark:text-[#A8A29E] mb-3 line-clamp-2">
+    <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark mb-3 line-clamp-2">
       {room.description[lang]}
     </p>
     <div class="flex items-center justify-between">
       <div
-        class="flex items-center gap-3 text-xs text-[#57534E] dark:text-[#A8A29E]"
+        class="flex items-center gap-3 text-xs text-text-secondary-light dark:text-text-secondary-dark"
       >
         <span class="flex items-center gap-1">
           <svg
@@ -151,7 +151,7 @@ const translatedBeds = translateBeds(room.beds, lang);
           {room.maxGuests}
         </span>
         <span class="flex items-center gap-1.5">
-          <svg class="w-4 h-4 text-[#57534E] dark:text-[#A8A29E]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <svg class="w-4 h-4 text-text-secondary-light dark:text-text-secondary-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <path d="M2 4v16M2 20h20M22 20V12a4 4 0 0 0-4-4H4" />
             <path d="M6 12h4a2 2 0 0 0 2-2V8H6v4Z" />
           </svg>
