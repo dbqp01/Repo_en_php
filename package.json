@@ -7,7 +7,8 @@
     "dev:php": "php -S localhost:8000 router.php",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "prepare": "git config core.hooksPath .githooks || true"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
