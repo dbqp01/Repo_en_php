@@ -1,0 +1,53 @@
+fragment AboutParts on About {
+  __typename
+  title_es
+  title_en
+  purpose_es
+  purpose_en
+  mission_es
+  mission_en
+  vision_es
+  vision_en
+  values {
+    __typename
+    title_es
+    title_en
+    description_es
+    description_en
+  }
+}
+
+fragment ExploreParts on Explore {
+  __typename
+  attractions {
+    __typename
+    id
+    name_es
+    name_en
+    description_es
+    description_en
+    distance
+    travelTime
+    category
+    history_es
+    history_en
+    howToGet_es
+    howToGet_en
+    tips_es
+    tips_en
+    bestTime_es
+    bestTime_en
+    image
+  }
+}
+
+fragment FaqParts on Faq {
+  __typename
+  questions {
+    __typename
+    question_es
+    question_en
+    answer_es
+    answer_en
+  }
+}

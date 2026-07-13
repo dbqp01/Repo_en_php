@@ -1,7 +1,10 @@
 <?php
+declare(strict_types=1);
+
 // create-preference.php - Handles Mercado Pago preference creation
 
 require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/rooms.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     sendError('Method not allowed', 405);
@@ -22,8 +25,13 @@ if (!$bookingId || !$checkIn || !$checkOut || !$guestName || !$guestEmail) {
 }
 
 $nights = daysBetween($checkIn, $checkOut);
-// Fallback total price if no DB lookup is performed here
-$totalPrice = 50 * $nights; 
+
+// Obtain the actual room price dynamically instead of using hardcoded $50
+$pricePerNight = 90.0;
+if (isset($rooms[$roomId])) {
+    $pricePerNight = (float)$rooms[$roomId]['pricePerNight'];
+}
+$totalPrice = $pricePerNight * $nights; 
 
 $mpAccessToken = getEnvValue('MERCADO_PAGO_ACCESS_TOKEN');
 $siteUrl = getEnvValue('SITE_URL', 'http://localhost:4321');
@@ -62,7 +70,9 @@ $mpBody = [
         'pending' => "{$siteUrl}/book/success?status=pending&bookingId={$bookingId}"
     ],
     'auto_return' => 'approved',
-    'notification_url' => "{$siteUrl}/api/webhook-mercado-pago"
+    'notification_url' => "{$siteUrl}/api/webhook-mercado-pago",
+    'expires' => true,
+    'expiration_date_to' => date('Y-m-d\TH:i:s.000P', strtotime('+15 minutes'))
 ];
 
 $ch = curl_init('https://api.mercadopago.com/checkout/preferences');

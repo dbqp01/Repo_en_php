@@ -11,26 +11,23 @@ class QloAppReader {
     }
 
     /**
-     * Obtains the available rooms and their base prices
+     * Obtains the available rooms and their base prices for a specific hotel branch
      */
-    public function getAvailableRooms($checkIn, $checkOut) {
+    public function getAvailableRooms($checkIn, $checkOut, $hotelId = 1) {
         if (!$this->pdo) {
             // Fallback mock if database isn't connected yet
             return null;
         }
 
         try {
-            // In QloApp, we need to check ps_htl_room_type and bookings.
-            // This is a simplified query demonstrating the approach.
-            // A full QloApp query would join ps_htl_room_information, ps_htl_room_type, etc.
-            
+            // Filter by hotelId using QloApps qlo_ prefix
             $stmt = $this->pdo->prepare("
                 SELECT rt.id_room_type, rt.room_name, i.price
-                FROM ps_htl_room_type rt
-                LEFT JOIN ps_htl_room_information i ON i.id_room_type = rt.id_room_type
-                WHERE rt.active = 1
+                FROM qlo_htl_room_type rt
+                LEFT JOIN qlo_htl_room_information i ON i.id_room_type = rt.id_room_type
+                WHERE rt.active = 1 AND rt.id_hotel = :id_hotel
             ");
-            $stmt->execute();
+            $stmt->execute([':id_hotel' => (int)$hotelId]);
             $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
             return $rooms;
