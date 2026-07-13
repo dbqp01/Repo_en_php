@@ -62,13 +62,41 @@ const hotelSchema = {
   checkinTime: "12:00",
   checkoutTime: "10:30",
   amenityFeature: [
-    { "@type": "LocationFeatureSpecification", name: "Free Wi-Fi", value: true },
-    { "@type": "LocationFeatureSpecification", name: "Breakfast Included", value: true },
-    { "@type": "LocationFeatureSpecification", name: "Hot Water 24h", value: true },
-    { "@type": "LocationFeatureSpecification", name: "Central Heating", value: true },
-    { "@type": "LocationFeatureSpecification", name: "Airport Transfer", value: true },
-    { "@type": "LocationFeatureSpecification", name: "Spa & Massage", value: true },
-    { "@type": "LocationFeatureSpecification", name: "Free Parking", value: true },
+    {
+      "@type": "LocationFeatureSpecification",
+      name: "Free Wi-Fi",
+      value: true,
+    },
+    {
+      "@type": "LocationFeatureSpecification",
+      name: "Breakfast Included",
+      value: true,
+    },
+    {
+      "@type": "LocationFeatureSpecification",
+      name: "Hot Water 24h",
+      value: true,
+    },
+    {
+      "@type": "LocationFeatureSpecification",
+      name: "Central Heating",
+      value: true,
+    },
+    {
+      "@type": "LocationFeatureSpecification",
+      name: "Airport Transfer",
+      value: true,
+    },
+    {
+      "@type": "LocationFeatureSpecification",
+      name: "Spa & Massage",
+      value: true,
+    },
+    {
+      "@type": "LocationFeatureSpecification",
+      name: "Free Parking",
+      value: true,
+    },
   ],
 };
 
@@ -109,7 +137,7 @@ const schemas = [hotelSchema, faqSchema];
       class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 z-0"
       poster={optimizedPoster.src}
       id="hero-video"
-      data-src="/videos/100ANV26.mp4"
+      data-src="/videos/hero-video.mp4"
     >
     </video>
 
@@ -276,7 +304,6 @@ const schemas = [hotelSchema, faqSchema];
     </div>
   </section>
 
-
   <!-- ==========================================
        BOOKING WIDGET
        ========================================== -->
@@ -306,7 +333,9 @@ const schemas = [hotelSchema, faqSchema];
         <h2 class="font-display text-4xl md:text-5xl mt-3 mb-4">
           {t("rooms.title")}
         </h2>
-        <p class="text-lg text-text-secondary-light dark:text-text-secondary-dark max-w-2xl mx-auto">
+        <p
+          class="text-lg text-text-secondary-light dark:text-text-secondary-dark max-w-2xl mx-auto"
+        >
           {t("rooms.description")}
         </p>
       </div>
@@ -342,7 +371,9 @@ const schemas = [hotelSchema, faqSchema];
         <h2 class="font-display text-4xl md:text-5xl mt-3 mb-4">
           {t("explore.title")}
         </h2>
-        <p class="text-lg text-text-secondary-light dark:text-text-secondary-dark max-w-2xl mx-auto">
+        <p
+          class="text-lg text-text-secondary-light dark:text-text-secondary-dark max-w-2xl mx-auto"
+        >
           {t("explore.description")}
         </p>
       </div>
@@ -362,9 +393,23 @@ const schemas = [hotelSchema, faqSchema];
                     {attraction.category}
                   </span>
                   <span class="text-xs text-text-secondary-light dark:text-text-secondary-dark flex items-center gap-1">
-                    <svg class="w-3.5 h-3.5 text-stone-400 dark:text-stone-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <svg
+                      class="w-3.5 h-3.5 text-stone-400 dark:text-stone-500"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                      />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
                     </svg>
                     {attraction.distance}
                   </span>
@@ -377,8 +422,18 @@ const schemas = [hotelSchema, faqSchema];
                 </p>
               </div>
               <span class="text-xs text-text-secondary-light dark:text-text-secondary-dark flex items-center gap-1 mt-1">
-                <svg class="w-3.5 h-3.5 text-stone-400 dark:text-stone-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg
+                  class="w-3.5 h-3.5 text-stone-400 dark:text-stone-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
                 {attraction.travelTime}
               </span>
@@ -438,18 +493,20 @@ const schemas = [hotelSchema, faqSchema];
 
     // Lazy load the video source to prevent blocking critical initial load bandwidth
     const lazyLoadVideo = () => {
-      const src = video.getAttribute('data-src');
+      const src = video.getAttribute("data-src");
       if (src && !video.src) {
         video.src = src;
         video.load();
-        video.play().catch(err => console.log("Video play error on lazy load:", err));
+        video
+          .play()
+          .catch((err) => console.log("Video play error on lazy load:", err));
       }
     };
 
-    if (document.readyState === 'complete') {
+    if (document.readyState === "complete") {
       lazyLoadVideo();
     } else {
-      window.addEventListener('load', lazyLoadVideo, { once: true });
+      window.addEventListener("load", lazyLoadVideo, { once: true });
     }
 
     // Toggle sound
