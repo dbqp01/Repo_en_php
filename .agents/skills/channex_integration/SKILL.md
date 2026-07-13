@@ -43,47 +43,25 @@ Usar datos reales del hotel:
 ```typescript
 const MOCK_ROOMS = [
   {
-    id: 'doble-superior',
-    name: { en: 'Double Superior Room', es: 'Habitación Doble Superior' },
-    slug: 'doble-superior',
-    maxGuests: 2,
-    beds: '2 single beds',
-    pricePerNight: 45, // USD
-    amenities: ['wifi', 'breakfast', 'hot-water', 'heating', 'tv'],
-    photoCount: 16,
-    hasVideoTour: true,
-  },
-  {
     id: 'matrimonial',
-    name: { en: 'Matrimonial Room', es: 'Habitación Matrimonial' },
+    name: { en: 'Superior Matrimonial Room', es: 'Habitación Matrimonial Superior' },
     slug: 'matrimonial',
     maxGuests: 2,
-    beds: '1 king bed',
-    pricePerNight: 50,
-    amenities: ['wifi', 'breakfast', 'hot-water', 'heating', 'tv'],
+    beds: '1 king-size or queen bed',
+    pricePerNight: 90,
+    amenities: ['wifi', 'breakfast', 'hot-water', 'heating', 'tv', 'safe-box', 'hair-dryer'],
     photoCount: 12,
     hasVideoTour: true,
   },
   {
-    id: 'familiar-superior',
-    name: { en: 'Family Superior Room', es: 'Habitación Familiar Superior' },
-    slug: 'familiar-superior',
-    maxGuests: 4,
-    beds: '1 king + 2 single beds',
-    pricePerNight: 75,
-    amenities: ['wifi', 'breakfast', 'hot-water', 'heating', 'tv'],
-    photoCount: 0, // placeholder
-    hasVideoTour: false,
-  },
-  {
-    id: 'quadruple-superior',
-    name: { en: 'Quadruple Superior Room', es: 'Habitación Cuádruple Superior' },
-    slug: 'quadruple-superior',
-    maxGuests: 4,
-    beds: '4 single beds',
-    pricePerNight: 65,
-    amenities: ['wifi', 'breakfast', 'hot-water', 'heating', 'tv'],
-    photoCount: 10,
+    id: 'doble-superior',
+    name: { en: 'Double Superior Room', es: 'Habitación Doble Superior' },
+    slug: 'doble-superior',
+    maxGuests: 2,
+    beds: '2 double beds',
+    pricePerNight: 90,
+    amenities: ['wifi', 'breakfast', 'hot-water', 'heating', 'tv', 'safe-box', 'hair-dryer'],
+    photoCount: 16,
     hasVideoTour: true,
   },
   {
@@ -92,9 +70,20 @@ const MOCK_ROOMS = [
     slug: 'triple-standar',
     maxGuests: 3,
     beds: '3 single beds',
-    pricePerNight: 55,
-    amenities: ['wifi', 'breakfast', 'hot-water', 'heating', 'tv'],
-    photoCount: 0, // placeholder
+    pricePerNight: 120,
+    amenities: ['wifi', 'breakfast', 'hot-water', 'heating', 'tv', 'safe-box', 'hair-dryer'],
+    photoCount: 0,
+    hasVideoTour: false,
+  },
+  {
+    id: 'familiar-superior',
+    name: { en: 'Family Superior Room', es: 'Habitación Familiar Superior' },
+    slug: 'familiar-superior',
+    maxGuests: 7,
+    beds: '3 double beds + 1 single bed',
+    pricePerNight: 150,
+    amenities: ['wifi', 'breakfast', 'hot-water', 'heating', 'tv', 'safe-box', 'hair-dryer'],
+    photoCount: 0,
     hasVideoTour: false,
   },
 ];
@@ -141,6 +130,14 @@ Returns: `{ bookingId, confirmationCode, status }`
 
 ### GET `/api/channex/booking/[id]`
 Returns: Estado de la reserva
+
+## Nota: Fuente de Verdad de Precios
+
+> [!IMPORTANT]
+> Los precios en MOCK_ROOMS son SOLO para modo mock (sin API key).
+> En producción, QloApps (`cms.usgarhoteles.com`) será la fuente de verdad para precios y disponibilidad.
+> El flujo será: QloApps API → PHP backend → Astro frontend.
+> Channex solo maneja la sincronización de disponibilidad con OTAs (Booking, TripAdvisor).
 
 ## Seguridad
 

@@ -2,11 +2,12 @@
 
 > Web transaccional para un hotel real con ventas activas en Booking y TripAdvisor.
 > Referencia visual: https://hotelmonasteriosanpedro.com (pero mejorado en rendimiento y diseño).
+> **Manual de marca completo**: ver [BRAND.md](C:/Users/akim/Desktop/migracion a php/.agents/BRAND.md) — fuente canónica de colores, tipografía, contenido y reglas de diseño.
 
 ## Hotel
 
 - **Nombre:** USGAR Hotels (un solo hotel activo en San Pedro, Cusco)
-- **Tipo:** Hotel boutique con 5 tipos de habitación
+- **Tipo:** Hotel boutique con **4 tipos de habitación**
 - **Público:** Turistas internacionales que visitan Cusco/Machu Picchu
 - **Idiomas:** Inglés (principal) y Español
 
@@ -17,83 +18,114 @@
 3. **Imágenes:** Usar `<Image />` de `astro:assets` para comprimir fotos profesionales (~30MB → ~300KB WebP) en build time.
 4. **Transiciones:** Usar `ClientRouter` de `astro:transitions` (NO ViewTransitions, fue renombrado en v5).
 5. **Mapa:** OpenStreetMap con Leaflet (NO Google Maps).
-6. **Deploy:** GitHub → Vercel → dominio personalizado.
+6. **Deploy:** GitHub → **Hostinger** (hosting compartido) → usgarhoteles.com
 
 ## Integraciones y Seguridad
 
-1. **Capa Segura:** Toda llamada a Channex o Mercado Pago va por API Routes de Astro (`src/pages/api/`) para no exponer claves al cliente.
-2. **Modo Mock:** Si `CHANNEX_API_KEY` o `MERCADO_PAGO_ACCESS_TOKEN` no están en `.env`, usar implementaciones mock en `src/services/channex.ts` y `src/services/mercadopago.ts`.
-3. **Webhook:** `/api/webhook-mercado-pago` responde `200 OK` rápido y procesa en segundo plano.
+1. **Capa Segura:** Toda llamada a Channex, Stripe o Mercado Pago va por API Routes de Astro (`src/pages/api/`) para no exponer claves al cliente.
+2. **Modo Mock:** Si no hay claves de API en `.env`, usar implementaciones mock en `src/services/`.
+3. **Webhook:** Responde `200 OK` rápido y procesa en segundo plano.
+4. **Pagos:** Stripe o Mercado Pago — definir según preferencia del cliente.
+
+## Infraestructura de Producción
+
+1. **Hosting:** Hostinger (hosting compartido), NO es VPS.
+2. **PMS:** QloApps instalado en `cms.usgarhoteles.com` — gestiona habitaciones, reservas, inventario.
+3. **Channel Manager:** Channex — Sincroniza disponibilidad con Booking y TripAdvisor (API key pendiente para testing).
+4. **Pasarela de Pago:** Mercado Pago (token de sandbox activo).
+5. **Arquitectura futura:** Nada debe estar hardcodeado. QloApps será la fuente de verdad para precios y habitaciones. El cliente necesita poder editar precios, agregar habitaciones y modificar contenido desde el back-office de QloApps sin tocar código.
 
 ## Diseño y Estética
+
+> **Fuente canónica de diseño → [BRAND.md] (C:/Users/akim/Desktop/migracion a php/.agents/BRAND.md)**
 
 ### Tema
 - Dual: claro y oscuro con detección automática del sistema operativo
 - Toggle manual en navbar
-- Modo oscuro por defecto si no hay preferencia
+- Persiste en localStorage
 
-### Paleta (del logo)
-- **Morado** `#9B6CB5` — acento primario, CTAs
-- **Dorado** `#F5B731` — acento secundario, highlights
-- **Cian** `#2DB5A0` — acento terciario, iconos
-- **Fondos** — blanco puro / negro profundo según tema
+### Paleta de Colores (Opción 3 — del logo)
+| Familia | Color Principal | Hex | Uso |
+|---|---|---|---|
+| **Morados** | Morado Oscuro | `#4A3056` | Primary, encabezados, CTAs |
+| | Morado Medio | `#9360AC` | Hover, elementos activos |
+| **Amarillos** | Amarillo Base | `#EACA1C` | Secondary, CTAs secundarios |
+| | Dorado Oscuro | `#B09815` | Precios, estrellas |
+| **Verdes** | Verde Pino | `#065952` | Tertiary, botones de reserva |
+| | Turquesa | `#0CB2A3` | Enlaces, detalles visuales |
+
+> Ver paleta completa de 15 colores + neutros en BRAND.md §3
 
 ### Tipografía
-- **Títulos:** Playfair Display (Serif elegante)
-- **Cuerpo:** Outfit (legible, moderna)
+- **Títulos:** A Akhin Tahun (fallback: Playfair Display, serif)
+- **Cuerpo:** Montserrat (fallback: Outfit, sans-serif)
+- **Logo "HOTELS":** Kravitz Extra Thermal
+- Archivos: `original-assets/tipografia/AkhirTahun.woff2` y `KRAVITZ_.woff2`
 
 ### Animaciones
 - Scroll: fade-in y slide-up suaves al aparecer elementos
 - Navegación: View Transitions entre páginas (deslizamiento elegante)
 - Hover: micro-animaciones en cards, botones, galería
-- Filosofía: "Ligero y suave" — nunca brusco ni exagerado
+- Filosofía: **"Ligero y suave"** — nunca brusco ni exagerado
+- Accesibilidad: `prefers-reduced-motion` desactiva todo
 
 ## Estructura de Páginas
 
 ### Home (/)
-1. Hero con video de fondo (muteado, audio activable por usuario)
+1. Hero con video/slideshow (Patio → Recepción → Matrimonial → Cusco)
 2. Booking Widget flotante superpuesto sobre el hero
-3. Sección de habitaciones con cards → link a página individual
-4. Grid de servicios (11 servicios confirmados)
-5. Reseñas/testimonios de huéspedes
-6. Sección "Explora Cusco" (atracciones cercanas, SEO)
-7. Footer con contacto, redes, mapa OpenStreetMap
+3. Marquee de reseñas
+4. Sección "Nosotros" (Propósito, Misión, Visión, 8 Valores)
+5. Habitaciones con cards (4 tipos) → link a página individual
+6. Grid de servicios (18 servicios del hotel)
+7. Sección "Explora Cusco" (atracciones cercanas, SEO)
+8. FAQ
+9. Mapa OpenStreetMap
+10. Footer con contacto, redes, mapa
 
 ### Habitación Individual (/rooms/[slug])
-- Galería inmersiva fullscreen (lightbox con swipe)
-- Video tour embebido (muteado por defecto)
+- Galería inmersiva (máximo **4 fotos** + video tour)
 - Descripción, amenidades, precio
 - CTA de reserva
 
 ### Reservas/Checkout (/book)
 - Resumen de selección
 - Formulario de datos del huésped
-- Integración Mercado Pago (mock)
+- Integración Stripe o Mercado Pago (mock)
 
 ### Explora Cusco (/explore)
 - Atracciones cercanas con distancias
 - Fotos y descripciones
 - SEO optimizado
 
-## Habitaciones
+### Contacto (/contact)
+- Formulario, WhatsApp, email, teléfono
+- Cómo llegar + traslado aeropuerto
 
-| Habitación | Fotos | Videos | Estado |
-|---|---|---|---|
-| Doble Superior Room | 16 | 4 | ✅ Completo |
-| Matrimonial Room | 12 | 4 | ✅ Completo |
-| Familiar Superior Room | 0 | 0 | ⚠️ Usar fotos genéricas |
-| Quadruple Superior Room | 10 | 4 | ✅ Completo |
-| Triple Standar Room | 0 | 0 | ⚠️ Usar fotos genéricas |
+## Habitaciones (4 tipos)
 
-## Servicios Confirmados
+| Habitación | Precio | Camas | Fotos | Videos |
+|---|---|---|---|---|
+| Matrimonial Superior | $90 USD | King/Queen | 12 (usar 4) | 4 |
+| Doble Superior | $90 USD | 2 dobles | 16 (usar 4) | 4 |
+| Triple Estándar | $120 USD | 3 individuales | 0 ⚠️ | 0 |
+| Familiar Superior | $150 USD | 3 dobles + 1 individual | 0 ⚠️ | 0 |
 
-Wi-Fi gratuito, desayuno incluido, agua caliente 24h, calefacción, TV cable, lavandería, traslado aeropuerto/estación, tours a Machu Picchu, restaurante/cafetería, spa/masajes, estacionamiento.
+> **Máximo 4 fotos por habitación.** La habitación "Quadruple Superior" fue descontinuada.
+
+## Servicios Confirmados (18 del hotel + 11 amenidades)
+
+**Hotel:** Wi-Fi gratuito, desayuno buffet (6-9am), cafetería (hasta 22h), oxígeno de cortesía, bebidas calientes de cortesía, lavandería (costo), traslado (costo), tienda souvenirs, no fumadores, custodia maletas (gratis), recepción 24h, personal bilingüe, info turística, tours, limpieza diaria, cambio de moneda.
+
+**Check-in:** 12:00 hrs | **Check-out:** 10:30 hrs
+
+**Habitación:** Baño privado, amenities, agua caliente 24h, secadora, kit infusiones, armario, escritorio+silla, TV cable, teléfono, caja seguridad, calefactor.
 
 ## UI Components
 
-- **Navbar:** Transparente sobre hero → sólida con glassmorphism al scroll. Logo izquierda, menú + idioma + dark/light toggle + botón "Reservar".
+- **Navbar:** Transparente sobre hero → sólida con glassmorphism al scroll. Logo izquierda, menú + idioma + dark/light toggle + botón "Reservar". Iconos mínimo 24px, tap target 44×44px.
 - **Booking Widget:** Barra flotante sobre hero. Check-in, check-out, huéspedes, tipo habitación, botón buscar.
-- **Room Cards:** Foto con overlay, nombre, precio desde X/noche, hover zoom suave.
+- **Room Cards:** Foto con overlay, nombre, precio desde X/noche, hover zoom suave. Máximo 4 fotos.
 - **Galería:** Fullscreen inmersivo (lightbox + swipe entre fotos) con video tour integrado.
 - **WhatsApp:** Botón flotante esquina inferior derecha con pulso sutil.
 - **Mapa:** OpenStreetMap/Leaflet con marcador personalizado del hotel.
@@ -103,7 +135,7 @@ Wi-Fi gratuito, desayuno incluido, agua caliente 24h, calefacción, TV cable, la
 - Videos se reproducen muteados por defecto
 - Audio solo se activa si el usuario lo enciende
 - NO usar soundtracks como música de fondo
-- Video del hero: usar videos de la carpeta FOTOS/
+- Video del hero: secuencia Patio → Recepción → Matrimonial → Cusco
 
 ## Rendimiento (Prioridad Alta)
 
@@ -114,7 +146,7 @@ Wi-Fi gratuito, desayuno incluido, agua caliente 24h, calefacción, TV cable, la
 
 ## SEO (Prioridad Alta)
 
-- Schema.org structured data para Hotel
+- Schema.org structured data para Hotel (check-in 12:00, check-out 10:30, 4 habitaciones)
 - Meta tags por página, sitemap XML
 - URLs descriptivas (`/rooms/doble-superior`)
 - Hreflang para ES/EN
@@ -122,11 +154,12 @@ Wi-Fi gratuito, desayuno incluido, agua caliente 24h, calefacción, TV cable, la
 
 ## Assets (Rutas en el proyecto)
 
-- Logos: `USGAR LOGO/` (7 variantes PNG)
-- Fotos generales: `FOTOS/` (8 fotos + 3 videos)
-- Fotos por habitación: carpetas raíz (ej: `Doble Superior Room/`)
-- Videos: carpetas de habitación + `VIDEOS youtube/`
-- Render logo animado: `VIDEOS youtube/Render logo.mp4`
+- Logos: `original-assets/USGAR LOGO/` (7 variantes PNG)
+- Tipografías: `original-assets/tipografia/` (AkhirTahun.woff2, KRAVITZ_.woff2)
+- Fotos generales: `original-assets/FOTOS/` (fotos + videos del hotel)
+- Fotos por habitación: `original-assets/` (carpetas por nombre de habitación)
+- SVGs de servicios: `original-assets/svg's/` (11 iconos)
+- Videos: `public/videos/` y `original-assets/VIDEOS youtube/`
 
 ## Pipeline de Desarrollo
 
@@ -139,3 +172,4 @@ Antes de trabajar, verifica el estado actual del proyecto:
 5. **Deploy** ✅ si hay commits en el repo
 
 Siempre verifica qué etapas ya están completas antes de continuar.
+**Siempre consulta BRAND.md antes de cambiar colores, tipografía o contenido.**

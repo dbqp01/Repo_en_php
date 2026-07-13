@@ -73,7 +73,7 @@ const t = useTranslations(lang);
               name="message"
               required
               rows="4"
-              placeholder={lang === 'es' ? 'Escribe tu mensaje aquí...' : 'Write your message here...'}
+              placeholder={t('contact.messagePlaceholder')}
               class="w-full px-4 py-3 rounded-xl bg-stone-50 dark:bg-surface-dark border border-black/10 dark:border-white/10 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-stone-400 resize-none"
             ></textarea>
           </div>
@@ -97,7 +97,7 @@ const t = useTranslations(lang);
             <svg class="w-4 h-4 text-[#2DB5A0] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
             </svg>
-            <span>{lang === 'es' ? '¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.' : 'Message sent successfully! We will get in touch with you shortly.'}</span>
+            <span>{t('contact.successMessage')}</span>
           </div>
         </form>
       </div>
@@ -114,7 +114,7 @@ const t = useTranslations(lang);
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <!-- WhatsApp -->
             <a
-              href={`https://wa.me/51984000000?text=${encodeURIComponent(lang === 'es' ? 'Hola! Tengo una consulta sobre USGAR Hotels.' : 'Hello! I have a question about USGAR Hotels.')}`}
+              href={`https://wa.me/51984000000?text=${encodeURIComponent(t('contact.whatsappQuery'))}`}
               target="_blank"
               rel="noopener noreferrer"
               class="flex items-center gap-4 p-4 rounded-2xl bg-stone-50 dark:bg-stone-900/40 border border-black/5 dark:border-white/5 hover:border-[#2DB5A0]/30 hover:bg-[#2DB5A0]/5 transition-all duration-300 group"
@@ -221,12 +221,10 @@ const t = useTranslations(lang);
                 <svg class="w-4 h-4 text-[#F5B731] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z" />
                 </svg>
-                {lang === 'es' ? 'Soroche (Mal de Altura)' : 'Altitude Sickness (Soroche)'}
+                {t('contact.altitudeTitle')}
               </h4>
               <p class="text-xs text-text-secondary-light dark:text-text-secondary-dark leading-relaxed">
-                {lang === 'es'
-                  ? 'Cusco se encuentra a 3,400 metros sobre el nivel del mar. Recomendamos descansar el primer día y tomar mate de coca. Tenemos oxígeno concentrado disponible gratis.'
-                  : 'Cusco is at 3,400m altitude. We recommend taking it easy on your first day and drinking coca tea. We offer complimentary oxygen concentrators if needed.'}
+                {t('contact.altitudeDesc')}
               </p>
             </div>
           </div>

@@ -6,6 +6,8 @@ import type { Locale } from '../i18n/utils';
  */
 export function translateBeds(beds: string, lang: Locale): string {
   return beds
+    .replace('double beds', lang === 'es' ? 'camas dobles' : 'double beds')
+    .replace('double bed', lang === 'es' ? 'cama doble' : 'double bed')
     .replace('single beds', lang === 'es' ? 'camas individuales' : 'single beds')
     .replace('single bed', lang === 'es' ? 'cama individual' : 'single bed')
     .replace('king bed', lang === 'es' ? 'cama king' : 'king bed')

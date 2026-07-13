@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import { getRelativeLocaleUrl } from 'astro:i18n';
-import logo from '../assets/logos/Logo usgar.png';
+import logo from '../assets/logos/Logo usgar morado.png';
 import { useTranslations } from '../i18n/utils';
 
 const lang = (Astro.currentLocale || 'en') as 'en' | 'es';
@@ -13,8 +13,9 @@ const homeUrl = getRelativeLocaleUrl(lang, '');
 const cleanHomeUrl = homeUrl.endsWith('/') ? homeUrl : `${homeUrl}/`;
 
 const quickLinks = [
-  { href: cleanHomeUrl, label: lang === 'es' ? 'Inicio' : 'Home' },
+  { href: cleanHomeUrl, label: t('nav.home') },
   { href: getRelativeLocaleUrl(lang, 'rooms'), label: t('nav.rooms') },
+  { href: getRelativeLocaleUrl(lang, 'gallery'), label: t('nav.gallery') },
   { href: `${cleanHomeUrl}#services`, label: t('nav.services') },
   { href: getRelativeLocaleUrl(lang, 'explore'), label: t('nav.explore') },
   { href: getRelativeLocaleUrl(lang, 'book'), label: t('nav.bookNow') },

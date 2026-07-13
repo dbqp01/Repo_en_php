@@ -15,10 +15,10 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 import { Image, getImage } from "astro:assets";
 
 // Hotel slideshow slides
-import slide1 from "../assets/hotel/_DSC3824.jpg";
-import slide2 from "../assets/hotel/_DSC3825.jpg";
-import slide3 from "../assets/hotel/_DSC3827.jpg";
-import slide4 from "../assets/hotel/_DSC3828.jpg";
+import slide1 from "../assets/hotel/hero-slide-patio.jpg";
+import slide2 from "../assets/hotel/hero-slide-recepcion.jpg";
+import slide3 from "../assets/hotel/hero-slide-matrimonial.jpg";
+import slide4 from "../assets/hotel/hero-slide-cusco.jpg";
 
 const lang = (Astro.currentLocale || "en") as "en" | "es";
 const optimizedPoster = await getImage({
@@ -58,9 +58,9 @@ const hotelSchema = {
     ratingValue: "3",
   },
   priceRange: "$$",
-  numberOfRooms: 5,
-  checkinTime: "14:00",
-  checkoutTime: "11:00",
+  numberOfRooms: 4,
+  checkinTime: "12:00",
+  checkoutTime: "10:30",
   amenityFeature: [
     { "@type": "LocationFeatureSpecification", name: "Free Wi-Fi", value: true },
     { "@type": "LocationFeatureSpecification", name: "Breakfast Included", value: true },

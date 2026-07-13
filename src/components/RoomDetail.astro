@@ -26,9 +26,14 @@ let roomImages: { default: ImageMetadata }[] = [];
 
 if (room.photoCount === 0) {
   // Room has no photos, load fallback images from src/assets/hotel/
-  const hotelKeys = Object.keys(allHotelImages).sort((a, b) =>
-    a.localeCompare(b),
-  );
+  const hotelKeys = Object.keys(allHotelImages)
+    .filter((key) => 
+      key.includes('fallback-room-desayuno') ||
+      key.includes('fallback-room-oxigeno') ||
+      key.includes('fallback-room-fachada') ||
+      key.includes('fallback-room-pasillo')
+    )
+    .sort((a, b) => a.localeCompare(b));
   roomImages = await Promise.all(hotelKeys.map((key) => allHotelImages[key]()));
 } else {
   // Load photos from specific room folder
@@ -191,126 +196,84 @@ const roomSchema = {
       </div>
     </div>
 
-    <!-- 5-Image Premium Grid Gallery -->
+    <!-- Interactive Room Slider / Gallery (Hero-style large view with thumbnails below) -->
     <div
-      class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 rounded-2xl overflow-hidden shadow-lg aspect-[3/2] md:aspect-[3/1.2] mb-12"
+      id="room-gallery-slider"
+      class="relative w-full mb-12 animate-on-scroll"
+      data-images={JSON.stringify(images.map(img => img.src))}
     >
-      <!-- 1st Image (Featured) - spans 2 cols, 2 rows -->
-      <div
-        class="col-span-2 row-span-2 relative cursor-pointer overflow-hidden group gallery-thumbnail-btn"
-        data-index="0"
-      >
-        <Image
-          src={images[0]}
-          alt={`${room.name[lang]} - 1`}
-          width={1200}
-          height={800}
-          format="avif"
-          quality={75}
-          loading="eager"
-          fetchpriority="high"
-          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-        />
-        <div
-          class="absolute inset-0 bg-black/10 group-hover:bg-black/35 transition-colors duration-300"
-        >
-        </div>
-      </div>
-
-      <!-- 2nd Image -->
-      <div
-        class="col-span-1 row-span-1 relative cursor-pointer overflow-hidden group gallery-thumbnail-btn"
-        data-index="1"
-      >
-        <Image
-          src={images[1]}
-          alt={`${room.name[lang]} - 2`}
-          width={600}
-          height={400}
-          format="avif"
-          quality={70}
-          loading="lazy"
-          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-        />
-        <div
-          class="absolute inset-0 bg-black/10 group-hover:bg-black/35 transition-colors duration-300"
-        >
-        </div>
-      </div>
-
-      <!-- 3rd Image -->
-      <div
-        class="col-span-1 row-span-1 relative cursor-pointer overflow-hidden group gallery-thumbnail-btn"
-        data-index="2"
-      >
-        <Image
-          src={images[2]}
-          alt={`${room.name[lang]} - 3`}
-          width={600}
-          height={400}
-          format="avif"
-          quality={70}
-          loading="lazy"
-          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-        />
-        <div
-          class="absolute inset-0 bg-black/10 group-hover:bg-black/35 transition-colors duration-300"
-        >
-        </div>
-      </div>
-
-      <!-- 4th Image (conditional) -->
-      {images.length > 3 && (
-        <div
-          class="col-span-1 row-span-1 relative cursor-pointer overflow-hidden group gallery-thumbnail-btn"
-          data-index="3"
-        >
+      <!-- Large Active Image Display -->
+      <div class="relative w-full aspect-[16/9] md:aspect-[21/9] rounded-2xl overflow-hidden shadow-lg border border-black/5 dark:border-white/5 group">
+        <div class="w-full h-full relative">
+          <!-- Active image element -->
           <Image
-            src={images[3]}
-            alt={`${room.name[lang]} - 4`}
-            width={600}
-            height={400}
+            id="active-gallery-image"
+            src={images[0]}
+            alt={room.name[lang]}
+            width={1200}
+            height={600}
             format="avif"
-            quality={70}
-            loading="lazy"
-            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            quality={80}
+            loading="eager"
+            fetchpriority="high"
+            class="w-full h-full object-cover transition-opacity duration-300"
           />
-          <div
-            class="absolute inset-0 bg-black/10 group-hover:bg-black/35 transition-colors duration-300"
-          >
-          </div>
-        </div>
-      )}
+          <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
 
-      <!-- 5th Image with "+X more" overlay (conditional) -->
-      {images.length > 4 && (
-        <div
-          class="col-span-1 row-span-1 relative cursor-pointer overflow-hidden group gallery-thumbnail-btn"
-          data-index="4"
-        >
-          <Image
-            src={images[4]}
-            alt={`${room.name[lang]} - 5`}
-            width={600}
-            height={400}
-            format="avif"
-            quality={70}
-            loading="lazy"
-            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          />
-          <div
-            class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center"
+          <!-- Click to Zoom / Expand Indicator -->
+          <button
+            id="gallery-zoom-trigger"
+            class="absolute bottom-6 right-6 bg-black/45 hover:bg-primary/95 text-white backdrop-blur-md px-4 py-2.5 rounded-xl border border-white/10 flex items-center gap-2 hover:scale-105 transition-all duration-300 shadow-md text-sm cursor-pointer"
+            aria-label={lang === "es" ? "Expandir foto" : "Zoom photo"}
           >
-            {
-              images.length > 5 && (
-                <span class="text-white text-base md:text-xl font-semibold backdrop-blur-md bg-black/45 px-4 py-2.5 rounded-xl border border-white/10 group-hover:scale-105 transition-transform duration-300 shadow-md">
-                  +{images.length - 5} {lang === "es" ? "fotos" : "photos"}
-                </span>
-              )
-            }
-          </div>
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+            </svg>
+            <span>{lang === "es" ? "Expandir" : "Zoom"}</span>
+          </button>
+
+          <!-- Navigation Arrows over main image -->
+          <button
+            id="slider-prev-arrow"
+            class="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/35 hover:bg-primary/90 text-white backdrop-blur-sm flex items-center justify-center border border-white/10 opacity-0 group-hover:opacity-100 transition-all cursor-pointer hover:scale-105"
+            aria-label="Previous image"
+          >
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            id="slider-next-arrow"
+            class="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/35 hover:bg-primary/90 text-white backdrop-blur-sm flex items-center justify-center border border-white/10 opacity-0 group-hover:opacity-100 transition-all cursor-pointer hover:scale-105"
+            aria-label="Next image"
+          >
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
-      )}
+      </div>
+
+      <!-- Thumbnails Row Below -->
+      <div class="mt-4 flex flex-wrap gap-2 md:gap-3 justify-center">
+        {images.map((img, idx) => (
+          <button
+            class={`gallery-thumb-selector-btn relative aspect-[4/3] w-20 sm:w-28 md:w-32 rounded-xl overflow-hidden border-2 cursor-pointer transition-all duration-300 hover:scale-105 shadow-sm ${idx === 0 ? 'border-primary' : 'border-transparent opacity-60 hover:opacity-100'}`}
+            data-thumb-index={idx}
+            aria-label={`View photo ${idx + 1}`}
+          >
+            <Image
+              src={img}
+              alt={`${room.name[lang]} thumb - ${idx + 1}`}
+              width={200}
+              height={150}
+              format="webp"
+              quality={60}
+              class="w-full h-full object-cover"
+            />
+          </button>
+        ))}
+      </div>
     </div>
 
     <!-- Room Main Layout Details -->
@@ -687,7 +650,7 @@ const roomSchema = {
         viewBox="0 0 24 24"
         stroke="currentColor"
         stroke-width="2"
-      >
+          >
         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"
         ></path>
       </svg>
@@ -706,9 +669,15 @@ const roomSchema = {
     const signal = abortController.signal;
 
     // ==========================================
-    // LIGHTBOX INTERACTION
+    // SLIDER & LIGHTBOX INTERACTION
     // ==========================================
-    const thumbnails = document.querySelectorAll(".gallery-thumbnail-btn");
+    const sliderContainer = document.getElementById("room-gallery-slider");
+    const activeImg = document.getElementById("active-gallery-image") as HTMLImageElement | null;
+    const thumbBtns = document.querySelectorAll(".gallery-thumb-selector-btn");
+    const zoomTrigger = document.getElementById("gallery-zoom-trigger");
+    const sliderPrev = document.getElementById("slider-prev-arrow");
+    const sliderNext = document.getElementById("slider-next-arrow");
+
     const lightbox = document.getElementById("gallery-lightbox");
     const closeBtn = document.getElementById("lightbox-close-btn");
     const prevBtn = document.getElementById("lightbox-prev-btn");
@@ -716,11 +685,39 @@ const roomSchema = {
     const counter = document.getElementById("lightbox-counter");
     const slides = document.querySelectorAll(".lightbox-slide");
 
-    if (!lightbox || slides.length === 0) return;
+    if (!sliderContainer || !activeImg || slides.length === 0) return;
 
+    const imageUrls = JSON.parse(sliderContainer.getAttribute("data-images") || "[]");
     let activeIndex = 0;
     const totalSlides = slides.length;
 
+    // Actualiza la imagen activa del slider y miniaturas
+    function updateSliderImage(index: number) {
+      if (!activeImg) return;
+      activeIndex = index;
+      
+      // Aplicar transición suave de fade
+      activeImg.style.opacity = "0.2";
+      setTimeout(() => {
+        if (imageUrls[activeIndex]) {
+          activeImg.src = imageUrls[activeIndex];
+        }
+        activeImg.style.opacity = "1";
+      }, 150);
+
+      // Actualizar estilo visual de miniaturas
+      thumbBtns.forEach((btn, idx) => {
+        if (idx === activeIndex) {
+          btn.classList.add("border-primary", "scale-105");
+          btn.classList.remove("border-transparent", "opacity-60");
+        } else {
+          btn.classList.remove("border-primary", "scale-105");
+          btn.classList.add("border-transparent", "opacity-60");
+        }
+      });
+    }
+
+    // Actualiza el visor a pantalla completa (Lightbox)
     function updateLightbox() {
       slides.forEach((slide) => slide.classList.add("hidden"));
       const activeSlide = document.querySelector(
@@ -733,9 +730,8 @@ const roomSchema = {
       }
     }
 
-    function openLightbox(index: number) {
+    function openLightbox() {
       if (!lightbox) return;
-      activeIndex = index;
       updateLightbox();
       lightbox.classList.remove("hidden");
       lightbox.classList.add("flex");
@@ -749,29 +745,51 @@ const roomSchema = {
       document.body.style.overflow = ""; // restore scroll
     }
 
+    // Siguiente y anterior del slider y Lightbox
     function nextSlide() {
-      activeIndex = (activeIndex + 1) % totalSlides;
+      const nextIdx = (activeIndex + 1) % totalSlides;
+      updateSliderImage(nextIdx);
       updateLightbox();
     }
 
+    // Anterior
     function prevSlide() {
-      activeIndex = (activeIndex - 1 + totalSlides) % totalSlides;
+      const prevIdx = (activeIndex - 1 + totalSlides) % totalSlides;
+      updateSliderImage(prevIdx);
       updateLightbox();
     }
 
-    // Attach click listeners to thumbnails
-    thumbnails.forEach((thumb) => {
+    // Clicks en miniaturas para cambiar foto del slider
+    thumbBtns.forEach((thumb) => {
       thumb.addEventListener("click", () => {
-        const indexStr = thumb.getAttribute("data-index");
-        if (indexStr) openLightbox(parseInt(indexStr, 10));
+        const indexStr = thumb.getAttribute("data-thumb-index");
+        if (indexStr) {
+          updateSliderImage(parseInt(indexStr, 10));
+        }
       }, { signal });
     });
 
+    // Flechas del slider
+    sliderPrev?.addEventListener("click", () => {
+      const prevIdx = (activeIndex - 1 + totalSlides) % totalSlides;
+      updateSliderImage(prevIdx);
+    }, { signal });
+
+    sliderNext?.addEventListener("click", () => {
+      const nextIdx = (activeIndex + 1) % totalSlides;
+      updateSliderImage(nextIdx);
+    }, { signal });
+
+    // Abrir Lightbox al hacer clic en imagen principal o botón de zoom
+    activeImg.addEventListener("click", openLightbox, { signal });
+    zoomTrigger?.addEventListener("click", openLightbox, { signal });
+
+    // Controles del modal Lightbox
     closeBtn?.addEventListener("click", closeLightbox, { signal });
     nextBtn?.addEventListener("click", nextSlide, { signal });
     prevBtn?.addEventListener("click", prevSlide, { signal });
 
-    // Keyboard controls
+    // Controles de teclado
     document.addEventListener("keydown", (e: KeyboardEvent) => {
       if (!lightbox || lightbox.classList.contains("hidden")) return;
 

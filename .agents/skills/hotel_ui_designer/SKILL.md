@@ -17,30 +17,40 @@ description: "Diseñar componentes UI premium para el hotel USGAR: hero con vide
 
 ```css
 /* Modo Claro */
---color-bg: #FAFAF9;
+--color-bg: #FBF4D2;           /* Crema — BRAND.md §10 */
 --color-surface: #FFFFFF;
---color-text: #1C1917;
+--color-text: #333333;
 --color-text-secondary: #57534E;
 
 /* Modo Oscuro */
---color-bg: #0C0A09;
---color-surface: #1C1917;
+--color-bg: #1C1917;
+--color-surface: #2B1D33;       /* Tinte morado — BRAND.md §10 */
 --color-text: #FAFAF9;
---color-text-secondary: #A8A29E;
+--color-text-secondary: #D4BFDE; /* Morado pastel */
 
-/* Acentos de marca (ambos modos) */
---color-primary: #9B6CB5;      /* Morado del logo */
---color-secondary: #F5B731;    /* Dorado del logo */
---color-tertiary: #2DB5A0;     /* Cian/turquesa del logo */
+/* Acentos de marca (ambos modos) — BRAND.md §3 */
+--color-primary: #4A3056;       /* Morado Oscuro */
+--color-primary-light: #9360AC; /* Morado Medio */
+--color-secondary: #EACA1C;    /* Amarillo Base */
+--color-secondary-dark: #B09815; /* Dorado Oscuro */
+--color-tertiary: #065952;     /* Verde Pino */
+--color-tertiary-light: #0CB2A3; /* Turquesa */
 ```
 
 ## Tipografía
 
 ```css
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap');
+/* Tipografía — BRAND.md §4 */
+/* Fuente display: A Akhin Tahun (local woff2) con fallback a Playfair Display */
+@font-face {
+  font-family: 'A Akhin Tahun';
+  src: url('/fonts/AkhirTahun.woff2') format('woff2');
+  font-display: swap;
+}
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 
-h1, h2, h3 { font-family: 'Playfair Display', serif; }
-body, p, a, button { font-family: 'Outfit', sans-serif; }
+h1, h2, h3, h4 { font-family: 'A Akhin Tahun', 'Playfair Display', serif; }
+body, p, a, button { font-family: 'Montserrat', 'Outfit', sans-serif; }
 ```
 
 ## Componentes

@@ -18,14 +18,14 @@ export const rooms: Room[] = [
     slug: 'doble-superior',
     name: { en: 'Double Superior Room', es: 'Habitación Doble Superior' },
     description: {
-      en: 'Spacious room with two comfortable single beds, hand-painted Andean murals, and warm ambient lighting. Perfect for friends or colleagues traveling together.',
-      es: 'Amplia habitación con dos cómodas camas individuales, murales andinos pintados a mano y cálida iluminación ambiental. Perfecta para amigos o colegas viajando juntos.'
+      en: 'Spacious room with two comfortable double beds with warm ambient lighting. Perfect for friends or colleagues traveling together.',
+      es: 'Amplia habitación con dos cómodas camas dobles con cálida iluminación ambiental. Perfecta para amigos o colegas viajando juntos.'
     },
     maxGuests: 2,
-    beds: '2 single beds',
+    beds: '2 double beds',
     pricePerNight: 90,
     amenities: ['wifi', 'breakfast', 'hot-water', 'heating', 'tv', 'laundry'],
-    photoCount: 16,
+    photoCount: 4,
     hasVideoTour: true,
     photoFolder: 'doble-superior',
   },
@@ -41,7 +41,7 @@ export const rooms: Room[] = [
     beds: '1 king bed',
     pricePerNight: 90,
     amenities: ['wifi', 'breakfast', 'hot-water', 'heating', 'tv', 'laundry'],
-    photoCount: 12,
+    photoCount: 4,
     hasVideoTour: true,
     photoFolder: 'matrimonial',
   },
@@ -50,32 +50,16 @@ export const rooms: Room[] = [
     slug: 'familiar-superior',
     name: { en: 'Family Superior Room', es: 'Habitación Familiar Superior' },
     description: {
-      en: 'Our most spacious room, designed for families. Features a king bed and two singles, with room for everyone to relax after a day of adventures.',
-      es: 'Nuestra habitación más amplia, diseñada para familias. Cuenta con cama king y dos individuales, espacio para todos después de un día de aventuras.'
+      en: 'Our most spacious room, designed for families or a group of friends. Features 3 double beds and one single bed, with room for everyone to relax after a day of adventures.',
+      es: 'Nuestra habitación más amplia, diseñada para familias o grupo de amigos. Cuenta con 3 camas dobles y una individual, espacio para todos después de un día de aventuras.'
     },
-    maxGuests: 4,
-    beds: '1 king + 2 single beds',
+    maxGuests: 7,
+    beds: '3 double beds + 1 single bed',
     pricePerNight: 150,
     amenities: ['wifi', 'breakfast', 'hot-water', 'heating', 'tv', 'laundry'],
     photoCount: 0,
     hasVideoTour: true,
     photoFolder: 'familiar-superior',
-  },
-  {
-    id: 'quadruple-superior',
-    slug: 'quadruple-superior',
-    name: { en: 'Quadruple Superior Room', es: 'Habitación Cuádruple Superior' },
-    description: {
-      en: 'Perfect for groups of friends or small families. Four comfortable beds in a bright, colorfully decorated space with Andean character.',
-      es: 'Perfecta para grupos de amigos o familias pequeñas. Cuatro cómodas camas en un espacio luminoso y decorado con carácter andino.'
-    },
-    maxGuests: 4,
-    beds: '4 single beds',
-    pricePerNight: 65,
-    amenities: ['wifi', 'breakfast', 'hot-water', 'heating', 'tv', 'laundry'],
-    photoCount: 10,
-    hasVideoTour: true,
-    photoFolder: 'quadruple-superior',
   },
   {
     id: 'triple-standar',
