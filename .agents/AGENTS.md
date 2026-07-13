@@ -22,18 +22,23 @@
 
 ## Integraciones y Seguridad
 
-1. **Capa Segura:** Toda llamada a Channex, Stripe o Mercado Pago va por API Routes de Astro (`src/pages/api/`) para no exponer claves al cliente.
-2. **Modo Mock:** Si no hay claves de API en `.env`, usar implementaciones mock en `src/services/`.
-3. **Webhook:** Responde `200 OK` rápido y procesa en segundo plano.
-4. **Pagos:** Stripe o Mercado Pago — definir según preferencia del cliente.
+1. **Capa Segura (PHP API):** Toda llamada a Channex, QloApps o Mercado Pago va por el backend en PHP (`public/api/`) para no exponer claves ni credenciales en el cliente (Astro).
+2. **Modo Mock:** Si no hay claves de API en el archivo `.env`, se deben usar implementaciones mock realistas en `public/api/rooms.php` y los scripts de Channex.
+3. **Comisiones:** QloApps es 100% libre de comisiones (0% comisiones). Las únicas comisiones del flujo son las de procesamiento de Mercado Pago.
+4. **Flujo de Reserva con Bloqueo Temporal (15 mins):**
+   - Al iniciar la reserva, se crea un carrito (`Cart`) en QloApps que bloquea/retiene la habitación físicamente por 15 minutos para evitar sobreventas (Hold).
+   - Si no se completa la compra en 15 minutos, la sesión expira y el carrito de QloApps se libera.
+   - En caso de que el pago en Mercado Pago sea **rechazado**, el frontend redirige al usuario a la página de fallo y el backend PHP extiende la vida del carrito de QloApps por **15 minutos adicionales** para permitirle al cliente probar otra tarjeta o cargar fondos sin perder su selección.
 
-## Infraestructura de Producción
+## Infraestructura de Producción y Arquitectura Multi-hotel
 
-1. **Hosting:** Hostinger (hosting compartido), NO es VPS.
-2. **PMS:** QloApps instalado en `cms.usgarhoteles.com` — gestiona habitaciones, reservas, inventario.
-3. **Channel Manager:** Channex — Sincroniza disponibilidad con Booking y TripAdvisor (API key pendiente para testing).
+1. **Hosting:** Hostinger (hosting compartido, sin VPS).
+2. **Arquitectura Multi-hotel (Multitienda):**
+   - El dominio principal es `hotelesusgar.com`. Cada hotel se hospeda en su propio subdominio (ej: `cusco.hotelesusgar.com`, `arequipa.hotelesusgar.com`) con un frontend independiente en Astro.
+   - QloApps está centralizado en `cms.hotelesusgar.com` y gestiona múltiples hoteles usando la función de multitienda (cada hotel se mapea a un `id_shop` o `id_hotel` en la base de datos).
+3. **Channel Manager:** Channex. Sincroniza disponibilidad en tiempo real con Booking y TripAdvisor. Se activa tras confirmación de orden en QloApps.
 4. **Pasarela de Pago:** Mercado Pago (token de sandbox activo).
-5. **Arquitectura futura:** Nada debe estar hardcodeado. QloApps será la fuente de verdad para precios y habitaciones. El cliente necesita poder editar precios, agregar habitaciones y modificar contenido desde el back-office de QloApps sin tocar código.
+5. **Fuente de verdad:** QloApps (`cms.hotelesusgar.com`) es la fuente de verdad absoluta para tarifas, disponibilidad y habitaciones. Nada debe estar hardcodeado en el código frontend.
 
 ## Diseño y Estética
 

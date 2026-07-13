@@ -3,7 +3,7 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://usgarhoteles.com',
+  site: 'https://sanpedro.hotelesusgar.com',
   output: 'static',
   integrations: [sitemap()],
   image: {

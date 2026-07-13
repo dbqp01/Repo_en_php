@@ -2,7 +2,7 @@
 
 Repositorio oficial del sitio web transaccional de **USGAR Hotels** en Cusco, Perú. Arquitectura híbrida: **Astro v5** (frontend estático) + **PHP** (backend API) + **QloApps** (PMS) + **Channex** (channel manager).
 
-**Sitio en producción:** [https://usgarhoteles.com](https://usgarhoteles.com)
+**Sitio en producción:** [https://sanpedro.hotelesusgar.com](https://sanpedro.hotelesusgar.com)
 
 ---
 
@@ -32,9 +32,9 @@ Repositorio oficial del sitio web transaccional de **USGAR Hotels** en Cusco, Pe
 
 | Sistema | Rol | URL/Endpoint |
 |---|---|---|
-| **Astro v5** | Frontend estático (HTML, CSS, JS) | `https://usgarhoteles.com` |
+| **Astro v5** | Frontend estático (HTML, CSS, JS) | `https://sanpedro.hotelesusgar.com` |
 | **PHP Backend** | API proxy segura para integraciones | `public/api/*.php` |
-| **QloApps** | PMS — gestión de habitaciones, reservas, inventario | `cms.usgarhoteles.com` |
+| **QloApps** | PMS — gestión de habitaciones, reservas, inventario | `cms.hotelesusgar.com` |
 | **Channex** | Channel Manager — Sincroniza disponibilidad con OTAs | API REST |
 | **Mercado Pago** | Pasarela de pagos | API REST |
 | **Hostinger** | Hosting compartido (NO VPS) | Panel hPanel |
@@ -193,8 +193,8 @@ El compilado se genera en `dist/`. Los archivos PHP de `public/api/` se copian a
 El sitio está en **Hostinger** (hosting compartido, NO VPS).
 
 ### Estructura en Hostinger
-- **Dominio principal:** `usgarhoteles.com` → archivos de Astro (`dist/`)
-- **Subdominio:** `cms.usgarhoteles.com` → QloApps (PMS, back-office del cliente)
+- **Dominio principal:** `hotelesusgar.com` (Subdominio: `sanpedro.hotelesusgar.com` → archivos de Astro `dist/`)
+- **Subdominio:** `cms.hotelesusgar.com` → QloApps (PMS, back-office del cliente)
 
 ### Proceso de deploy actual
 1. Ejecutar `npm run build` localmente

@@ -9,7 +9,7 @@ class QloAppWriter {
 
     public function __construct() {
         // En tu entorno de Hostinger, usaremos el subdominio que acabas de crear
-        $this->apiUrl = getEnvValue('QLOAPP_API_URL', 'https://cms.usgarhoteles.com/api');
+        $this->apiUrl = getEnvValue('QLOAPP_API_URL', 'https://cms.hotelesusgar.com/api');
         $this->apiKey = getEnvValue('QLOAPP_API_KEY');
     }
 
