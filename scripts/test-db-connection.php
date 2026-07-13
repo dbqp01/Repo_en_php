@@ -20,7 +20,11 @@ echo "✅ Conexión establecida con éxito.\n\n";
 
 try {
     echo "1. Buscando hoteles activos (qlo_htl_branch_info)...\n";
-    $stmt = $pdo->query("SELECT id, hotel_name, active FROM qlo_htl_branch_info");
+    $stmt = $pdo->query("
+        SELECT b.id, bl.hotel_name, b.active 
+        FROM qlo_htl_branch_info b
+        LEFT JOIN qlo_htl_branch_info_lang bl ON bl.id = b.id AND bl.id_lang = 1
+    ");
     $hotels = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
     if (count($hotels) === 0) {
