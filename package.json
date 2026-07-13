@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.21",
+    "puppeteer": "^25.3.0",
     "typescript": "^6.0.3"
   },
   "allowScripts": {

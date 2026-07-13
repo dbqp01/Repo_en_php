@@ -1,54 +1,84 @@
 @import "tailwindcss";
 
 /* ==========================================================================
-   Fuentes Corporativas - USGAR Hotels (Fallo 404 resuelto)
-   Nota: Hasta que se suban los archivos .woff2, se usarán Playfair Display y Outfit (vía Google Fonts)
+   USGAR Hotels — Design System v2 (Inca-Colonial Fusion)
+   Tailwind CSS v4 — CSS-first configuration
    ========================================================================== */
 
 /* ============================================
-   USGAR Hotels — Design System
-   Tailwind CSS v4 — CSS-first configuration
+   @font-face — Custom Brand Typography
+   A Akhin Tahun: Display/Headings (h1–h4)
+   Kravitz Extra Thermal: Logo "HOTELS" only
    ============================================ */
+@font-face {
+  font-family: 'A Akhin Tahun';
+  src: url('/fonts/AkhirTahun.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kravitz Extra Thermal';
+  src: url('/fonts/KRAVITZ_.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 /* Dark mode: class-based toggle (NOT media query) */
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ============================================
-   Theme Tokens
+   Theme Tokens — BRAND.md §3 Complete Palette
    ============================================ */
 @theme {
-  /* Brand colors (Opción 3) */
-  --color-primary: #4A3056; /* Morado Oscuro */
-  --color-primary-light: #9360AC; /* Morado Medio */
-  --color-primary-dark: #351C42; 
-  --color-secondary: #EACA1C; /* Amarillo Base */
-  --color-secondary-light: #F2DF77; /* Amarillo Suave */
-  --color-secondary-dark: #B09815; /* Dorado Oscuro */
-  --color-tertiary: #065952; /* Verde Pino */
-  --color-tertiary-light: #0CB2A3; /* Turquesa */
-  --color-tertiary-dark: #04403B;
+  /* === MORADOS (Familia Primaria) === */
+  --color-primary: #4A3056;          /* Morado Oscuro — headings, primary CTAs */
+  --color-primary-light: #9360AC;    /* Morado Medio — hover, active elements */
+  --color-primary-dark: #351C42;     /* Hover intenso */
+  --color-purple-soft: #A980BD;      /* Bordes decorativos, iconos secundarios */
+  --color-purple-pastel: #D4BFDE;    /* Dark mode secondary text, card bg */
+  --color-purple-bg: #E9DFEE;        /* Light mode section alternating bg */
 
-  /* Surface colors */
-  --color-surface-light: #FBF4D2; /* Crema Fondo */
-  --color-surface-dark: #1C1917; /* Use standard dark surface */
+  /* === AMARILLOS / DORADOS (Familia Secundaria) === */
+  --color-secondary: #EACA1C;       /* Amarillo Base — secondary CTAs */
+  --color-secondary-light: #F2DF77; /* Amarillo Suave — promotions */
+  --color-secondary-dark: #B09815;  /* Dorado Oscuro — prices, stars */
+  --color-cream-active: #F7EAA4;    /* Input focus ring */
+
+  /* === VERDES / TURQUESAS (Familia Terciaria) === */
+  --color-tertiary: #065952;         /* Verde Pino — booking/reserve buttons */
+  --color-tertiary-light: #0CB2A3;   /* Turquesa — links, interactive details */
+  --color-tertiary-dark: #04403B;    /* Hover on tertiary elements */
+  --color-mint: #6DD1C8;             /* Service icons, amenity indicators */
+  --color-green-pastel: #9EE0DA;     /* Room card borders */
+  --color-green-bg: #CEF0ED;         /* Service card backgrounds */
+
+  /* === FONDOS ESTÉTICOS (Nuevos — v2) === */
+  --color-surface-light: #F7F3FA;         /* Lavender Mist — light mode page bg */
+  --color-surface-dark: #1A1226;          /* Plum Midnight — dark mode page bg */
+  --color-surface-light-alt: #FBF4D2;     /* Crema — testimonial blocks */
   --color-surface-card-light: #FFFFFF;
-  --color-surface-card-dark: #2B1D33; /* Darker purple-tinted card */
+  --color-surface-card-dark: #2B1D33;     /* Purple-tinted dark card */
+
+  /* === TEXTO === */
   --color-text-primary-light: #333333;
   --color-text-primary-dark: #FAFAF9;
   --color-text-secondary-light: #57534E;
-  --color-text-secondary-dark: #D4BFDE; /* Morado Pastel for secondary text */
+  --color-text-secondary-dark: #D4BFDE;   /* Morado Pastel */
 
-  /* Typography */
+  /* === TIPOGRAFÍA === */
   --font-display: 'A Akhin Tahun', 'Playfair Display', serif;
   --font-body: 'Montserrat', 'Outfit', sans-serif;
 
-  /* Custom animations */
+  /* === ANIMATIONS === */
   --animate-pulse-soft: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-slide-up: slide-up 0.6s ease-out;
   --animate-fade-in: fade-in 0.8s ease-out;
   --animate-slide-in-right: slide-in-right 0.3s ease-out;
+  --animate-golden-glow: golden-glow 3s ease-in-out infinite;
 
-  /* Keyframes */
   @keyframes pulse-soft {
     0%, 100% { transform: scale(1); opacity: 1; }
     50% { transform: scale(1.08); opacity: 0.85; }
@@ -68,6 +98,11 @@
     from { transform: translateX(100%); }
     to { transform: translateX(0); }
   }
+
+  @keyframes golden-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(234, 202, 28, 0); }
+    50% { box-shadow: 0 0 20px 4px rgba(234, 202, 28, 0.15); }
+  }
 }
 
 /* ============================================
@@ -83,8 +118,73 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4 {
+h1, h2 {
   font-family: var(--font-display);
+}
+
+h3, h4 {
+  font-family: var(--font-body);
+  font-weight: 700;
+}
+
+/* ============================================
+   Arched Colonial Mask — Hero Video
+   Simulates looking through a centuries-old
+   Cusco colonial doorway with a rounded arch.
+   ============================================ */
+.mask-arch {
+  clip-path: polygon(
+    /* Bottom-left corner */
+    0% 100%,
+    0% 35%,
+    /* Left side of arch curve */
+    0.5% 28%, 1.5% 22%, 3% 17%, 5% 13%, 8% 9.5%, 11% 7%,
+    15% 4.5%, 19% 2.8%, 24% 1.5%, 30% 0.6%, 36% 0.1%,
+    /* Top of arch */
+    42% 0%, 50% 0%, 58% 0%,
+    /* Right side of arch curve (mirror) */
+    64% 0.1%, 70% 0.6%, 76% 1.5%, 81% 2.8%, 85% 4.5%,
+    89% 7%, 92% 9.5%, 95% 13%, 97% 17%, 98.5% 22%, 99.5% 28%,
+    100% 35%,
+    /* Bottom-right corner */
+    100% 100%
+  );
+}
+
+/* Responsive variant: less dramatic arch on mobile */
+@media (max-width: 768px) {
+  .mask-arch {
+    clip-path: polygon(
+      0% 100%, 0% 20%,
+      2% 14%, 5% 9%, 10% 5%, 16% 2.5%, 24% 1%, 34% 0.2%,
+      42% 0%, 50% 0%, 58% 0%,
+      66% 0.2%, 76% 1%, 84% 2.5%, 90% 5%, 95% 9%, 98% 14%,
+      100% 20%, 100% 100%
+    );
+  }
+}
+
+/* ============================================
+   Glassmorphism v2 — Premium with golden glow
+   ============================================ */
+.glass {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 0.5px solid rgba(212, 191, 222, 0.15); /* purple-pastel tint */
+}
+
+.glass:hover {
+  box-shadow: 0 4px 24px -4px rgba(234, 202, 28, 0.12); /* golden glow on hover */
+}
+
+.dark .glass {
+  background: rgba(43, 29, 51, 0.8); /* surface-card-dark tint */
+  border: 0.5px solid rgba(212, 191, 222, 0.08);
+}
+
+.dark .glass:hover {
+  box-shadow: 0 4px 24px -4px rgba(234, 202, 28, 0.08);
 }
 
 /* ============================================
@@ -111,18 +211,13 @@ h1, h2, h3, h4 {
 .stagger-child:nth-child(6) { transition-delay: 0.6s; }
 
 /* ============================================
-   Glassmorphism Utilities
+   Section Divider — Gold accent line
    ============================================ */
-.glass {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.dark .glass {
-  background: rgba(12, 10, 9, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+.divider-gold {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-secondary-dark), transparent);
+  margin: 0 auto;
 }
 
 /* ============================================

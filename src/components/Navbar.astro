@@ -211,9 +211,9 @@ const navLinks = [
     function handleScroll() {
       const scrollY = window.scrollY;
       if (scrollY > 50) {
-        navbar?.classList.add('glass', 'shadow-sm');
+        navbar?.classList.add('glass', 'shadow-sm', 'navbar-scrolled');
       } else {
-        navbar?.classList.remove('glass', 'shadow-sm');
+        navbar?.classList.remove('glass', 'shadow-sm', 'navbar-scrolled');
       }
     }
     
@@ -295,6 +295,14 @@ const navLinks = [
   /* Drop shadow is only needed when over the video (not scrolled) */
   #main-navbar.glass .nav-link {
     filter: none;
+  }
+
+  /* Golden bottom border when scrolled — Inca-Colonial accent */
+  #main-navbar.navbar-scrolled {
+    border-bottom: 1px solid rgba(234, 202, 28, 0.25);
+  }
+  :global(.dark) #main-navbar.navbar-scrolled {
+    border-bottom: 1px solid rgba(234, 202, 28, 0.15);
   }
 
   .nav-link:hover {
