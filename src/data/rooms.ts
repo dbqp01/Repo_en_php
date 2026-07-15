@@ -32,7 +32,7 @@ export const rooms: Room[] = roomsData.rooms.map((r) => ({
   images: r.images ?? [],
   photoFolder: r.photoFolder,
   hasVideoTour: r.hasVideoTour,
-  amenityLabels: r.amenityLabels ?? {},
+  amenityLabels: (r.amenityLabels as Record<string, AmenityLabel>) ?? {},
 }));
 
 export function getRoomBySlug(slug: string): Room | undefined {
