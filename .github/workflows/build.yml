@@ -27,6 +27,9 @@ jobs:
         run: npm ci
 
       - name: Compilar proyecto
+        env:
+          TINA_PUBLIC_CLIENT_ID: 'mock-client-id'
+          TINA_TOKEN: 'mock-token'
         run: |
           npm run build > build.log 2>&1 || (cat build.log && exit 1)
 
