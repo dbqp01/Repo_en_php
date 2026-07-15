@@ -9,10 +9,11 @@ import ReviewMarquee from "../components/ReviewMarquee.astro";
 import AboutSection from "../components/AboutSection.astro";
 import { rooms } from "../data/rooms";
 import { attractions } from "../data/attractions";
-import { faqs } from "../data/faq";
 import { useTranslations } from "../i18n/utils";
+import faqData from "../content/faq/faq.json";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { Image, getImage } from "astro:assets";
+import { siteSettings } from "../data/settings";
 
 // Hotel slideshow slides
 import slide1 from "../assets/hotel/hero-slide-patio.jpg";
@@ -31,36 +32,33 @@ const t = useTranslations(lang);
 const hotelSchema = {
   "@context": "https://schema.org",
   "@type": "Hotel",
-  name: "USGAR Hotels",
-  description:
-    lang === "es"
-      ? "USGAR Hotels es un hotel boutique en San Pedro, Cusco, cerca del Mercado de San Pedro. Habitaciones con murales andinos y desayuno buffet."
-      : "USGAR Hotels is a boutique hotel in San Pedro, Cusco, near the San Pedro Market. Rooms with hand-painted Andean murals.",
+  name: siteSettings.hotelName,
+  description: siteSettings.siteDescription[lang],
   image: "https://usgarhotels.com/assets/logos/Logo%20usgar%20morado.png",
-  telephone: "+51984000000",
-  email: "info@usgarhotels.com",
+  telephone: `+${siteSettings.phoneRaw}`,
+  email: siteSettings.email,
   url: "https://usgarhotels.com" + (lang === "es" ? "/es" : ""),
   address: {
     "@type": "PostalAddress",
-    streetAddress: "San Pedro",
-    addressLocality: "Cusco",
-    addressRegion: "Cusco",
-    postalCode: "08002",
-    addressCountry: "PE",
+    streetAddress: siteSettings.streetAddress,
+    addressLocality: siteSettings.city,
+    addressRegion: siteSettings.region,
+    postalCode: siteSettings.postalCode,
+    addressCountry: siteSettings.country,
   },
   geo: {
     "@type": "GeoCoordinates",
-    latitude: -13.5226,
-    longitude: -71.9828,
+    latitude: siteSettings.latitude,
+    longitude: siteSettings.longitude,
   },
   starRating: {
     "@type": "Rating",
-    ratingValue: "3",
+    ratingValue: String(siteSettings.starRating),
   },
-  priceRange: "$$",
-  numberOfRooms: 4,
-  checkinTime: "12:00",
-  checkoutTime: "10:30",
+  priceRange: siteSettings.priceRange,
+  numberOfRooms: rooms.length,
+  checkinTime: siteSettings.checkinTime,
+  checkoutTime: siteSettings.checkoutTime,
   amenityFeature: [
     {
       "@type": "LocationFeatureSpecification",
@@ -103,12 +101,12 @@ const hotelSchema = {
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  mainEntity: faqs.map((faq) => ({
+  mainEntity: faqData.questions.map((faq) => ({
     "@type": "Question",
-    name: faq.question[lang],
+    name: lang === "es" ? faq.question_es : faq.question_en,
     acceptedAnswer: {
       "@type": "Answer",
-      text: faq.answer[lang],
+      text: lang === "es" ? faq.answer_es : faq.answer_en,
     },
   })),
 };
@@ -117,7 +115,7 @@ const schemas = [hotelSchema, faqSchema];
 ---
 
 <Layout
-  title={`${t("hero.title")} — Boutique Hotel in San Pedro, Cusco`}
+  title={`${t("hero.title")} — ${siteSettings.hotelName}`}
   lang={lang}
   schema={schemas}
   preloadImage={optimizedPoster.src}

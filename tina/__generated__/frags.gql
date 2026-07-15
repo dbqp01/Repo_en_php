@@ -51,3 +51,113 @@ fragment FaqParts on Faq {
     answer_en
   }
 }
+
+fragment RoomsParts on Rooms {
+  __typename
+  rooms {
+    __typename
+    id
+    slug
+    name_es
+    name_en
+    description_es
+    description_en
+    maxGuests
+    beds
+    pricePerNight
+    amenities
+    images
+    photoFolder
+    hasVideoTour
+    amenityLabels {
+      __typename
+      wifi {
+        __typename
+        es
+        en
+      }
+      breakfast {
+        __typename
+        es
+        en
+      }
+      hot_water {
+        __typename
+        es
+        en
+      }
+      heating {
+        __typename
+        es
+        en
+      }
+      tv {
+        __typename
+        es
+        en
+      }
+      laundry {
+        __typename
+        es
+        en
+      }
+    }
+  }
+}
+
+fragment ServicesParts on Services {
+  __typename
+  services {
+    __typename
+    id
+    name_es
+    name_en
+    description_es
+    description_en
+    icon
+  }
+}
+
+fragment ReviewsParts on Reviews {
+  __typename
+  reviews {
+    __typename
+    name
+    country
+    rating
+    text_es
+    text_en
+    date_es
+    date_en
+  }
+}
+
+fragment SiteSettingsParts on SiteSettings {
+  __typename
+  hotelName
+  phone
+  phoneRaw
+  email
+  whatsappNumber
+  streetAddress
+  city
+  region
+  postalCode
+  country
+  address_es
+  address_en
+  latitude
+  longitude
+  checkinTime
+  checkoutTime
+  starRating
+  priceRange
+  siteDescription_es
+  siteDescription_en
+  socialLinks {
+    __typename
+    platform
+    url
+    label
+  }
+}

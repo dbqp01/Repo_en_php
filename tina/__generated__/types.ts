@@ -88,6 +88,14 @@ export type Query = {
   exploreConnection: ExploreConnection;
   faq: Faq;
   faqConnection: FaqConnection;
+  rooms: Rooms;
+  roomsConnection: RoomsConnection;
+  services: Services;
+  servicesConnection: ServicesConnection;
+  reviews: Reviews;
+  reviewsConnection: ReviewsConnection;
+  siteSettings: SiteSettings;
+  siteSettingsConnection: SiteSettingsConnection;
 };
 
 
@@ -156,10 +164,74 @@ export type QueryFaqConnectionArgs = {
   filter?: InputMaybe<FaqFilter>;
 };
 
+
+export type QueryRoomsArgs = {
+  relativePath?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryRoomsConnectionArgs = {
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<RoomsFilter>;
+};
+
+
+export type QueryServicesArgs = {
+  relativePath?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryServicesConnectionArgs = {
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<ServicesFilter>;
+};
+
+
+export type QueryReviewsArgs = {
+  relativePath?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryReviewsConnectionArgs = {
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<ReviewsFilter>;
+};
+
+
+export type QuerySiteSettingsArgs = {
+  relativePath?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QuerySiteSettingsConnectionArgs = {
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<SiteSettingsFilter>;
+};
+
 export type DocumentFilter = {
   about?: InputMaybe<AboutFilter>;
   explore?: InputMaybe<ExploreFilter>;
   faq?: InputMaybe<FaqFilter>;
+  rooms?: InputMaybe<RoomsFilter>;
+  services?: InputMaybe<ServicesFilter>;
+  reviews?: InputMaybe<ReviewsFilter>;
+  siteSettings?: InputMaybe<SiteSettingsFilter>;
 };
 
 export type DocumentConnectionEdges = {
@@ -199,7 +271,7 @@ export type CollectionDocumentsArgs = {
   folder?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type DocumentNode = About | Explore | Faq | Folder;
+export type DocumentNode = About | Explore | Faq | Rooms | Services | Reviews | SiteSettings | Folder;
 
 export type AboutValues = {
   __typename?: 'AboutValues';
@@ -377,6 +449,334 @@ export type FaqConnection = Connection & {
   edges?: Maybe<Array<Maybe<FaqConnectionEdges>>>;
 };
 
+export type RoomsRoomsAmenityLabelsWifi = {
+  __typename?: 'RoomsRoomsAmenityLabelsWifi';
+  es?: Maybe<Scalars['String']['output']>;
+  en?: Maybe<Scalars['String']['output']>;
+};
+
+export type RoomsRoomsAmenityLabelsBreakfast = {
+  __typename?: 'RoomsRoomsAmenityLabelsBreakfast';
+  es?: Maybe<Scalars['String']['output']>;
+  en?: Maybe<Scalars['String']['output']>;
+};
+
+export type RoomsRoomsAmenityLabelsHot_Water = {
+  __typename?: 'RoomsRoomsAmenityLabelsHot_water';
+  es?: Maybe<Scalars['String']['output']>;
+  en?: Maybe<Scalars['String']['output']>;
+};
+
+export type RoomsRoomsAmenityLabelsHeating = {
+  __typename?: 'RoomsRoomsAmenityLabelsHeating';
+  es?: Maybe<Scalars['String']['output']>;
+  en?: Maybe<Scalars['String']['output']>;
+};
+
+export type RoomsRoomsAmenityLabelsTv = {
+  __typename?: 'RoomsRoomsAmenityLabelsTv';
+  es?: Maybe<Scalars['String']['output']>;
+  en?: Maybe<Scalars['String']['output']>;
+};
+
+export type RoomsRoomsAmenityLabelsLaundry = {
+  __typename?: 'RoomsRoomsAmenityLabelsLaundry';
+  es?: Maybe<Scalars['String']['output']>;
+  en?: Maybe<Scalars['String']['output']>;
+};
+
+export type RoomsRoomsAmenityLabels = {
+  __typename?: 'RoomsRoomsAmenityLabels';
+  wifi?: Maybe<RoomsRoomsAmenityLabelsWifi>;
+  breakfast?: Maybe<RoomsRoomsAmenityLabelsBreakfast>;
+  hot_water?: Maybe<RoomsRoomsAmenityLabelsHot_Water>;
+  heating?: Maybe<RoomsRoomsAmenityLabelsHeating>;
+  tv?: Maybe<RoomsRoomsAmenityLabelsTv>;
+  laundry?: Maybe<RoomsRoomsAmenityLabelsLaundry>;
+};
+
+export type RoomsRooms = {
+  __typename?: 'RoomsRooms';
+  id: Scalars['String']['output'];
+  slug: Scalars['String']['output'];
+  name_es: Scalars['String']['output'];
+  name_en: Scalars['String']['output'];
+  description_es: Scalars['String']['output'];
+  description_en: Scalars['String']['output'];
+  maxGuests: Scalars['Float']['output'];
+  beds: Scalars['String']['output'];
+  pricePerNight: Scalars['Float']['output'];
+  amenities?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  images?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  photoFolder?: Maybe<Scalars['String']['output']>;
+  hasVideoTour?: Maybe<Scalars['Boolean']['output']>;
+  amenityLabels?: Maybe<RoomsRoomsAmenityLabels>;
+};
+
+export type Rooms = Node & Document & {
+  __typename?: 'Rooms';
+  rooms?: Maybe<Array<Maybe<RoomsRooms>>>;
+  id: Scalars['ID']['output'];
+  _sys: SystemInfo;
+  _values: Scalars['JSON']['output'];
+};
+
+export type NumberFilter = {
+  lt?: InputMaybe<Scalars['Float']['input']>;
+  lte?: InputMaybe<Scalars['Float']['input']>;
+  gte?: InputMaybe<Scalars['Float']['input']>;
+  gt?: InputMaybe<Scalars['Float']['input']>;
+  eq?: InputMaybe<Scalars['Float']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['Float']['input']>>>;
+};
+
+export type BooleanFilter = {
+  eq?: InputMaybe<Scalars['Boolean']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type RoomsRoomsAmenityLabelsWifiFilter = {
+  es?: InputMaybe<StringFilter>;
+  en?: InputMaybe<StringFilter>;
+};
+
+export type RoomsRoomsAmenityLabelsBreakfastFilter = {
+  es?: InputMaybe<StringFilter>;
+  en?: InputMaybe<StringFilter>;
+};
+
+export type RoomsRoomsAmenityLabelsHot_WaterFilter = {
+  es?: InputMaybe<StringFilter>;
+  en?: InputMaybe<StringFilter>;
+};
+
+export type RoomsRoomsAmenityLabelsHeatingFilter = {
+  es?: InputMaybe<StringFilter>;
+  en?: InputMaybe<StringFilter>;
+};
+
+export type RoomsRoomsAmenityLabelsTvFilter = {
+  es?: InputMaybe<StringFilter>;
+  en?: InputMaybe<StringFilter>;
+};
+
+export type RoomsRoomsAmenityLabelsLaundryFilter = {
+  es?: InputMaybe<StringFilter>;
+  en?: InputMaybe<StringFilter>;
+};
+
+export type RoomsRoomsAmenityLabelsFilter = {
+  wifi?: InputMaybe<RoomsRoomsAmenityLabelsWifiFilter>;
+  breakfast?: InputMaybe<RoomsRoomsAmenityLabelsBreakfastFilter>;
+  hot_water?: InputMaybe<RoomsRoomsAmenityLabelsHot_WaterFilter>;
+  heating?: InputMaybe<RoomsRoomsAmenityLabelsHeatingFilter>;
+  tv?: InputMaybe<RoomsRoomsAmenityLabelsTvFilter>;
+  laundry?: InputMaybe<RoomsRoomsAmenityLabelsLaundryFilter>;
+};
+
+export type RoomsRoomsFilter = {
+  id?: InputMaybe<StringFilter>;
+  slug?: InputMaybe<StringFilter>;
+  name_es?: InputMaybe<StringFilter>;
+  name_en?: InputMaybe<StringFilter>;
+  description_es?: InputMaybe<StringFilter>;
+  description_en?: InputMaybe<StringFilter>;
+  maxGuests?: InputMaybe<NumberFilter>;
+  beds?: InputMaybe<StringFilter>;
+  pricePerNight?: InputMaybe<NumberFilter>;
+  amenities?: InputMaybe<StringFilter>;
+  images?: InputMaybe<ImageFilter>;
+  photoFolder?: InputMaybe<StringFilter>;
+  hasVideoTour?: InputMaybe<BooleanFilter>;
+  amenityLabels?: InputMaybe<RoomsRoomsAmenityLabelsFilter>;
+};
+
+export type RoomsFilter = {
+  rooms?: InputMaybe<RoomsRoomsFilter>;
+};
+
+export type RoomsConnectionEdges = {
+  __typename?: 'RoomsConnectionEdges';
+  cursor: Scalars['String']['output'];
+  node?: Maybe<Rooms>;
+};
+
+export type RoomsConnection = Connection & {
+  __typename?: 'RoomsConnection';
+  pageInfo: PageInfo;
+  totalCount: Scalars['Float']['output'];
+  edges?: Maybe<Array<Maybe<RoomsConnectionEdges>>>;
+};
+
+export type ServicesServices = {
+  __typename?: 'ServicesServices';
+  id: Scalars['String']['output'];
+  name_es: Scalars['String']['output'];
+  name_en: Scalars['String']['output'];
+  description_es?: Maybe<Scalars['String']['output']>;
+  description_en?: Maybe<Scalars['String']['output']>;
+  icon?: Maybe<Scalars['String']['output']>;
+};
+
+export type Services = Node & Document & {
+  __typename?: 'Services';
+  services?: Maybe<Array<Maybe<ServicesServices>>>;
+  id: Scalars['ID']['output'];
+  _sys: SystemInfo;
+  _values: Scalars['JSON']['output'];
+};
+
+export type ServicesServicesFilter = {
+  id?: InputMaybe<StringFilter>;
+  name_es?: InputMaybe<StringFilter>;
+  name_en?: InputMaybe<StringFilter>;
+  description_es?: InputMaybe<StringFilter>;
+  description_en?: InputMaybe<StringFilter>;
+  icon?: InputMaybe<StringFilter>;
+};
+
+export type ServicesFilter = {
+  services?: InputMaybe<ServicesServicesFilter>;
+};
+
+export type ServicesConnectionEdges = {
+  __typename?: 'ServicesConnectionEdges';
+  cursor: Scalars['String']['output'];
+  node?: Maybe<Services>;
+};
+
+export type ServicesConnection = Connection & {
+  __typename?: 'ServicesConnection';
+  pageInfo: PageInfo;
+  totalCount: Scalars['Float']['output'];
+  edges?: Maybe<Array<Maybe<ServicesConnectionEdges>>>;
+};
+
+export type ReviewsReviews = {
+  __typename?: 'ReviewsReviews';
+  name: Scalars['String']['output'];
+  country: Scalars['String']['output'];
+  rating: Scalars['Float']['output'];
+  text_es: Scalars['String']['output'];
+  text_en: Scalars['String']['output'];
+  date_es: Scalars['String']['output'];
+  date_en: Scalars['String']['output'];
+};
+
+export type Reviews = Node & Document & {
+  __typename?: 'Reviews';
+  reviews?: Maybe<Array<Maybe<ReviewsReviews>>>;
+  id: Scalars['ID']['output'];
+  _sys: SystemInfo;
+  _values: Scalars['JSON']['output'];
+};
+
+export type ReviewsReviewsFilter = {
+  name?: InputMaybe<StringFilter>;
+  country?: InputMaybe<StringFilter>;
+  rating?: InputMaybe<NumberFilter>;
+  text_es?: InputMaybe<StringFilter>;
+  text_en?: InputMaybe<StringFilter>;
+  date_es?: InputMaybe<StringFilter>;
+  date_en?: InputMaybe<StringFilter>;
+};
+
+export type ReviewsFilter = {
+  reviews?: InputMaybe<ReviewsReviewsFilter>;
+};
+
+export type ReviewsConnectionEdges = {
+  __typename?: 'ReviewsConnectionEdges';
+  cursor: Scalars['String']['output'];
+  node?: Maybe<Reviews>;
+};
+
+export type ReviewsConnection = Connection & {
+  __typename?: 'ReviewsConnection';
+  pageInfo: PageInfo;
+  totalCount: Scalars['Float']['output'];
+  edges?: Maybe<Array<Maybe<ReviewsConnectionEdges>>>;
+};
+
+export type SiteSettingsSocialLinks = {
+  __typename?: 'SiteSettingsSocialLinks';
+  platform: Scalars['String']['output'];
+  url: Scalars['String']['output'];
+  label: Scalars['String']['output'];
+};
+
+export type SiteSettings = Node & Document & {
+  __typename?: 'SiteSettings';
+  hotelName: Scalars['String']['output'];
+  phone: Scalars['String']['output'];
+  phoneRaw: Scalars['String']['output'];
+  email: Scalars['String']['output'];
+  whatsappNumber: Scalars['String']['output'];
+  streetAddress: Scalars['String']['output'];
+  city: Scalars['String']['output'];
+  region?: Maybe<Scalars['String']['output']>;
+  postalCode?: Maybe<Scalars['String']['output']>;
+  country: Scalars['String']['output'];
+  address_es: Scalars['String']['output'];
+  address_en: Scalars['String']['output'];
+  latitude: Scalars['Float']['output'];
+  longitude: Scalars['Float']['output'];
+  checkinTime: Scalars['String']['output'];
+  checkoutTime: Scalars['String']['output'];
+  starRating?: Maybe<Scalars['Float']['output']>;
+  priceRange?: Maybe<Scalars['String']['output']>;
+  siteDescription_es: Scalars['String']['output'];
+  siteDescription_en: Scalars['String']['output'];
+  socialLinks?: Maybe<Array<Maybe<SiteSettingsSocialLinks>>>;
+  id: Scalars['ID']['output'];
+  _sys: SystemInfo;
+  _values: Scalars['JSON']['output'];
+};
+
+export type SiteSettingsSocialLinksFilter = {
+  platform?: InputMaybe<StringFilter>;
+  url?: InputMaybe<StringFilter>;
+  label?: InputMaybe<StringFilter>;
+};
+
+export type SiteSettingsFilter = {
+  hotelName?: InputMaybe<StringFilter>;
+  phone?: InputMaybe<StringFilter>;
+  phoneRaw?: InputMaybe<StringFilter>;
+  email?: InputMaybe<StringFilter>;
+  whatsappNumber?: InputMaybe<StringFilter>;
+  streetAddress?: InputMaybe<StringFilter>;
+  city?: InputMaybe<StringFilter>;
+  region?: InputMaybe<StringFilter>;
+  postalCode?: InputMaybe<StringFilter>;
+  country?: InputMaybe<StringFilter>;
+  address_es?: InputMaybe<StringFilter>;
+  address_en?: InputMaybe<StringFilter>;
+  latitude?: InputMaybe<NumberFilter>;
+  longitude?: InputMaybe<NumberFilter>;
+  checkinTime?: InputMaybe<StringFilter>;
+  checkoutTime?: InputMaybe<StringFilter>;
+  starRating?: InputMaybe<NumberFilter>;
+  priceRange?: InputMaybe<StringFilter>;
+  siteDescription_es?: InputMaybe<StringFilter>;
+  siteDescription_en?: InputMaybe<StringFilter>;
+  socialLinks?: InputMaybe<SiteSettingsSocialLinksFilter>;
+};
+
+export type SiteSettingsConnectionEdges = {
+  __typename?: 'SiteSettingsConnectionEdges';
+  cursor: Scalars['String']['output'];
+  node?: Maybe<SiteSettings>;
+};
+
+export type SiteSettingsConnection = Connection & {
+  __typename?: 'SiteSettingsConnection';
+  pageInfo: PageInfo;
+  totalCount: Scalars['Float']['output'];
+  edges?: Maybe<Array<Maybe<SiteSettingsConnectionEdges>>>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   addPendingDocument: DocumentNode;
@@ -390,6 +790,14 @@ export type Mutation = {
   createExplore: Explore;
   updateFaq: Faq;
   createFaq: Faq;
+  updateRooms: Rooms;
+  createRooms: Rooms;
+  updateServices: Services;
+  createServices: Services;
+  updateReviews: Reviews;
+  createReviews: Reviews;
+  updateSiteSettings: SiteSettings;
+  createSiteSettings: SiteSettings;
 };
 
 
@@ -461,10 +869,62 @@ export type MutationCreateFaqArgs = {
   params: FaqMutation;
 };
 
+
+export type MutationUpdateRoomsArgs = {
+  relativePath: Scalars['String']['input'];
+  params: RoomsMutation;
+};
+
+
+export type MutationCreateRoomsArgs = {
+  relativePath: Scalars['String']['input'];
+  params: RoomsMutation;
+};
+
+
+export type MutationUpdateServicesArgs = {
+  relativePath: Scalars['String']['input'];
+  params: ServicesMutation;
+};
+
+
+export type MutationCreateServicesArgs = {
+  relativePath: Scalars['String']['input'];
+  params: ServicesMutation;
+};
+
+
+export type MutationUpdateReviewsArgs = {
+  relativePath: Scalars['String']['input'];
+  params: ReviewsMutation;
+};
+
+
+export type MutationCreateReviewsArgs = {
+  relativePath: Scalars['String']['input'];
+  params: ReviewsMutation;
+};
+
+
+export type MutationUpdateSiteSettingsArgs = {
+  relativePath: Scalars['String']['input'];
+  params: SiteSettingsMutation;
+};
+
+
+export type MutationCreateSiteSettingsArgs = {
+  relativePath: Scalars['String']['input'];
+  params: SiteSettingsMutation;
+};
+
 export type DocumentUpdateMutation = {
   about?: InputMaybe<AboutMutation>;
   explore?: InputMaybe<ExploreMutation>;
   faq?: InputMaybe<FaqMutation>;
+  rooms?: InputMaybe<RoomsMutation>;
+  services?: InputMaybe<ServicesMutation>;
+  reviews?: InputMaybe<ReviewsMutation>;
+  siteSettings?: InputMaybe<SiteSettingsMutation>;
   relativePath?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -472,6 +932,10 @@ export type DocumentMutation = {
   about?: InputMaybe<AboutMutation>;
   explore?: InputMaybe<ExploreMutation>;
   faq?: InputMaybe<FaqMutation>;
+  rooms?: InputMaybe<RoomsMutation>;
+  services?: InputMaybe<ServicesMutation>;
+  reviews?: InputMaybe<ReviewsMutation>;
+  siteSettings?: InputMaybe<SiteSettingsMutation>;
 };
 
 export type AboutValuesMutation = {
@@ -528,11 +992,136 @@ export type FaqMutation = {
   questions?: InputMaybe<Array<InputMaybe<FaqQuestionsMutation>>>;
 };
 
+export type RoomsRoomsAmenityLabelsWifiMutation = {
+  es?: InputMaybe<Scalars['String']['input']>;
+  en?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type RoomsRoomsAmenityLabelsBreakfastMutation = {
+  es?: InputMaybe<Scalars['String']['input']>;
+  en?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type RoomsRoomsAmenityLabelsHot_WaterMutation = {
+  es?: InputMaybe<Scalars['String']['input']>;
+  en?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type RoomsRoomsAmenityLabelsHeatingMutation = {
+  es?: InputMaybe<Scalars['String']['input']>;
+  en?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type RoomsRoomsAmenityLabelsTvMutation = {
+  es?: InputMaybe<Scalars['String']['input']>;
+  en?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type RoomsRoomsAmenityLabelsLaundryMutation = {
+  es?: InputMaybe<Scalars['String']['input']>;
+  en?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type RoomsRoomsAmenityLabelsMutation = {
+  wifi?: InputMaybe<RoomsRoomsAmenityLabelsWifiMutation>;
+  breakfast?: InputMaybe<RoomsRoomsAmenityLabelsBreakfastMutation>;
+  hot_water?: InputMaybe<RoomsRoomsAmenityLabelsHot_WaterMutation>;
+  heating?: InputMaybe<RoomsRoomsAmenityLabelsHeatingMutation>;
+  tv?: InputMaybe<RoomsRoomsAmenityLabelsTvMutation>;
+  laundry?: InputMaybe<RoomsRoomsAmenityLabelsLaundryMutation>;
+};
+
+export type RoomsRoomsMutation = {
+  id?: InputMaybe<Scalars['String']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
+  name_es?: InputMaybe<Scalars['String']['input']>;
+  name_en?: InputMaybe<Scalars['String']['input']>;
+  description_es?: InputMaybe<Scalars['String']['input']>;
+  description_en?: InputMaybe<Scalars['String']['input']>;
+  maxGuests?: InputMaybe<Scalars['Float']['input']>;
+  beds?: InputMaybe<Scalars['String']['input']>;
+  pricePerNight?: InputMaybe<Scalars['Float']['input']>;
+  amenities?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  images?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  photoFolder?: InputMaybe<Scalars['String']['input']>;
+  hasVideoTour?: InputMaybe<Scalars['Boolean']['input']>;
+  amenityLabels?: InputMaybe<RoomsRoomsAmenityLabelsMutation>;
+};
+
+export type RoomsMutation = {
+  rooms?: InputMaybe<Array<InputMaybe<RoomsRoomsMutation>>>;
+};
+
+export type ServicesServicesMutation = {
+  id?: InputMaybe<Scalars['String']['input']>;
+  name_es?: InputMaybe<Scalars['String']['input']>;
+  name_en?: InputMaybe<Scalars['String']['input']>;
+  description_es?: InputMaybe<Scalars['String']['input']>;
+  description_en?: InputMaybe<Scalars['String']['input']>;
+  icon?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ServicesMutation = {
+  services?: InputMaybe<Array<InputMaybe<ServicesServicesMutation>>>;
+};
+
+export type ReviewsReviewsMutation = {
+  name?: InputMaybe<Scalars['String']['input']>;
+  country?: InputMaybe<Scalars['String']['input']>;
+  rating?: InputMaybe<Scalars['Float']['input']>;
+  text_es?: InputMaybe<Scalars['String']['input']>;
+  text_en?: InputMaybe<Scalars['String']['input']>;
+  date_es?: InputMaybe<Scalars['String']['input']>;
+  date_en?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ReviewsMutation = {
+  reviews?: InputMaybe<Array<InputMaybe<ReviewsReviewsMutation>>>;
+};
+
+export type SiteSettingsSocialLinksMutation = {
+  platform?: InputMaybe<Scalars['String']['input']>;
+  url?: InputMaybe<Scalars['String']['input']>;
+  label?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type SiteSettingsMutation = {
+  hotelName?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
+  phoneRaw?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  whatsappNumber?: InputMaybe<Scalars['String']['input']>;
+  streetAddress?: InputMaybe<Scalars['String']['input']>;
+  city?: InputMaybe<Scalars['String']['input']>;
+  region?: InputMaybe<Scalars['String']['input']>;
+  postalCode?: InputMaybe<Scalars['String']['input']>;
+  country?: InputMaybe<Scalars['String']['input']>;
+  address_es?: InputMaybe<Scalars['String']['input']>;
+  address_en?: InputMaybe<Scalars['String']['input']>;
+  latitude?: InputMaybe<Scalars['Float']['input']>;
+  longitude?: InputMaybe<Scalars['Float']['input']>;
+  checkinTime?: InputMaybe<Scalars['String']['input']>;
+  checkoutTime?: InputMaybe<Scalars['String']['input']>;
+  starRating?: InputMaybe<Scalars['Float']['input']>;
+  priceRange?: InputMaybe<Scalars['String']['input']>;
+  siteDescription_es?: InputMaybe<Scalars['String']['input']>;
+  siteDescription_en?: InputMaybe<Scalars['String']['input']>;
+  socialLinks?: InputMaybe<Array<InputMaybe<SiteSettingsSocialLinksMutation>>>;
+};
+
 export type AboutPartsFragment = { __typename: 'About', title_es: string, title_en: string, purpose_es: string, purpose_en: string, mission_es: string, mission_en: string, vision_es: string, vision_en: string, values?: Array<{ __typename: 'AboutValues', title_es?: string | null, title_en?: string | null, description_es?: string | null, description_en?: string | null } | null> | null };
 
 export type ExplorePartsFragment = { __typename: 'Explore', attractions?: Array<{ __typename: 'ExploreAttractions', id: string, name_es: string, name_en: string, description_es: string, description_en: string, distance: string, travelTime: string, category: string, history_es?: string | null, history_en?: string | null, howToGet_es?: string | null, howToGet_en?: string | null, tips_es?: Array<string | null> | null, tips_en?: Array<string | null> | null, bestTime_es?: string | null, bestTime_en?: string | null, image?: string | null } | null> | null };
 
 export type FaqPartsFragment = { __typename: 'Faq', questions?: Array<{ __typename: 'FaqQuestions', question_es: string, question_en: string, answer_es: string, answer_en: string } | null> | null };
+
+export type RoomsPartsFragment = { __typename: 'Rooms', rooms?: Array<{ __typename: 'RoomsRooms', id: string, slug: string, name_es: string, name_en: string, description_es: string, description_en: string, maxGuests: number, beds: string, pricePerNight: number, amenities?: Array<string | null> | null, images?: Array<string | null> | null, photoFolder?: string | null, hasVideoTour?: boolean | null, amenityLabels?: { __typename: 'RoomsRoomsAmenityLabels', wifi?: { __typename: 'RoomsRoomsAmenityLabelsWifi', es?: string | null, en?: string | null } | null, breakfast?: { __typename: 'RoomsRoomsAmenityLabelsBreakfast', es?: string | null, en?: string | null } | null, hot_water?: { __typename: 'RoomsRoomsAmenityLabelsHot_water', es?: string | null, en?: string | null } | null, heating?: { __typename: 'RoomsRoomsAmenityLabelsHeating', es?: string | null, en?: string | null } | null, tv?: { __typename: 'RoomsRoomsAmenityLabelsTv', es?: string | null, en?: string | null } | null, laundry?: { __typename: 'RoomsRoomsAmenityLabelsLaundry', es?: string | null, en?: string | null } | null } | null } | null> | null };
+
+export type ServicesPartsFragment = { __typename: 'Services', services?: Array<{ __typename: 'ServicesServices', id: string, name_es: string, name_en: string, description_es?: string | null, description_en?: string | null, icon?: string | null } | null> | null };
+
+export type ReviewsPartsFragment = { __typename: 'Reviews', reviews?: Array<{ __typename: 'ReviewsReviews', name: string, country: string, rating: number, text_es: string, text_en: string, date_es: string, date_en: string } | null> | null };
+
+export type SiteSettingsPartsFragment = { __typename: 'SiteSettings', hotelName: string, phone: string, phoneRaw: string, email: string, whatsappNumber: string, streetAddress: string, city: string, region?: string | null, postalCode?: string | null, country: string, address_es: string, address_en: string, latitude: number, longitude: number, checkinTime: string, checkoutTime: string, starRating?: number | null, priceRange?: string | null, siteDescription_es: string, siteDescription_en: string, socialLinks?: Array<{ __typename: 'SiteSettingsSocialLinks', platform: string, url: string, label: string } | null> | null };
 
 export type AboutQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
@@ -591,6 +1180,82 @@ export type FaqConnectionQueryVariables = Exact<{
 
 export type FaqConnectionQuery = { __typename?: 'Query', faqConnection: { __typename?: 'FaqConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'FaqConnectionEdges', cursor: string, node?: { __typename: 'Faq', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, questions?: Array<{ __typename: 'FaqQuestions', question_es: string, question_en: string, answer_es: string, answer_en: string } | null> | null } | null } | null> | null } };
 
+export type RoomsQueryVariables = Exact<{
+  relativePath: Scalars['String']['input'];
+}>;
+
+
+export type RoomsQuery = { __typename?: 'Query', rooms: { __typename: 'Rooms', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, rooms?: Array<{ __typename: 'RoomsRooms', id: string, slug: string, name_es: string, name_en: string, description_es: string, description_en: string, maxGuests: number, beds: string, pricePerNight: number, amenities?: Array<string | null> | null, images?: Array<string | null> | null, photoFolder?: string | null, hasVideoTour?: boolean | null, amenityLabels?: { __typename: 'RoomsRoomsAmenityLabels', wifi?: { __typename: 'RoomsRoomsAmenityLabelsWifi', es?: string | null, en?: string | null } | null, breakfast?: { __typename: 'RoomsRoomsAmenityLabelsBreakfast', es?: string | null, en?: string | null } | null, hot_water?: { __typename: 'RoomsRoomsAmenityLabelsHot_water', es?: string | null, en?: string | null } | null, heating?: { __typename: 'RoomsRoomsAmenityLabelsHeating', es?: string | null, en?: string | null } | null, tv?: { __typename: 'RoomsRoomsAmenityLabelsTv', es?: string | null, en?: string | null } | null, laundry?: { __typename: 'RoomsRoomsAmenityLabelsLaundry', es?: string | null, en?: string | null } | null } | null } | null> | null } };
+
+export type RoomsConnectionQueryVariables = Exact<{
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<RoomsFilter>;
+}>;
+
+
+export type RoomsConnectionQuery = { __typename?: 'Query', roomsConnection: { __typename?: 'RoomsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'RoomsConnectionEdges', cursor: string, node?: { __typename: 'Rooms', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, rooms?: Array<{ __typename: 'RoomsRooms', id: string, slug: string, name_es: string, name_en: string, description_es: string, description_en: string, maxGuests: number, beds: string, pricePerNight: number, amenities?: Array<string | null> | null, images?: Array<string | null> | null, photoFolder?: string | null, hasVideoTour?: boolean | null, amenityLabels?: { __typename: 'RoomsRoomsAmenityLabels', wifi?: { __typename: 'RoomsRoomsAmenityLabelsWifi', es?: string | null, en?: string | null } | null, breakfast?: { __typename: 'RoomsRoomsAmenityLabelsBreakfast', es?: string | null, en?: string | null } | null, hot_water?: { __typename: 'RoomsRoomsAmenityLabelsHot_water', es?: string | null, en?: string | null } | null, heating?: { __typename: 'RoomsRoomsAmenityLabelsHeating', es?: string | null, en?: string | null } | null, tv?: { __typename: 'RoomsRoomsAmenityLabelsTv', es?: string | null, en?: string | null } | null, laundry?: { __typename: 'RoomsRoomsAmenityLabelsLaundry', es?: string | null, en?: string | null } | null } | null } | null> | null } | null } | null> | null } };
+
+export type ServicesQueryVariables = Exact<{
+  relativePath: Scalars['String']['input'];
+}>;
+
+
+export type ServicesQuery = { __typename?: 'Query', services: { __typename: 'Services', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, services?: Array<{ __typename: 'ServicesServices', id: string, name_es: string, name_en: string, description_es?: string | null, description_en?: string | null, icon?: string | null } | null> | null } };
+
+export type ServicesConnectionQueryVariables = Exact<{
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<ServicesFilter>;
+}>;
+
+
+export type ServicesConnectionQuery = { __typename?: 'Query', servicesConnection: { __typename?: 'ServicesConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'ServicesConnectionEdges', cursor: string, node?: { __typename: 'Services', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, services?: Array<{ __typename: 'ServicesServices', id: string, name_es: string, name_en: string, description_es?: string | null, description_en?: string | null, icon?: string | null } | null> | null } | null } | null> | null } };
+
+export type ReviewsQueryVariables = Exact<{
+  relativePath: Scalars['String']['input'];
+}>;
+
+
+export type ReviewsQuery = { __typename?: 'Query', reviews: { __typename: 'Reviews', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, reviews?: Array<{ __typename: 'ReviewsReviews', name: string, country: string, rating: number, text_es: string, text_en: string, date_es: string, date_en: string } | null> | null } };
+
+export type ReviewsConnectionQueryVariables = Exact<{
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<ReviewsFilter>;
+}>;
+
+
+export type ReviewsConnectionQuery = { __typename?: 'Query', reviewsConnection: { __typename?: 'ReviewsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'ReviewsConnectionEdges', cursor: string, node?: { __typename: 'Reviews', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, reviews?: Array<{ __typename: 'ReviewsReviews', name: string, country: string, rating: number, text_es: string, text_en: string, date_es: string, date_en: string } | null> | null } | null } | null> | null } };
+
+export type SiteSettingsQueryVariables = Exact<{
+  relativePath: Scalars['String']['input'];
+}>;
+
+
+export type SiteSettingsQuery = { __typename?: 'Query', siteSettings: { __typename: 'SiteSettings', id: string, hotelName: string, phone: string, phoneRaw: string, email: string, whatsappNumber: string, streetAddress: string, city: string, region?: string | null, postalCode?: string | null, country: string, address_es: string, address_en: string, latitude: number, longitude: number, checkinTime: string, checkoutTime: string, starRating?: number | null, priceRange?: string | null, siteDescription_es: string, siteDescription_en: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, socialLinks?: Array<{ __typename: 'SiteSettingsSocialLinks', platform: string, url: string, label: string } | null> | null } };
+
+export type SiteSettingsConnectionQueryVariables = Exact<{
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<SiteSettingsFilter>;
+}>;
+
+
+export type SiteSettingsConnectionQuery = { __typename?: 'Query', siteSettingsConnection: { __typename?: 'SiteSettingsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'SiteSettingsConnectionEdges', cursor: string, node?: { __typename: 'SiteSettings', id: string, hotelName: string, phone: string, phoneRaw: string, email: string, whatsappNumber: string, streetAddress: string, city: string, region?: string | null, postalCode?: string | null, country: string, address_es: string, address_en: string, latitude: number, longitude: number, checkinTime: string, checkoutTime: string, starRating?: number | null, priceRange?: string | null, siteDescription_es: string, siteDescription_en: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, socialLinks?: Array<{ __typename: 'SiteSettingsSocialLinks', platform: string, url: string, label: string } | null> | null } | null } | null> | null } };
+
 export const AboutPartsFragmentDoc = gql`
     fragment AboutParts on About {
   __typename
@@ -645,6 +1310,120 @@ export const FaqPartsFragmentDoc = gql`
     question_en
     answer_es
     answer_en
+  }
+}
+    `;
+export const RoomsPartsFragmentDoc = gql`
+    fragment RoomsParts on Rooms {
+  __typename
+  rooms {
+    __typename
+    id
+    slug
+    name_es
+    name_en
+    description_es
+    description_en
+    maxGuests
+    beds
+    pricePerNight
+    amenities
+    images
+    photoFolder
+    hasVideoTour
+    amenityLabels {
+      __typename
+      wifi {
+        __typename
+        es
+        en
+      }
+      breakfast {
+        __typename
+        es
+        en
+      }
+      hot_water {
+        __typename
+        es
+        en
+      }
+      heating {
+        __typename
+        es
+        en
+      }
+      tv {
+        __typename
+        es
+        en
+      }
+      laundry {
+        __typename
+        es
+        en
+      }
+    }
+  }
+}
+    `;
+export const ServicesPartsFragmentDoc = gql`
+    fragment ServicesParts on Services {
+  __typename
+  services {
+    __typename
+    id
+    name_es
+    name_en
+    description_es
+    description_en
+    icon
+  }
+}
+    `;
+export const ReviewsPartsFragmentDoc = gql`
+    fragment ReviewsParts on Reviews {
+  __typename
+  reviews {
+    __typename
+    name
+    country
+    rating
+    text_es
+    text_en
+    date_es
+    date_en
+  }
+}
+    `;
+export const SiteSettingsPartsFragmentDoc = gql`
+    fragment SiteSettingsParts on SiteSettings {
+  __typename
+  hotelName
+  phone
+  phoneRaw
+  email
+  whatsappNumber
+  streetAddress
+  city
+  region
+  postalCode
+  country
+  address_es
+  address_en
+  latitude
+  longitude
+  checkinTime
+  checkoutTime
+  starRating
+  priceRange
+  siteDescription_es
+  siteDescription_en
+  socialLinks {
+    __typename
+    platform
+    url
+    label
   }
 }
     `;
@@ -819,6 +1598,234 @@ export const FaqConnectionDocument = gql`
   }
 }
     ${FaqPartsFragmentDoc}`;
+export const RoomsDocument = gql`
+    query rooms($relativePath: String!) {
+  rooms(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...RoomsParts
+  }
+}
+    ${RoomsPartsFragmentDoc}`;
+export const RoomsConnectionDocument = gql`
+    query roomsConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: RoomsFilter) {
+  roomsConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...RoomsParts
+      }
+    }
+  }
+}
+    ${RoomsPartsFragmentDoc}`;
+export const ServicesDocument = gql`
+    query services($relativePath: String!) {
+  services(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...ServicesParts
+  }
+}
+    ${ServicesPartsFragmentDoc}`;
+export const ServicesConnectionDocument = gql`
+    query servicesConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: ServicesFilter) {
+  servicesConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...ServicesParts
+      }
+    }
+  }
+}
+    ${ServicesPartsFragmentDoc}`;
+export const ReviewsDocument = gql`
+    query reviews($relativePath: String!) {
+  reviews(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...ReviewsParts
+  }
+}
+    ${ReviewsPartsFragmentDoc}`;
+export const ReviewsConnectionDocument = gql`
+    query reviewsConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: ReviewsFilter) {
+  reviewsConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...ReviewsParts
+      }
+    }
+  }
+}
+    ${ReviewsPartsFragmentDoc}`;
+export const SiteSettingsDocument = gql`
+    query siteSettings($relativePath: String!) {
+  siteSettings(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...SiteSettingsParts
+  }
+}
+    ${SiteSettingsPartsFragmentDoc}`;
+export const SiteSettingsConnectionDocument = gql`
+    query siteSettingsConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: SiteSettingsFilter) {
+  siteSettingsConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...SiteSettingsParts
+      }
+    }
+  }
+}
+    ${SiteSettingsPartsFragmentDoc}`;
 export type Requester<C= {}> = <R, V>(doc: DocumentNode, vars?: V, options?: C) => Promise<R>
   export function getSdk<C>(requester: Requester<C>) {
     return {
@@ -839,6 +1846,30 @@ export type Requester<C= {}> = <R, V>(doc: DocumentNode, vars?: V, options?: C) 
       },
     faqConnection(variables?: FaqConnectionQueryVariables, options?: C): Promise<{data: FaqConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: FaqConnectionQueryVariables, query: string}> {
         return requester<{data: FaqConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: FaqConnectionQueryVariables, query: string}, FaqConnectionQueryVariables>(FaqConnectionDocument, variables, options);
+      },
+    rooms(variables: RoomsQueryVariables, options?: C): Promise<{data: RoomsQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: RoomsQueryVariables, query: string}> {
+        return requester<{data: RoomsQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: RoomsQueryVariables, query: string}, RoomsQueryVariables>(RoomsDocument, variables, options);
+      },
+    roomsConnection(variables?: RoomsConnectionQueryVariables, options?: C): Promise<{data: RoomsConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: RoomsConnectionQueryVariables, query: string}> {
+        return requester<{data: RoomsConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: RoomsConnectionQueryVariables, query: string}, RoomsConnectionQueryVariables>(RoomsConnectionDocument, variables, options);
+      },
+    services(variables: ServicesQueryVariables, options?: C): Promise<{data: ServicesQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ServicesQueryVariables, query: string}> {
+        return requester<{data: ServicesQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ServicesQueryVariables, query: string}, ServicesQueryVariables>(ServicesDocument, variables, options);
+      },
+    servicesConnection(variables?: ServicesConnectionQueryVariables, options?: C): Promise<{data: ServicesConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ServicesConnectionQueryVariables, query: string}> {
+        return requester<{data: ServicesConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ServicesConnectionQueryVariables, query: string}, ServicesConnectionQueryVariables>(ServicesConnectionDocument, variables, options);
+      },
+    reviews(variables: ReviewsQueryVariables, options?: C): Promise<{data: ReviewsQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ReviewsQueryVariables, query: string}> {
+        return requester<{data: ReviewsQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ReviewsQueryVariables, query: string}, ReviewsQueryVariables>(ReviewsDocument, variables, options);
+      },
+    reviewsConnection(variables?: ReviewsConnectionQueryVariables, options?: C): Promise<{data: ReviewsConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ReviewsConnectionQueryVariables, query: string}> {
+        return requester<{data: ReviewsConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ReviewsConnectionQueryVariables, query: string}, ReviewsConnectionQueryVariables>(ReviewsConnectionDocument, variables, options);
+      },
+    siteSettings(variables: SiteSettingsQueryVariables, options?: C): Promise<{data: SiteSettingsQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: SiteSettingsQueryVariables, query: string}> {
+        return requester<{data: SiteSettingsQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: SiteSettingsQueryVariables, query: string}, SiteSettingsQueryVariables>(SiteSettingsDocument, variables, options);
+      },
+    siteSettingsConnection(variables?: SiteSettingsConnectionQueryVariables, options?: C): Promise<{data: SiteSettingsConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: SiteSettingsConnectionQueryVariables, query: string}> {
+        return requester<{data: SiteSettingsConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: SiteSettingsConnectionQueryVariables, query: string}, SiteSettingsConnectionQueryVariables>(SiteSettingsConnectionDocument, variables, options);
       }
     };
   }
@@ -887,7 +1918,7 @@ export const ExperimentalGetTinaClient = () =>
   getSdk(
     generateRequester(
       createClient({
-        url: "https://content.tinajs.io/2.4/content/8d8990a6-978a-48a8-b88c-4b4e13bf2978/github/main",
+        url: "http://localhost:4001/graphql",
         queries,
       })
     )

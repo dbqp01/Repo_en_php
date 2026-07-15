@@ -60,12 +60,24 @@ type Query {
   exploreConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: ExploreFilter): ExploreConnection!
   faq(relativePath: String): Faq!
   faqConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: FaqFilter): FaqConnection!
+  rooms(relativePath: String): Rooms!
+  roomsConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: RoomsFilter): RoomsConnection!
+  services(relativePath: String): Services!
+  servicesConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: ServicesFilter): ServicesConnection!
+  reviews(relativePath: String): Reviews!
+  reviewsConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: ReviewsFilter): ReviewsConnection!
+  siteSettings(relativePath: String): SiteSettings!
+  siteSettingsConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: SiteSettingsFilter): SiteSettingsConnection!
 }
 
 input DocumentFilter {
   about: AboutFilter
   explore: ExploreFilter
   faq: FaqFilter
+  rooms: RoomsFilter
+  services: ServicesFilter
+  reviews: ReviewsFilter
+  siteSettings: SiteSettingsFilter
 }
 
 type DocumentConnectionEdges {
@@ -91,7 +103,7 @@ type Collection {
   documents(before: String, after: String, first: Float, last: Float, sort: String, filter: DocumentFilter, folder: String): DocumentConnection!
 }
 
-union DocumentNode = About | Explore | Faq | Folder
+union DocumentNode = About | Explore | Faq | Rooms | Services | Reviews | SiteSettings | Folder
 
 type AboutValues {
   title_es: String
@@ -257,6 +269,311 @@ type FaqConnection implements Connection {
   edges: [FaqConnectionEdges]
 }
 
+type RoomsRoomsAmenityLabelsWifi {
+  es: String
+  en: String
+}
+
+type RoomsRoomsAmenityLabelsBreakfast {
+  es: String
+  en: String
+}
+
+type RoomsRoomsAmenityLabelsHot_water {
+  es: String
+  en: String
+}
+
+type RoomsRoomsAmenityLabelsHeating {
+  es: String
+  en: String
+}
+
+type RoomsRoomsAmenityLabelsTv {
+  es: String
+  en: String
+}
+
+type RoomsRoomsAmenityLabelsLaundry {
+  es: String
+  en: String
+}
+
+type RoomsRoomsAmenityLabels {
+  wifi: RoomsRoomsAmenityLabelsWifi
+  breakfast: RoomsRoomsAmenityLabelsBreakfast
+  hot_water: RoomsRoomsAmenityLabelsHot_water
+  heating: RoomsRoomsAmenityLabelsHeating
+  tv: RoomsRoomsAmenityLabelsTv
+  laundry: RoomsRoomsAmenityLabelsLaundry
+}
+
+type RoomsRooms {
+  id: String!
+  slug: String!
+  name_es: String!
+  name_en: String!
+  description_es: String!
+  description_en: String!
+  maxGuests: Float!
+  beds: String!
+  pricePerNight: Float!
+  amenities: [String]
+  images: [String]
+  photoFolder: String
+  hasVideoTour: Boolean
+  amenityLabels: RoomsRoomsAmenityLabels
+}
+
+type Rooms implements Node & Document {
+  rooms: [RoomsRooms]
+  id: ID!
+  _sys: SystemInfo!
+  _values: JSON!
+}
+
+input NumberFilter {
+  lt: Float
+  lte: Float
+  gte: Float
+  gt: Float
+  eq: Float
+  exists: Boolean
+  in: [Float]
+}
+
+input BooleanFilter {
+  eq: Boolean
+  exists: Boolean
+}
+
+input RoomsRoomsAmenityLabelsWifiFilter {
+  es: StringFilter
+  en: StringFilter
+}
+
+input RoomsRoomsAmenityLabelsBreakfastFilter {
+  es: StringFilter
+  en: StringFilter
+}
+
+input RoomsRoomsAmenityLabelsHot_waterFilter {
+  es: StringFilter
+  en: StringFilter
+}
+
+input RoomsRoomsAmenityLabelsHeatingFilter {
+  es: StringFilter
+  en: StringFilter
+}
+
+input RoomsRoomsAmenityLabelsTvFilter {
+  es: StringFilter
+  en: StringFilter
+}
+
+input RoomsRoomsAmenityLabelsLaundryFilter {
+  es: StringFilter
+  en: StringFilter
+}
+
+input RoomsRoomsAmenityLabelsFilter {
+  wifi: RoomsRoomsAmenityLabelsWifiFilter
+  breakfast: RoomsRoomsAmenityLabelsBreakfastFilter
+  hot_water: RoomsRoomsAmenityLabelsHot_waterFilter
+  heating: RoomsRoomsAmenityLabelsHeatingFilter
+  tv: RoomsRoomsAmenityLabelsTvFilter
+  laundry: RoomsRoomsAmenityLabelsLaundryFilter
+}
+
+input RoomsRoomsFilter {
+  id: StringFilter
+  slug: StringFilter
+  name_es: StringFilter
+  name_en: StringFilter
+  description_es: StringFilter
+  description_en: StringFilter
+  maxGuests: NumberFilter
+  beds: StringFilter
+  pricePerNight: NumberFilter
+  amenities: StringFilter
+  images: ImageFilter
+  photoFolder: StringFilter
+  hasVideoTour: BooleanFilter
+  amenityLabels: RoomsRoomsAmenityLabelsFilter
+}
+
+input RoomsFilter {
+  rooms: RoomsRoomsFilter
+}
+
+type RoomsConnectionEdges {
+  cursor: String!
+  node: Rooms
+}
+
+type RoomsConnection implements Connection {
+  pageInfo: PageInfo!
+  totalCount: Float!
+  edges: [RoomsConnectionEdges]
+}
+
+type ServicesServices {
+  id: String!
+  name_es: String!
+  name_en: String!
+  description_es: String
+  description_en: String
+  icon: String
+}
+
+type Services implements Node & Document {
+  services: [ServicesServices]
+  id: ID!
+  _sys: SystemInfo!
+  _values: JSON!
+}
+
+input ServicesServicesFilter {
+  id: StringFilter
+  name_es: StringFilter
+  name_en: StringFilter
+  description_es: StringFilter
+  description_en: StringFilter
+  icon: StringFilter
+}
+
+input ServicesFilter {
+  services: ServicesServicesFilter
+}
+
+type ServicesConnectionEdges {
+  cursor: String!
+  node: Services
+}
+
+type ServicesConnection implements Connection {
+  pageInfo: PageInfo!
+  totalCount: Float!
+  edges: [ServicesConnectionEdges]
+}
+
+type ReviewsReviews {
+  name: String!
+  country: String!
+  rating: Float!
+  text_es: String!
+  text_en: String!
+  date_es: String!
+  date_en: String!
+}
+
+type Reviews implements Node & Document {
+  reviews: [ReviewsReviews]
+  id: ID!
+  _sys: SystemInfo!
+  _values: JSON!
+}
+
+input ReviewsReviewsFilter {
+  name: StringFilter
+  country: StringFilter
+  rating: NumberFilter
+  text_es: StringFilter
+  text_en: StringFilter
+  date_es: StringFilter
+  date_en: StringFilter
+}
+
+input ReviewsFilter {
+  reviews: ReviewsReviewsFilter
+}
+
+type ReviewsConnectionEdges {
+  cursor: String!
+  node: Reviews
+}
+
+type ReviewsConnection implements Connection {
+  pageInfo: PageInfo!
+  totalCount: Float!
+  edges: [ReviewsConnectionEdges]
+}
+
+type SiteSettingsSocialLinks {
+  platform: String!
+  url: String!
+  label: String!
+}
+
+type SiteSettings implements Node & Document {
+  hotelName: String!
+  phone: String!
+  phoneRaw: String!
+  email: String!
+  whatsappNumber: String!
+  streetAddress: String!
+  city: String!
+  region: String
+  postalCode: String
+  country: String!
+  address_es: String!
+  address_en: String!
+  latitude: Float!
+  longitude: Float!
+  checkinTime: String!
+  checkoutTime: String!
+  starRating: Float
+  priceRange: String
+  siteDescription_es: String!
+  siteDescription_en: String!
+  socialLinks: [SiteSettingsSocialLinks]
+  id: ID!
+  _sys: SystemInfo!
+  _values: JSON!
+}
+
+input SiteSettingsSocialLinksFilter {
+  platform: StringFilter
+  url: StringFilter
+  label: StringFilter
+}
+
+input SiteSettingsFilter {
+  hotelName: StringFilter
+  phone: StringFilter
+  phoneRaw: StringFilter
+  email: StringFilter
+  whatsappNumber: StringFilter
+  streetAddress: StringFilter
+  city: StringFilter
+  region: StringFilter
+  postalCode: StringFilter
+  country: StringFilter
+  address_es: StringFilter
+  address_en: StringFilter
+  latitude: NumberFilter
+  longitude: NumberFilter
+  checkinTime: StringFilter
+  checkoutTime: StringFilter
+  starRating: NumberFilter
+  priceRange: StringFilter
+  siteDescription_es: StringFilter
+  siteDescription_en: StringFilter
+  socialLinks: SiteSettingsSocialLinksFilter
+}
+
+type SiteSettingsConnectionEdges {
+  cursor: String!
+  node: SiteSettings
+}
+
+type SiteSettingsConnection implements Connection {
+  pageInfo: PageInfo!
+  totalCount: Float!
+  edges: [SiteSettingsConnectionEdges]
+}
+
 type Mutation {
   addPendingDocument(collection: String!, relativePath: String!, template: String): DocumentNode!
   updateDocument(collection: String, relativePath: String!, params: DocumentUpdateMutation!): DocumentNode!
@@ -269,12 +586,24 @@ type Mutation {
   createExplore(relativePath: String!, params: ExploreMutation!): Explore!
   updateFaq(relativePath: String!, params: FaqMutation!): Faq!
   createFaq(relativePath: String!, params: FaqMutation!): Faq!
+  updateRooms(relativePath: String!, params: RoomsMutation!): Rooms!
+  createRooms(relativePath: String!, params: RoomsMutation!): Rooms!
+  updateServices(relativePath: String!, params: ServicesMutation!): Services!
+  createServices(relativePath: String!, params: ServicesMutation!): Services!
+  updateReviews(relativePath: String!, params: ReviewsMutation!): Reviews!
+  createReviews(relativePath: String!, params: ReviewsMutation!): Reviews!
+  updateSiteSettings(relativePath: String!, params: SiteSettingsMutation!): SiteSettings!
+  createSiteSettings(relativePath: String!, params: SiteSettingsMutation!): SiteSettings!
 }
 
 input DocumentUpdateMutation {
   about: AboutMutation
   explore: ExploreMutation
   faq: FaqMutation
+  rooms: RoomsMutation
+  services: ServicesMutation
+  reviews: ReviewsMutation
+  siteSettings: SiteSettingsMutation
   relativePath: String
 }
 
@@ -282,6 +611,10 @@ input DocumentMutation {
   about: AboutMutation
   explore: ExploreMutation
   faq: FaqMutation
+  rooms: RoomsMutation
+  services: ServicesMutation
+  reviews: ReviewsMutation
+  siteSettings: SiteSettingsMutation
 }
 
 input AboutValuesMutation {
@@ -336,6 +669,123 @@ input FaqQuestionsMutation {
 
 input FaqMutation {
   questions: [FaqQuestionsMutation]
+}
+
+input RoomsRoomsAmenityLabelsWifiMutation {
+  es: String
+  en: String
+}
+
+input RoomsRoomsAmenityLabelsBreakfastMutation {
+  es: String
+  en: String
+}
+
+input RoomsRoomsAmenityLabelsHot_waterMutation {
+  es: String
+  en: String
+}
+
+input RoomsRoomsAmenityLabelsHeatingMutation {
+  es: String
+  en: String
+}
+
+input RoomsRoomsAmenityLabelsTvMutation {
+  es: String
+  en: String
+}
+
+input RoomsRoomsAmenityLabelsLaundryMutation {
+  es: String
+  en: String
+}
+
+input RoomsRoomsAmenityLabelsMutation {
+  wifi: RoomsRoomsAmenityLabelsWifiMutation
+  breakfast: RoomsRoomsAmenityLabelsBreakfastMutation
+  hot_water: RoomsRoomsAmenityLabelsHot_waterMutation
+  heating: RoomsRoomsAmenityLabelsHeatingMutation
+  tv: RoomsRoomsAmenityLabelsTvMutation
+  laundry: RoomsRoomsAmenityLabelsLaundryMutation
+}
+
+input RoomsRoomsMutation {
+  id: String
+  slug: String
+  name_es: String
+  name_en: String
+  description_es: String
+  description_en: String
+  maxGuests: Float
+  beds: String
+  pricePerNight: Float
+  amenities: [String]
+  images: [String]
+  photoFolder: String
+  hasVideoTour: Boolean
+  amenityLabels: RoomsRoomsAmenityLabelsMutation
+}
+
+input RoomsMutation {
+  rooms: [RoomsRoomsMutation]
+}
+
+input ServicesServicesMutation {
+  id: String
+  name_es: String
+  name_en: String
+  description_es: String
+  description_en: String
+  icon: String
+}
+
+input ServicesMutation {
+  services: [ServicesServicesMutation]
+}
+
+input ReviewsReviewsMutation {
+  name: String
+  country: String
+  rating: Float
+  text_es: String
+  text_en: String
+  date_es: String
+  date_en: String
+}
+
+input ReviewsMutation {
+  reviews: [ReviewsReviewsMutation]
+}
+
+input SiteSettingsSocialLinksMutation {
+  platform: String
+  url: String
+  label: String
+}
+
+input SiteSettingsMutation {
+  hotelName: String
+  phone: String
+  phoneRaw: String
+  email: String
+  whatsappNumber: String
+  streetAddress: String
+  city: String
+  region: String
+  postalCode: String
+  country: String
+  address_es: String
+  address_en: String
+  latitude: Float
+  longitude: Float
+  checkinTime: String
+  checkoutTime: String
+  starRating: Float
+  priceRange: String
+  siteDescription_es: String
+  siteDescription_en: String
+  socialLinks: [SiteSettingsSocialLinksMutation]
 }
 
 schema {

@@ -1,0 +1,14 @@
+---
+// TinaCMS Admin redirect
+// Astro dev server doesn't auto-resolve public/admin/index.html at /admin
+// This page redirects to the actual admin panel
+---
+<html>
+  <head>
+    <meta http-equiv="refresh" content="0;url=/admin/index.html" />
+    <title>Redirecting to TinaCMS Admin...</title>
+  </head>
+  <body>
+    <p>Redirecting to <a href="/admin/index.html">TinaCMS Admin Panel</a>...</p>
+  </body>
+</html>

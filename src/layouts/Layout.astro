@@ -4,6 +4,7 @@ import { getRelativeLocaleUrl } from 'astro:i18n';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
+import { siteSettings } from '../data/settings';
 import '../styles/global.css';
 
 interface Props {
@@ -15,9 +16,10 @@ interface Props {
   preloadImage?: string;
 }
 
+const currentLang = (Astro.currentLocale || 'en') as 'en' | 'es';
 const {
   title,
-  description = 'USGAR Hotels — Boutique hotel in San Pedro, Cusco. Your gateway to Machu Picchu and the Sacred Valley.',
+  description = siteSettings.siteDescription[currentLang],
   lang = 'en',
   ogImage = '/og-image.jpg',
   schema,

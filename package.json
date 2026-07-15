@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "tinacms dev -c \"astro dev\"",
     "dev:php": "php -S localhost:8000 router.php",
-    "build": "tinacms build && astro build",
+    "build": "tinacms build --skip-cloud-checks && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "prepare": "git config core.hooksPath .githooks || true"
@@ -27,6 +27,7 @@
   },
   "allowScripts": {
     "sharp@0.35.3": true,
-    "esbuild@0.28.1": true
+    "esbuild@0.28.1": true,
+    "better-sqlite3@12.11.1": true
   }
 }

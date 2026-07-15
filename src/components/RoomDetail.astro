@@ -5,6 +5,7 @@ import type { Room } from "../data/rooms";
 import { useTranslations } from "../i18n/utils";
 import { translateBeds } from "../utils/helpers";
 import SVGIcons from "./icons/SVGIcons.astro";
+import { siteSettings } from "../data/settings";
 
 interface Props {
   room: Room;
@@ -24,7 +25,7 @@ const allHotelImages = import.meta.glob<{ default: ImageMetadata }>(
 
 let roomImages: { default: ImageMetadata }[] = [];
 
-if (room.photoCount === 0) {
+if (room.images.length === 0) {
   // Room has no photos, load fallback images from src/assets/hotel/
   const hotelKeys = Object.keys(allHotelImages)
     .filter((key) => 
@@ -48,42 +49,23 @@ const images = roomImages.map((img) => img.default);
 // Translate bedding info using shared utility
 const translatedBeds = translateBeds(room.beds, lang);
 
-// Map of amenities to SVG icons and translated labels
-const amenitiesMap: Record<
-  string,
-  {
-    label: { en: string; es: string };
-    iconName: "wifi" | "breakfast" | "hot-water" | "heating" | "tv" | "laundry";
-  }
-> = {
-  wifi: {
-    label: {
-      en: "Free High-Speed Wi-Fi",
-      es: "Wi-Fi de alta velocidad gratis",
-    },
-    iconName: "wifi",
-  },
-  breakfast: {
-    label: { en: "Breakfast Included", es: "Desayuno buffet incluido" },
-    iconName: "breakfast",
-  },
-  "hot-water": {
-    label: { en: "24h Hot Water", es: "Agua caliente 24h" },
-    iconName: "hot-water",
-  },
-  heating: {
-    label: { en: "Heating System", es: "Calefacción central" },
-    iconName: "heating",
-  },
-  tv: {
-    label: { en: "Cable TV", es: "TV por cable" },
-    iconName: "tv",
-  },
-  laundry: {
-    label: { en: "Laundry Service", es: "Servicio de lavandería" },
-    iconName: "laundry",
-  },
+// Build amenities map from room.amenityLabels (editable via Tina CMS)
+const amenityIconNames: Record<string, "wifi" | "breakfast" | "hot-water" | "heating" | "tv" | "laundry"> = {
+  wifi: "wifi",
+  breakfast: "breakfast",
+  hot_water: "hot-water",
+  heating: "heating",
+  tv: "tv",
+  laundry: "laundry",
 };
+
+const amenitiesMap: Record<string, { label: { en: string; es: string }; iconName: "wifi" | "breakfast" | "hot-water" | "heating" | "tv" | "laundry" }> = {};
+for (const [key, labelObj] of Object.entries(room.amenityLabels || {})) {
+  amenitiesMap[key === 'hot_water' ? 'hot-water' : key] = {
+    label: labelObj as { en: string; es: string },
+    iconName: amenityIconNames[key] || "wifi",
+  };
+}
 const roomSchema = {
   "@context": "https://schema.org",
   "@type": "HotelRoom",
@@ -101,12 +83,12 @@ const roomSchema = {
     priceCurrency: "USD",
     offeredBy: {
       "@type": "Hotel",
-      name: "USGAR Hotels",
+      name: siteSettings.hotelName,
       address: {
         "@type": "PostalAddress",
-        streetAddress: "San Pedro",
-        addressLocality: "Cusco",
-        addressCountry: "PE",
+        streetAddress: siteSettings.streetAddress,
+        addressLocality: siteSettings.city,
+        addressCountry: siteSettings.country,
       },
     },
   },
@@ -114,7 +96,7 @@ const roomSchema = {
 ---
 
 <Layout
-  title={`${room.name[lang]} — USGAR Hotels`}
+  title={`${room.name[lang]} — ${siteSettings.hotelName}`}
   lang={lang}
   schema={roomSchema}
 >
@@ -370,11 +352,11 @@ const roomSchema = {
           </div>
           <div class="flex justify-between text-sm">
             <span class="text-text-secondary-light dark:text-text-secondary-dark">Check-in</span>
-            <span class="font-semibold">2:00 PM</span>
+            <span class="font-semibold">{siteSettings.checkinTime}</span>
           </div>
           <div class="flex justify-between text-sm">
             <span class="text-text-secondary-light dark:text-text-secondary-dark">Check-out</span>
-            <span class="font-semibold">11:00 AM</span>
+            <span class="font-semibold">{siteSettings.checkoutTime}</span>
           </div>
         </div>
 

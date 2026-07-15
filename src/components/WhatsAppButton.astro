@@ -1,10 +1,11 @@
 ---
 import { useTranslations } from '../i18n/utils';
+import { siteSettings } from '../data/settings';
 
 const lang = (Astro.currentLocale || 'en') as 'en' | 'es';
 const t = useTranslations(lang);
 
-const whatsappNumber = '51984000000';
+const whatsappNumber = siteSettings.whatsappNumber;
 const messageText = t('whatsapp.message');
 const message = encodeURIComponent(messageText);
 const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;

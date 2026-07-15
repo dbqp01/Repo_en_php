@@ -2,6 +2,7 @@
 // booking.php - Creates a new booking in pending state using QloApp API
 
 require_once __DIR__ . '/../db.php';
+require_once __DIR__ . '/../rooms.php';
 require_once __DIR__ . '/../qloapp/QloAppWriter.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -23,10 +24,13 @@ if (!$roomId || !$checkIn || !$checkOut || !$guestName || !$guestEmail || !$gues
     sendError('Missing required booking fields', 400);
 }
 
-// 1. Calculate price (in a real scenario, fetch this from QloApp Reader)
+// 1. Calculate price dynamically based on room type rates
 $nights = daysBetween($checkIn, $checkOut);
-// Fallback logic for demo/mock purposes if QloApp Reader isn't fully implemented
-$totalPrice = 50 * $nights; 
+$pricePerNight = 90.0;
+if (isset($rooms[$roomId])) {
+    $pricePerNight = (float)$rooms[$roomId]['pricePerNight'];
+}
+$totalPrice = $pricePerNight * $nights; 
 
 // 2. Create Cart in QloApp via API
 $qloWriter = new QloAppWriter();

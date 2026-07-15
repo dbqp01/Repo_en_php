@@ -1,5 +1,6 @@
 ---
 import { useTranslations } from '../i18n/utils';
+import { siteSettings } from '../data/settings';
 
 const lang = (Astro.currentLocale || 'en') as 'en' | 'es';
 const t = useTranslations(lang);
@@ -21,6 +22,11 @@ const t = useTranslations(lang);
     <div
       id="hotel-map"
       class="w-full h-80 md:h-96 rounded-2xl overflow-hidden border border-black/10 dark:border-white/10 bg-surface-card-dark/5 dark:bg-white/5 animate-on-scroll relative z-10"
+      data-lat={String(siteSettings.latitude)}
+      data-lng={String(siteSettings.longitude)}
+      data-hotel-name={siteSettings.hotelName}
+      data-address-es={siteSettings.address.es}
+      data-address-en={siteSettings.address.en}
     >
       <div class="w-full h-full flex items-center justify-center text-text-secondary-light dark:text-text-secondary-dark">
         <div class="text-center">
@@ -29,7 +35,7 @@ const t = useTranslations(lang);
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
           <p class="text-sm">{lang === 'es' ? 'Cargando mapa interactivo...' : 'Interactive map loading...'}</p>
-          <p class="text-xs mt-1 opacity-60">San Pedro, Cusco, Peru</p>
+          <p class="text-xs mt-1 opacity-60">{siteSettings.address[lang]}</p>
         </div>
       </div>
     </div>
@@ -45,15 +51,19 @@ const t = useTranslations(lang);
     if (!container || initializedMaps.has(container)) return;
     initializedMaps.add(container);
 
+    // Read config from data attributes (server → client bridge)
+    const lat = parseFloat(container.dataset.lat || '-13.5226');
+    const lng = parseFloat(container.dataset.lng || '-71.9828');
+    const hotelName = container.dataset.hotelName || 'USGAR Hotels';
+    const addressEs = container.dataset.addressEs || 'San Pedro, Cusco, Perú';
+    const addressEn = container.dataset.addressEn || 'San Pedro, Cusco, Peru';
+
     // Dynamic import — Leaflet is only loaded when the map becomes visible
     const L = (await import('leaflet')).default;
     await import('leaflet/dist/leaflet.css');
     const logoIsotipo = (await import('../assets/logos/Logo usgar isotipo.png')).default;
 
     container.innerHTML = '';
-
-    const lat = -13.5226;
-    const lng = -71.9828;
 
     const map = L.map('hotel-map', {
       scrollWheelZoom: false
@@ -82,9 +92,9 @@ const t = useTranslations(lang);
     const marker = L.marker([lat, lng], { icon: customIcon }).addTo(map);
 
     const isEs = document.documentElement.lang === 'es';
-    const popupContent = isEs
-      ? '<b>USGAR Hotels</b><br>San Pedro, Cusco, Perú<br><a href="https://maps.openrouteservice.org" target="_blank" class="text-primary hover:underline text-xs">Cómo llegar</a>'
-      : '<b>USGAR Hotels</b><br>San Pedro, Cusco, Peru<br><a href="https://maps.openrouteservice.org" target="_blank" class="text-primary hover:underline text-xs">Directions</a>';
+    const addr = isEs ? addressEs : addressEn;
+    const dirLabel = isEs ? 'Cómo llegar' : 'Directions';
+    const popupContent = `<b>${hotelName}</b><br>${addr}<br><a href="https://maps.openrouteservice.org" target="_blank" class="text-primary hover:underline text-xs">${dirLabel}</a>`;
 
     marker.bindPopup(popupContent).openPopup();
 
